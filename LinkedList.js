@@ -1,5 +1,6 @@
 function LinkedList() {
   this._head = null;
+  throw new Error("LinkedList Not complete yet");
 }
 
 LinkedList.prototype.getHead = function() {
