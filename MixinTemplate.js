@@ -12,10 +12,12 @@ function MyClass(props) {
   // ...
   // initialize class properties
   // ...
-  this.mixinInitializers.forEach(
-    function(callback) {
-      callback(props);
-    }
-  );
+
+  // probably use individual initializers instead of generic forEach
+  // this.mixinInitializers.forEach(
+  //   function(callback) {
+  //     callback(props);
+  //   }
+  // );
 }
 mixin.call(MyClass.prototype);

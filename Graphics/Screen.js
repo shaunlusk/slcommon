@@ -1,6 +1,15 @@
 /** @namespace */
 var shaunlusk = shaunlusk || {};
 
+shaunlusk.EventType = shaunlusk.EventType || {};
+shaunlusk.EventType.SCREEN_PAUSED = "SCREEN_PAUSED";
+shaunlusk.EventType.SCREEN_RESUMED = "SCREEN_RESUMED";
+shaunlusk.EventType.BEFORE_RENDER = "BEFORE_RENDER";
+shaunlusk.EventType.AFTER_RENDER = "AFTER_RENDER";
+shaunlusk.EventType.MOUSE_MOVE = "MOUSE_MOVE";
+shaunlusk.EventType.MOUSE_UP = "MOUSE_UP";
+shaunlusk.EventType.MOUSE_DOWN = "MOUSE_DOWN";
+
 /** The Screen is the overriding container for Graphics components.
 * The Screen orchestrates updating and rendering its layers, propagates
 * mouse events down to the layers, and notifies event listeners when events occur.
@@ -31,8 +40,6 @@ shaunlusk.Screen = function(targetDiv, layerFactory, config) {
   this._last = 0;
   this._mouseX = -1;
   this._mouseY = -1;
-  this._mouseRow = -1;
-  this._mouseCol = -1;
   this._mouseMoved = false;
   this._paused = false;
   this._unpaused = false;
@@ -46,8 +53,20 @@ shaunlusk.Screen = function(targetDiv, layerFactory, config) {
 
   this._layers = [];
 
-  this._eventListeners = {};
+  this.EventNotifierMixinInitializer({
+    eventListeners:[
+      shaunlusk.EventType.SCREEN_PAUSED,
+      shaunlusk.EventType.SCREEN_RESUMED,
+      shaunlusk.EventType.BEFORE_RENDER,
+      shaunlusk.EventType.AFTER_RENDER,
+      shaunlusk.EventType.MOUSE_MOVE,
+      shaunlusk.EventType.MOUSE_UP,
+      shaunlusk.EventType.MOUSE_DOWN
+    ]
+  });
 };
+
+shaunlusk.EventNotifierMixin.call(shaunlusk.Screen.prototype);
 
 shaunlusk.Screen.document = window.document;
 
@@ -224,8 +243,6 @@ shaunlusk.Screen.prototype.setPaused = function(boolean) {
 */
 shaunlusk.Screen.prototype.isPaused = function() {return this._paused;};
 
-
-
 /** Render the screen and all layers.
 * @param {number} time The current time in milliseconds.
 */
@@ -271,9 +288,7 @@ shaunlusk.Screen.prototype._handleMouseMoveEvent = function(time) {
     shaunlusk.EventType.MOUSE_MOVE,
     {
       x : this._mouseX,
-      y : this._mouseY,
-      row : this._mouseRow,
-      col : this._mouseCol,
+      y : this._mouseY
     },
     time
   );
@@ -331,16 +346,10 @@ shaunlusk.Screen.prototype.handleMouseMoveEvent = function(e) {
   if (x < 0 || x >= this._width || y < 0 || y >= this._height) {
     this._mouseX = -1;
     this._mouseY = -1;
-    this._mouseRow = -1;
-    this._mouseCol = -1;
     return false;
   }
-  var row = this.getRowFromMouseEvent(e);
-  var col = this.getColFromMouseEvent(e);
   this._mouseX = x;
   this._mouseY = y;
-  this._mouseRow = row;
-  this._mouseCol = col;
 };
 
 /** Handles mouse up and mouse down events; notifies any local handlers and propagates the event to all layers.
@@ -354,8 +363,6 @@ shaunlusk.Screen.prototype.handleMouseEvent = function(e) {
   if (x < 0 || x >= this._width || y < 0 || y >= this._height) {
     return false;
   }
-  var row = this.getRowFromMouseEvent(e);
-  var col = this.getColFromMouseEvent(e);
 
   var type = e.type === "mouseup" ? shaunlusk.EventType.MOUSE_UP : shaunlusk.EventType.MOUSE_DOWN;
   var event = new shaunlusk.Event(
@@ -363,8 +370,6 @@ shaunlusk.Screen.prototype.handleMouseEvent = function(e) {
     {
       x : this._mouseX,
       y : this._mouseY,
-      row : this._mouseRow,
-      col : this._mouseCol,
       baseEvent : e
     });
   this.notify(event);
@@ -394,18 +399,4 @@ shaunlusk.Screen.prototype.getXFromMouseEvent = function(e) {
 */
 shaunlusk.Screen.prototype.getYFromMouseEvent = function(e) {
   return (e.pageY - (this._targetDiv.offsetTop + this._borderSize));
-};
-
-/** Return the column coordinate from a mouse event.  Accounts for screen position.
-* @param {Event} e Mouse Event
-*/
-shaunlusk.Screen.prototype.getColFromMouseEvent = function(e) {
-  return Math.floor(this.getXFromMouseEvent(e) / (shaunlusk.CELLWIDTH * this._scaleX));
-};
-
-/** Return the row coordinate from a mouse event.  Accounts for screen position.
-* @param {Event} e Mouse Event
-*/
-shaunlusk.Screen.prototype.getRowFromMouseEvent = function(e) {
-  return Math.floor(this.getYFromMouseEvent(e) / (shaunlusk.CELLHEIGHT * this._scaleY));
 };

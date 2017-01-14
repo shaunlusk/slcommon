@@ -35,12 +35,17 @@ shaunlusk.EventNotifierMixin = function(props) {
       throw new Error("Unknown event type:" + event.type);
     }
     for (var i = 0; i < this._eventListeners[event.type].length; i++) {
-      if (shaunlusk.isFunction(this._eventListeners[event.type][i])) this._eventListeners[event.type][i](event);
+      if (shaunlusk.Utils.isFunction(this._eventListeners[event.type][i])) this._eventListeners[event.type][i](event);
     }
   };
 
-  if (!this.mixinInitializers) {this.mixinInitializers = [];}
-  this.mixinInitializers.push(function(props) {
+  this.EventNotifierMixinInitializer = function(props) {
     this._eventListeners  =  {};
-  }.bind(this));
+    if (props.eventListeners) {
+      props.eventListeners.forEach(function(eventListener) {
+        this._eventListeners[eventListener] = [];
+      }, this);
+    }
+  };
+
 };
