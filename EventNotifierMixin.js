@@ -35,7 +35,7 @@ shaunlusk.EventNotifierMixin = function(props) {
       throw new Error("Unknown event type:" + event.type);
     }
     for (var i = 0; i < this._eventListeners[event.type].length; i++) {
-      if (shaunlusk.Utils.isFunction(this._eventListeners[event.type][i])) this._eventListeners[event.type][i](event);
+      if (shaunlusk.isFunction(this._eventListeners[event.type][i])) this._eventListeners[event.type][i](event);
     }
   };
 

@@ -191,11 +191,7 @@ shaunlusk.Screen.prototype.getMouseY = function() {return this._mouseY;};
 * @see shaunlusk.Layer
 */
 shaunlusk.Screen.prototype.createLayer = function(type, props) {
-  var canvas = document.createElement("CANVAS");
-  this._targetDiv.appendChild(canvas);
-  canvas.width = this._width;
-  canvas.height = this._height;
-  canvas.style.position = "absolute";
+  var canvas = this.createCanvasForLayer();
   props = props || {};
   props.width = this.getWidth();
   props.height = this.getHeight();
@@ -204,6 +200,15 @@ shaunlusk.Screen.prototype.createLayer = function(type, props) {
 
   this.addLayer(layer);
   return layer;
+};
+
+shaunlusk.Screen.prototype.createCanvasForLayer = function() {
+  var canvas = document.createElement("CANVAS");
+  this._targetDiv.appendChild(canvas);
+  canvas.width = this._width;
+  canvas.height = this._height;
+  canvas.style.position = "absolute";
+  return canvas;
 };
 
 /** Add a new  {@link shaunlusk.Layer} to this screen.  The preferred method of adding layers

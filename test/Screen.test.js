@@ -24,7 +24,7 @@ describe("Screen", function() {
       offsetTop : 16
     };
     fpsElem = {};
-    layerFactory = getMockLayerFactory();
+    layerFactory = shaunlusk.Mocks.getMockLayerFactory();
     config = {"fpsElem" : fpsElem};
     scrn = new shaunlusk.Screen(targetDiv, layerFactory, config);
   });
