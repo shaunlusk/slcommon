@@ -61,7 +61,20 @@ shaunlusk.Screen = function(targetDiv, layerFactory, config) {
       shaunlusk.EventType.AFTER_RENDER,
       shaunlusk.EventType.MOUSE_MOVE,
       shaunlusk.EventType.MOUSE_UP,
-      shaunlusk.EventType.MOUSE_DOWN
+      shaunlusk.EventType.MOUSE_DOWN,
+      shaunlusk.EventType.ELEMENT_MOVED,
+      shaunlusk.EventType.ELEMENT_STARTED_MOVING,
+      shaunlusk.EventType.ELEMENT_STOPPED_MOVING,
+      shaunlusk.EventType.ELEMENT_COLLISION,
+      shaunlusk.EventType.MOUSE_ENTER_ELEMENT,
+      shaunlusk.EventType.MOUSE_EXIT_ELEMENT,
+      shaunlusk.EventType.MOUSE_MOVE_OVER_ELEMENT,
+      shaunlusk.EventType.MOUSE_DOWN_ON_ELEMENT,
+      shaunlusk.EventType.MOUSE_UP_ON_ELEMENT,
+      shaunlusk.EventType.ELEMENT_HIT_LEFT_EDGE,
+      shaunlusk.EventType.ELEMENT_HIT_RIGHT_EDGE,
+      shaunlusk.EventType.ELEMENT_HIT_TOP_EDGE,
+      shaunlusk.EventType.ELEMENT_HIT_BOTTOM_EDGE
     ]
   });
 };

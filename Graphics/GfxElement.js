@@ -104,7 +104,7 @@ shaunlusk.GfxElement = function(screenContext, parentLayer, props) {
       shaunlusk.EventType.ELEMENT_HIT_LEFT_EDGE,
       shaunlusk.EventType.ELEMENT_HIT_RIGHT_EDGE,
       shaunlusk.EventType.ELEMENT_HIT_TOP_EDGE,
-      shaunlusk.EventType.ELEMENT_HIT_BOTTOM_EDGE,
+      shaunlusk.EventType.ELEMENT_HIT_BOTTOM_EDGE
     ]
   });
 };
