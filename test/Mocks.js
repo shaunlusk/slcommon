@@ -18,7 +18,7 @@ shaunlusk.Mocks.getMockLayer = function(props) {
     getHeight : function() {return 0;},
     getScreenContext : function() {return props.screenContext || null;},
     getCanvas : function() {return null;},
-    getCanvasContext : function() {return null;},
+    getCanvasContext : function() {return shaunlusk.Mocks.getMockCanvasContext();},
     update : function() {},
     render : function() {},
     handleMouseEvent : function() {},
@@ -65,4 +65,34 @@ shaunlusk.Mocks.getMockGfxElement = function(props) {
   element.collidesWithCoordinates = function(x,y) {return false;};
 
   return element;
+};
+
+shaunlusk.Mocks.getMockScreen = function(props) {
+  props = props || {};
+  var screen = {};
+  screen.scaleX = props.scaleX || 1;
+  screen.scaleY = props.scaleY || 1;
+  screen.getScaleX = function() {return this.scaleX;};
+  screen.getScaleY = function() {return this.scaleY;};
+  screen.addEventListener = function() {};
+  screen.notify = function(event) {};
+  return screen;
+};
+
+shaunlusk.Mocks.getMockCanvasContext = function(props) {
+  props = props || {};
+  var context = {};
+  context.clearRect = function(x, y, width, height) {
+    this.clearedX = x;
+    this.clearedY = y;
+    this.clearedWidth = width;
+    this.clearedHeight = height;
+  };
+  context.fillRect = function(x, y, width, height) {
+    this.filledX = x;
+    this.filledY = y;
+    this.filledWidth = width;
+    this.filledHeight = height;
+  };
+  return context;
 };
