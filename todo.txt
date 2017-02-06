@@ -1,3 +1,5 @@
+How rotate on draw
+
 this._rotation = null;
 this._baseRotation = props.baseRotation || null;
 
@@ -174,3 +176,5 @@ UiElement.prototype.getCollisionBoxLastHeight = function() {
 if (this._wasRotated) return this._lastDiagonalSize;
 return this._lastDh;
 };
+
+add eventing to layers and more eventing to elements

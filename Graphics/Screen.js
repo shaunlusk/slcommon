@@ -1,15 +1,6 @@
 /** @namespace */
 var shaunlusk = shaunlusk || {};
 
-shaunlusk.EventType = shaunlusk.EventType || {};
-shaunlusk.EventType.SCREEN_PAUSED = "SCREEN_PAUSED";
-shaunlusk.EventType.SCREEN_RESUMED = "SCREEN_RESUMED";
-shaunlusk.EventType.BEFORE_RENDER = "BEFORE_RENDER";
-shaunlusk.EventType.AFTER_RENDER = "AFTER_RENDER";
-shaunlusk.EventType.MOUSE_MOVE = "MOUSE_MOVE";
-shaunlusk.EventType.MOUSE_UP = "MOUSE_UP";
-shaunlusk.EventType.MOUSE_DOWN = "MOUSE_DOWN";
-
 /** The Screen is the overriding container for Graphics components.
 * The Screen orchestrates updating and rendering its layers, propagates
 * mouse events down to the layers, and notifies event listeners when events occur.

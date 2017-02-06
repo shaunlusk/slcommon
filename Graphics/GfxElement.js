@@ -1,20 +1,5 @@
 var shaunlusk = shaunlusk || {};
 
-shaunlusk.EventType = shaunlusk.EventType || {};
-shaunlusk.EventType.ELEMENT_MOVED = "ELEMENT_MOVED";
-shaunlusk.EventType.ELEMENT_STARTED_MOVING = "ELEMENT_STARTED_MOVING";
-shaunlusk.EventType.ELEMENT_STOPPED_MOVING = "ELEMENT_STOPPED_MOVING";
-shaunlusk.EventType.ELEMENT_COLLISION = "ELEMENT_COLLISION";
-shaunlusk.EventType.MOUSE_ENTER_ELEMENT = "MOUSE_ENTER_ELEMENT";
-shaunlusk.EventType.MOUSE_EXIT_ELEMENT = "MOUSE_EXIT_ELEMENT";
-shaunlusk.EventType.MOUSE_MOVE_OVER_ELEMENT = "MOUSE_MOVE_OVER_ELEMENT";
-shaunlusk.EventType.MOUSE_DOWN_ON_ELEMENT = "MOUSE_DOWN_ON_ELEMENT";
-shaunlusk.EventType.MOUSE_UP_ON_ELEMENT = "MOUSE_UP_ON_ELEMENT";
-shaunlusk.EventType.ELEMENT_HIT_LEFT_EDGE = "ELEMENT_HIT_LEFT_EDGE";
-shaunlusk.EventType.ELEMENT_HIT_RIGHT_EDGE = "ELEMENT_HIT_RIGHT_EDGE";
-shaunlusk.EventType.ELEMENT_HIT_TOP_EDGE = "ELEMENT_HIT_TOP_EDGE";
-shaunlusk.EventType.ELEMENT_HIT_BOTTOM_EDGE = "ELEMENT_HIT_BOTTOM_EDGE";
-
 /**
 * <p>Graphics element base class.</p>
 * <p>* Current Implementations:
@@ -90,6 +75,16 @@ shaunlusk.GfxElement = function(screenContext, parentLayer, props) {
   this._zIndex = props.zIndex || -1;
   this._zIndexComparable = new shaunlusk.GfxElementZIndexComparable(this);
 
+  this._rotation = null;
+  this._baseRotation = props.baseRotation || null;
+
+  this._diagonalSize = 0; // only needed for determining collision box when rotated
+  this._rotatedX = 0;
+  this._rotatedY = 0;
+  this._rotatedLastX = 0;
+  this._rotatedLastY = 0;
+  this._lastDiagonalSize = 0;
+
   this.EventNotifierMixinInitializer({
     eventListeners:[
       shaunlusk.EventType.ELEMENT_MOVED,
@@ -116,7 +111,6 @@ shaunlusk.GfxElement.prototype.notify = function(event) {
   this._baseNotify(event);
   this.getScreenContext().notify(event);
 };
-
 
 /** @private */
 shaunlusk.GfxElement.id = 0;
@@ -259,10 +253,26 @@ shaunlusk.GfxElement.prototype.setElementScaleY = function(scaleY) {this._scaleY
 shaunlusk.GfxElement.prototype.getX = function() {return this._x;};
 
 /**
+* Get the screen x coordinate of this element.
+* @return {number}
+*/
+shaunlusk.GfxElement.prototype.getScaledX = function() {
+  return this.getX() * this.getScreenScaleX();
+};
+
+/**
 * Get the y coordinate of this element.
 * @return {number}
 */
 shaunlusk.GfxElement.prototype.getY = function() {return this._y;};
+
+/**
+* Get the screen x coordinate of this element.
+* @return {number}
+*/
+shaunlusk.GfxElement.prototype.getScaledY = function() {
+  return this.getY() * this.getScreenScaleY();
+};
 
 /**
 * Set the x coordinate of this element.
@@ -294,6 +304,12 @@ shaunlusk.GfxElement.prototype.getLastX = function() {return this._lastX;};
 */
 shaunlusk.GfxElement.prototype.getLastY = function() {return this._lastY;};
 
+/** Override if dimensions can change */
+shaunlusk.GfxElement.prototype.getLastWidth = function() {return this.getWidth();};
+
+/** Override if dimensions can change */
+shaunlusk.GfxElement.prototype.getLastHeight = function() {return this.getHeight();};
+
 /** @private */
 shaunlusk.GfxElement.prototype.setLastX = function(x) {this._lastX = x;};
 /** @private */
@@ -313,11 +329,23 @@ shaunlusk.GfxElement.prototype.isMouseOver = function() {return this._mouseIsOve
 shaunlusk.GfxElement.prototype.getWidth = function() {throw new Error("getWidth needs to be implemented on this element.");};
 
 /**
+* Return this element's width, incorporating screen and element-local scaling.
+* @return {number}
+*/
+shaunlusk.GfxElement.prototype.getScaledWidth = function() {return this.getWidth() * this.getTotalScaleX();};
+
+/**
 * Return this elements height. <b>Sub-classes must implement this method!</b>
 * @abstract
 * @return {number}
 */
 shaunlusk.GfxElement.prototype.getHeight = function() {throw new Error("getHeight needs to be implemented on this element.");};
+
+/**
+* Return this element's height, incorporating screen and element-local scaling.
+* @return {number}
+*/
+shaunlusk.GfxElement.prototype.getScaledHeight = function() {return this.getHeight() * this.getTotalScaleY();};
 
 /**
 * Set the horizontal and vertical movement rates for this element.
@@ -459,6 +487,7 @@ shaunlusk.GfxElement.prototype.update = function(time,diff) {
   }
 
   if (this.isDirty()) {
+    // TODO this._recalculateRotatedCollisionBox();
     return this;
   }
   return null;
@@ -511,23 +540,84 @@ shaunlusk.GfxElement.prototype._updateMoveOrder = function(time,diff) {
 * @param {number} diff
 */
 shaunlusk.GfxElement.prototype.clear = function(time, diff) {
+  // TODO rotation context
   this.getCanvasContext().clearRect(
     this.getLastX() * this.getScreenScaleX() - 1,
     this.getLastY() * this.getScreenScaleY() - 1,
-    this.getWidth() * this.getTotalScaleX() + 2,
-    this.getHeight() * this.getTotalScaleY() + 2 );
+    this.getLastWidth() * this.getTotalScaleX() + 2,
+    this.getLastHeight() * this.getTotalScaleY() + 2 );
+};
+
+
+
+// C64Style.TextElement.prototype.clear = function(time, diff) {
+//   this.getCanvasContext().clearRect(
+//     this.getLastX() * this.getScreenScaleX() - 1,
+//     this.getLastY() * this.getScreenScaleY() - 1,
+//     this.getLastWidth() * this.getTotalScaleX() + 2,
+//     this.getHeight() * this.getTotalScaleY() + 2 );
+//   this._lastWidth = null;
+// };
+
+// UiElement.prototype.clear = function(context) {
+//   if (!this.dirty) return;
+//   if (this._rotation) {
+//     // clear area that matches the collision bounding box that was checked
+//     context.clearRect(this._rotatedLastX - 1, this._rotatedLastY - 1, this._diagonalSize + 2, this._diagonalSize + 2);
+//   } else {
+//     context.clearRect(this.lastX - 1,this.lastY - 1, this.dw + 2, this.dh + 2);
+//   }
+//   if (this.hidden) {
+//     this.setDirty(false);
+//     this._hiddenRecently = false;
+//   }
+//   this.lastX = this.x;
+//   this.lastY = this.y;
+//   this._lastDw = this.dw;
+//   this._lastDh = this.dh;
+//   if (this.getRotation()) {
+//     this._rotatedLastX = this._rotatedX;
+//     this._rotatedLastY = this._rotatedY;
+//     this._lastDiagonalSize = this._diagonalSize;
+//   }
+// };
+
+
+shaunlusk.GfxElement.prototype.rotateCanvas = function(rotation) {
+  // this.getCanvasContext().save();
+  // this.getCanvasContext().translate(this.getScaledX() + Math.floor(this.getScaledWidth()/2), this.getScaledY() + Math.floor(this.getScaledHeight()/2));
+  // this.getCanvasContext().rotate(rotation);
+};
+
+/** Perform any preRendering steps.
+*/
+shaunlusk.GfxElement.prototype.preRender = function(time, diff) {
+  // var rotation = this.getRotation();
+  // if (rotation) {
+  //   this.rotateCanvas(rotation);
+  // }
 };
 
 /**
-* GfxElement does not actually render anything, it only provides post-render clean up.
-* The render method should be implemented in subclasses, which should call this base method when done.
+* The render method should be implemented in subclasses.
+* Time parameters provided for extension.
+*/
+shaunlusk.GfxElement.prototype.render = function(time, diff) {
+  throw new Error("Not Implemented.");
+};
+
+
+/**
+* Provides post-render clean up.
 * Time parameters provided for extension.
 * @param {number} time
 * @param {number} diff
 */
-shaunlusk.GfxElement.prototype.render = function(time, diff) {
+shaunlusk.GfxElement.prototype.postRender = function(time, diff) {
+  // TODO rotation context
   this.setLastX( this.getX() );
   this.setLastY( this.getY() );
+
   this.setDirty(false);
   this._hadCollisionPreviousFrame = this.hasCollision();
   this.setHasCollision(false);
@@ -608,22 +698,22 @@ shaunlusk.GfxElement.prototype.collidesWithY = function(y) {
 /** Returns the x value of the collision box.  Incorporates screen scale.
 * @return {number}
 */
-shaunlusk.GfxElement.prototype.getCollisionBoxX = function() {return this.getX() * this.getScreenScaleX() - 1;};
+shaunlusk.GfxElement.prototype.getCollisionBoxX = function() {return this.getScaledX() - 1;};
 
 /** Returns the y value of the collision box.  Incorporates screen scale.
 * @return {number}
 */
-shaunlusk.GfxElement.prototype.getCollisionBoxY = function() {return this.getY() * this.getScreenScaleY() - 1;};
+shaunlusk.GfxElement.prototype.getCollisionBoxY = function() {return this.getScaledY() - 1;};
 
 /** Returns the width value of the collision box.  Incorporates total scale.
 * @return {number}
 */
-shaunlusk.GfxElement.prototype.getCollisionBoxWidth = function() {return this.getWidth() * this.getTotalScaleX() + 2;};
+shaunlusk.GfxElement.prototype.getCollisionBoxWidth = function() {return this.getScaledWidth() + 2;};
 
 /** Returns the height value of the collision box.  Incorporates total scale.
 * @return {number}
 */
-shaunlusk.GfxElement.prototype.getCollisionBoxHeight = function() {return this.getHeight() * this.getTotalScaleY() + 2;};
+shaunlusk.GfxElement.prototype.getCollisionBoxHeight = function() {return this.getScaledHeight() + 2;};
 
 /** Fires events if the mouse event is on this element.<br />
 * Events emitted:
