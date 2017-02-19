@@ -1,3 +1,5 @@
+incorporate latest changes from C64 - (around scaling and mouse eventing)
+
 How rotate on draw
 
 this._rotation = null;
