@@ -1,5 +1,17 @@
 incorporate latest changes from C64 - (around scaling and mouse eventing)
 
+*** make sure after render cleanup is called for ALL gfx elements - way to bake this into base class?
+see b41fc9e in C64Style
+
+add aliases to some functions, e.g. getColumns to getCols
+
+support for turning mouse tracking off
+
+screen.onNextFrameBegin
+screen.onNextFrameEnd
+
+remove all elements
+
 How rotate on draw
 
 this._rotation = null;
@@ -180,3 +192,10 @@ return this._lastDh;
 };
 
 add eventing to layers and more eventing to elements
+
+
+move element from one layer to another
+  parentLayer
+  canvasContext
+
+LocalStorage - from RuneTx
