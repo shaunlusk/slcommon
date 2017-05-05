@@ -347,6 +347,55 @@ shaunlusk.GfxElement.prototype.getHeight = function() {throw new Error("getHeigh
 */
 shaunlusk.GfxElement.prototype.getScaledHeight = function() {return this.getHeight() * this.getTotalScaleY();};
 
+
+
+
+shaunlusk.GfxElement.prototype.getUnAdjustedRotation = function() { return this._rotation; };
+shaunlusk.GfxElement.prototype.getBaseRotation = function() { return this._baseRotation; };
+shaunlusk.GfxElement.prototype.getRotation = function() {
+  if (this._rotation || this._baseRotation)
+  return (this._rotation || 0) + (this._baseRotation || 0);
+  return null;
+};
+
+shaunlusk.GfxElement.prototype.setRotation = function(rotation) {
+  this._rotation = rotation;
+  if (this._rotation === null) {
+    if (this._wasRotated) this.dirty = true;
+    return;
+  }
+  this._recalculateDiagonalSize();
+  this._recalculateRotatedCollisionBox();
+  this.dirty = true;
+};
+shaunlusk.GfxElement.prototype.setBaseRotation = function(rotation) {
+  this._baseRotation = rotation;
+  if (this._baseRotation === null) {
+    if (this._wasRotated) this.dirty = true;
+    return;
+  }
+  this._recalculateDiagonalSize();
+  this._recalculateRotatedCollisionBox();
+  this.dirty = true;
+};
+
+shaunlusk.GfxElement.prototype._recalculateDiagonalSize = function() {
+  if (this.getRotation() === null) return;
+  // calculate diagonal
+  // Note that for any amount of rotation, an expanded bounding box is used
+  this._diagonalSize = Math.ceil(Math.sqrt( Math.pow(this.dw, 2) + Math.pow(this.dh, 2)));
+};
+
+shaunlusk.GfxElement.prototype._recalculateRotatedCollisionBox = function() {
+  if (this.getRotation() === null) return;
+  this._rotatedX = Math.floor(this.x - (this._diagonalSize - this.dw) / 2);
+  this._rotatedY = Math.floor(this.y - (this._diagonalSize - this.dh) / 2);
+};
+
+
+
+
+
 /**
 * Set the horizontal and vertical movement rates for this element.
 * Rates will be treated as approximately pixels per second.
