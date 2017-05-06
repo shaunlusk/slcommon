@@ -633,18 +633,18 @@ shaunlusk.GfxElement.prototype.clear = function(time, diff) {
 
 
 shaunlusk.GfxElement.prototype.rotateCanvas = function(rotation) {
-  // this.getCanvasContext().save();
-  // this.getCanvasContext().translate(this.getScaledX() + Math.floor(this.getScaledWidth()/2), this.getScaledY() + Math.floor(this.getScaledHeight()/2));
-  // this.getCanvasContext().rotate(rotation);
+  this.getCanvasContext().save();
+  this.getCanvasContext().translate(this.getScaledX() + Math.floor(this.getScaledWidth()/2), this.getScaledY() + Math.floor(this.getScaledHeight()/2));
+  this.getCanvasContext().rotate(rotation);
 };
 
 /** Perform any preRendering steps.
 */
 shaunlusk.GfxElement.prototype.preRender = function(time, diff) {
-  // var rotation = this.getRotation();
-  // if (rotation) {
-  //   this.rotateCanvas(rotation);
-  // }
+  var rotation = this.getRotation();
+  if (rotation) {
+    this.rotateCanvas(rotation);
+  }
 };
 
 /**
