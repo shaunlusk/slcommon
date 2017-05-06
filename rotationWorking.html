@@ -2,14 +2,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <script type="text/javascript" src="../C64Style/lib/ColorPointer.js"></script>
-  <script type="text/javascript" src="../C64Style/lib/PixPathTypes.js"></script>
-  <script type="text/javascript" src="../C64Style/lib/PixRenderer.js"></script>
+<script src="./Utils.js"></script>
+<script src="./Graphics/Utils.js"></script>
+<script src="./Graphics/ImageRenderer.js"></script>
 </head>
 <body>
 
 <p>Image to use:</p>
-<img id="scream" src="Shadowbolt.png">
+<img id="imageElement" src="spriteTest.png">
 
 <p>Canvas to fill:</p>
 <canvas id="myCanvas" width="250" height="300"
@@ -19,12 +19,14 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 <p><button onclick="myCanvas()">Try it</button></p>
 
 <script>
+var c, context, img, renderer;
+renderer = new shaunlusk.ImageRenderer(1,1);
 
+c = document.getElementById("myCanvas");
+context = c.getContext("2d");
+img = document.getElementById("imageElement");
 
 function myCanvas() {
-    var c = document.getElementById("myCanvas");
-    var context = c.getContext("2d");
-    var img = document.getElementById("scream");
     var width = 32;
     var height = 32;
     var x = 0;
@@ -45,24 +47,26 @@ function myCanvas() {
 	};
 	pixRenderer.renderPixPath(context, x, y, pixPath, null, 1, 1, rads);
 
-        context.save();
-    context.translate(
-    	x + Math.floor(width/2) + xoffset,
-        y + Math.floor(height/2) + yoffset);
 
-    context.rotate(rads);
 
-    context.drawImage(img,
-          0,
-      0,
-      width,
-      height,
-      0 - Math.floor(width/2),
-      0 - Math.floor(height/2),
-      width,
-      height
-    );
-    context.restore();
+    //     context.save();
+    // context.translate(
+    // 	x + Math.floor(width/2) + xoffset,
+    //     y + Math.floor(height/2) + yoffset);
+    //
+    // context.rotate(rads);
+    //
+    // context.drawImage(img,
+    //       0,
+    //   0,
+    //   width,
+    //   height,
+    //   0 - Math.floor(width/2),
+    //   0 - Math.floor(height/2),
+    //   width,
+    //   height
+    // );
+    // context.restore();
 }
 
 var coordinatesToDirectionInRadians = function(srcCoords, tgtCoords) {
@@ -73,6 +77,8 @@ var coordinatesToDirectionInRadians = function(srcCoords, tgtCoords) {
 	return rads;
 };
 
+var C64Style = C64Style || {};
+C64Style.PixRenderer = C64Style.PixRenderer || function() {};
 C64Style.PixRenderer.prototype.renderPixPath = function(context, x, y, pixPath, palette, pixPathScaleX, pixPathScaleY, rotation) {
 	function getCoordForTranslation(coord, dimension, offset, thisContext) {
 		return coord + Math.floor(dimension/2) + offset;

@@ -24,3 +24,11 @@ shaunlusk.linSearch = function(array, value, equalityFunction) {
   }
   return -1;
 };
+
+shaunlusk.isNullOrUndefined = function(value) {
+  return value === null || value === undefined;
+}
+
+shaunlusk.degreesToRadians = function(degrees) {
+  return (degrees / 180) * Math.PI;
+}
