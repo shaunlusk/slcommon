@@ -105,15 +105,13 @@ shaunlusk.ImageElement.prototype.render = function(time,diff) {
       this.getSourceY(),
       this.getSourceWidth(),
       this.getSourceHeight(),
-      this.getRotation() ? 0 - Math.floor(this.getWidth() * this.getElementScaleX()/2) : this.getX(),
-      this.getRotation() ? 0 - Math.floor(this.getHeight() * this.getElementScaleY()/2) : this.getY(),
+      this.getX(),
+      this.getY(),
       this.getWidth(),
       this.getHeight(),
       this.getElementScaleX(),
-      this.getElementScaleY()
+      this.getElementScaleY(),
+      this.getRotation()
     );
   }
 };
-
-//,
-// 0 - Math.floor(this.dh/2),

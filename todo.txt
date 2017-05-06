@@ -7,6 +7,8 @@ add aliases to some functions, e.g. getColumns to getCols
 
 support for turning mouse tracking off
 
+refactor image loader
+
 screen.onNextFrameBegin
 screen.onNextFrameEnd
 

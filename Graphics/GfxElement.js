@@ -77,6 +77,7 @@ shaunlusk.GfxElement = function(screenContext, parentLayer, props) {
 
   this._rotation = null;
   this._baseRotation = props.baseRotation || null;
+  this._wasRotated = false;
 
   this._diagonalSize = 0; // only needed for determining collision box when rotated
   this._rotatedX = 0;
@@ -347,9 +348,6 @@ shaunlusk.GfxElement.prototype.getHeight = function() {throw new Error("getHeigh
 */
 shaunlusk.GfxElement.prototype.getScaledHeight = function() {return this.getHeight() * this.getTotalScaleY();};
 
-
-
-
 shaunlusk.GfxElement.prototype.getUnAdjustedRotation = function() { return this._rotation; };
 shaunlusk.GfxElement.prototype.getBaseRotation = function() { return this._baseRotation; };
 shaunlusk.GfxElement.prototype.getRotation = function() {
@@ -361,7 +359,7 @@ shaunlusk.GfxElement.prototype.getRotation = function() {
 shaunlusk.GfxElement.prototype.setRotation = function(rotation) {
   this._rotation = rotation;
   if (this._rotation === null) {
-    if (this._wasRotated) this.dirty = true;
+    if (this.wasRotated()) this.dirty = true;
     return;
   }
   this._recalculateDiagonalSize();
@@ -371,13 +369,16 @@ shaunlusk.GfxElement.prototype.setRotation = function(rotation) {
 shaunlusk.GfxElement.prototype.setBaseRotation = function(rotation) {
   this._baseRotation = rotation;
   if (this._baseRotation === null) {
-    if (this._wasRotated) this.dirty = true;
+    if (this.wasRotated()) this.dirty = true;
     return;
   }
   this._recalculateDiagonalSize();
   this._recalculateRotatedCollisionBox();
   this.dirty = true;
 };
+
+shaunlusk.GfxElement.prototype.wasRotated = function() {return this._wasRotated;};
+shaunlusk.GfxElement.prototype.setWasRotated = function(wasRotated) {this._wasRotated = wasRotated;};
 
 shaunlusk.GfxElement.prototype._recalculateDiagonalSize = function() {
   if (this.getRotation() === null) return;
@@ -666,6 +667,9 @@ shaunlusk.GfxElement.prototype.postRender = function(time, diff) {
   // TODO rotation context
   this.setLastX( this.getX() );
   this.setLastY( this.getY() );
+
+  if (shaunlusk.isNullOrUndefined(this.getRotation())) this.setWasRotated(true);
+  else this.setWasRotated(false);
 
   this.setDirty(false);
   this._hadCollisionPreviousFrame = this.hasCollision();
