@@ -98,6 +98,7 @@ shaunlusk.ImageElement.prototype.getSourceHeight = function() {return this._sHei
 */
 shaunlusk.ImageElement.prototype.render = function(time,diff) {
   if (!this.isHidden() && this.isDirty()) {
+    var rotated = !shaunlusk.isNullOrUndefined(this.getRotation());
     this._imageRenderer.renderImage(
       this.getCanvasContext(),
       this.getImage(),
@@ -107,8 +108,8 @@ shaunlusk.ImageElement.prototype.render = function(time,diff) {
       this.getSourceHeight(),
       this.getX(),
       this.getY(),
-      this.getWidth(),
-      this.getHeight(),
+      rotated ? this.getDiagonalSize() : this.getWidth(),
+      rotated ? this.getDiagonalSize() : this.getHeight(),
       this.getElementScaleX(),
       this.getElementScaleY(),
       this.getRotation()

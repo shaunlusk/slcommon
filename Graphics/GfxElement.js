@@ -355,6 +355,7 @@ shaunlusk.GfxElement.prototype.getRotation = function() {
   return (this._rotation || 0) + (this._baseRotation || 0);
   return null;
 };
+shaunlusk.GfxElement.prototype.getDiagonalSize = function() { return this._diagonalSize; };
 
 shaunlusk.GfxElement.prototype.setRotation = function(rotation) {
   this._rotation = rotation;
@@ -661,7 +662,6 @@ shaunlusk.GfxElement.prototype.render = function(time, diff) {
 * @param {number} diff
 */
 shaunlusk.GfxElement.prototype.postRender = function(time, diff) {
-  // TODO rotation context
   this.setLastX( this.getX() );
   this.setLastY( this.getY() );
 
