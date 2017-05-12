@@ -28,11 +28,7 @@ shaunlusk.ImageRenderer = function(screenScaleX, screenScaleY) {
 * @param {integer} imageScaleY The amount to scale the drawn image vertically.
 */
 shaunlusk.ImageRenderer.prototype.renderImage = function(context, image, sx, sy, sWidth, sHeight, x, y, width, height, imageScaleX, imageScaleY, rotation) {
-  if (!shaunlusk.isNullOrUndefined(rotation)) {
-    console.log("Rotated");
-    this.renderRotatedImage(context, image, sx, sy, sWidth, sHeight, x, y, width, height, imageScaleX, imageScaleY, rotation);
-  } else {
-    console.log("standard");
+  if (shaunlusk.isNullOrUndefined(rotation)) {
     context.drawImage(
       image,
       sx,
@@ -43,6 +39,8 @@ shaunlusk.ImageRenderer.prototype.renderImage = function(context, image, sx, sy,
       y * this.getScreenScaleY(),
       width * this.getTotalScaleX(imageScaleX),
       height * this.getTotalScaleY(imageScaleY));
+  } else {
+    this.renderRotatedImage(context, image, sx, sy, sWidth, sHeight, x, y, width, height, imageScaleX, imageScaleY, rotation);
   }
 };
 

@@ -642,10 +642,7 @@ shaunlusk.GfxElement.prototype.rotateCanvas = function(rotation) {
 /** Perform any preRendering steps.
 */
 shaunlusk.GfxElement.prototype.preRender = function(time, diff) {
-  var rotation = this.getRotation();
-  if (rotation) {
-    this.rotateCanvas(rotation);
-  }
+
 };
 
 /**

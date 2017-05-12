@@ -1,3 +1,20 @@
+GfxElement
+  isDirty
+    wasRotated?
+
+  elementScale?
+  getScaledX/Y
+  getLast?
+  getWidth?
+  getScaledWidth/Height?
+
+  update?
+  clear?
+
+  collision box checking
+
+
+
 incorporate latest changes from C64 - (around scaling and mouse eventing)
 
 *** make sure after render cleanup is called for ALL gfx elements - way to bake this into base class?
