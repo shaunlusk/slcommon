@@ -358,7 +358,6 @@ shaunlusk.GfxElement.prototype.getRotation = function() {
 shaunlusk.GfxElement.prototype.getDiagonalSize = function() { return this._diagonalSize; };
 
 shaunlusk.GfxElement.prototype.setRotation = function(rotation) {
-  console.log("Called setRotation");
   this._rotation = rotation;
   if (this._rotation === null) {
     if (this.wasRotated()) this.setDirty(true);
@@ -381,7 +380,6 @@ shaunlusk.GfxElement.prototype.setBaseRotation = function(rotation) {
 
 shaunlusk.GfxElement.prototype.wasRotated = function() {return this._wasRotated;};
 shaunlusk.GfxElement.prototype.setWasRotated = function(wasRotated) {
-  console.log("Called setWasRotated: " + wasRotated);
   this._wasRotated = wasRotated;
 };
 shaunlusk.GfxElement.prototype.hasRotation = function() {return !(shaunlusk.isNullOrUndefined(this._rotation) || this._rotation === 0);};
@@ -416,10 +414,6 @@ shaunlusk.GfxElement.prototype._recalculateRotatedCollisionBox = function() {
   this._rotatedX = Math.floor(this.getX() - (this.getDiagonalSize() - this.getWidth()) / 2);
   this._rotatedY = Math.floor(this.getY() - (this.getDiagonalSize() - this.getHeight()) / 2);
 };
-
-
-
-
 
 /**
 * Set the horizontal and vertical movement rates for this element.
@@ -615,26 +609,12 @@ shaunlusk.GfxElement.prototype._updateMoveOrder = function(time,diff) {
 */
 shaunlusk.GfxElement.prototype.clear = function(time, diff) {
   if (this.wasRotated()) {
-    console.log(
-      "rotated clear:\n" +
-      "x:" + (this.getRotatedLastX() * this.getScreenScaleX() - 1) +
-      " y:" + (this.getRotatedLastY() * this.getScreenScaleY() - 1) +
-      " width:" + (this.getLastDiagonalSize() * this.getTotalScaleX() + 2) +
-      " height:" + (this.getLastDiagonalSize() * this.getTotalScaleX() + 2)
-    );
     this.getCanvasContext().clearRect(
       this.getRotatedLastX() * this.getScreenScaleX() - 1,
       this.getRotatedLastY() * this.getScreenScaleY() - 1,
       this.getLastDiagonalSize() * this.getTotalScaleX() + 2,
       this.getLastDiagonalSize() * this.getTotalScaleY() + 2 );
   } else {
-    console.log(
-      "unrotated clear:\n" +
-      "x:" + (this.getLastX() * this.getScreenScaleX() - 1) +
-      " y:" + (this.getLastY() * this.getScreenScaleY() - 1) +
-      " width:" + (this.getLastWidth() * this.getTotalScaleX() + 2) +
-      " height:" + (this.getLastHeight() * this.getTotalScaleY() + 2)
-    );
     this.getCanvasContext().clearRect(
       this.getLastX() * this.getScreenScaleX() - 1,
       this.getLastY() * this.getScreenScaleY() - 1,
@@ -689,7 +669,6 @@ shaunlusk.GfxElement.prototype.render = function(time, diff) {
 * @param {number} diff
 */
 shaunlusk.GfxElement.prototype.postRender = function(time, diff) {
-  console.log("Called postRender");
   this.setLastX( this.getX() );
   this.setLastY( this.getY() );
 
