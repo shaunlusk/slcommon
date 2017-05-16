@@ -27,17 +27,39 @@ shaunlusk.ImageRenderer = function(screenScaleX, screenScaleY) {
 * @param {integer} imageScaleX The amount to scale the drawn image horizontally.
 * @param {integer} imageScaleY The amount to scale the drawn image vertically.
 */
-shaunlusk.ImageRenderer.prototype.renderImage = function(context, image, sx, sy, sWidth, sHeight, x, y, width, height, imageScaleX, imageScaleY) {
-  context.drawImage(
-    image,
-    sx,
-    sy,
-    sWidth,
-    sHeight,
-    x * this.getScreenScaleX(),
-    y * this.getScreenScaleY(),
-    width * this.getTotalScaleX(imageScaleX),
-    height * this.getTotalScaleY(imageScaleY));
+shaunlusk.ImageRenderer.prototype.renderImage = function(context, image, sx, sy, sWidth, sHeight, x, y, width, height, imageScaleX, imageScaleY, rotation) {
+  if (rotation) {
+    this.renderRotatedImage(context, image, sx, sy, sWidth, sHeight, x, y, width, height, imageScaleX, imageScaleY, rotation);
+  } else {
+    context.drawImage(
+      image,
+      sx,
+      sy,
+      sWidth,
+      sHeight,
+      x * this.getScreenScaleX(),
+      y * this.getScreenScaleY(),
+      width * this.getTotalScaleX(imageScaleX),
+      height * this.getTotalScaleY(imageScaleY));
+  }
+};
+
+shaunlusk.ImageRenderer.prototype.renderRotatedImage = function(context, image, sx, sy, sWidth, sHeight, x, y, width, height, imageScaleX, imageScaleY, rotation) {
+  var translationX = x * this.getScreenScaleX() + (width * this.getTotalScaleX(imageScaleX))/2;
+  var translationY = y * this.getScreenScaleY() + (height * this.getTotalScaleY(imageScaleY))/2;
+  shaunlusk.renderWithRotation(context, translationX, translationY, rotation, function() {
+    context.drawImage(
+      image,
+      sx,
+      sy,
+      sWidth,
+      sHeight,
+      0 - (width * this.getTotalScaleX(imageScaleX))/2,
+      0 - (height * this.getTotalScaleY(imageScaleY))/2,
+      width * this.getTotalScaleX(imageScaleX),
+      height * this.getTotalScaleY(imageScaleY));
+  }.bind(this));
+
 };
 
 /**

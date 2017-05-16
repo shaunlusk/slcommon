@@ -74,3 +74,18 @@ shaunlusk.Layer.prototype.handleMouseEvent = function(event) {};
 shaunlusk.Layer.prototype.clearLayer = function() {
   this._canvasContext.clearRect(0, 0, this.getWidth(), this.getHeight());
 };
+
+shaunlusk.Layer.prototype.dimLayer = function(amount, steps, interval) {
+  var stepAmount = amount / steps;
+  setTimeout(this._dimStep.bind(this, stepAmount, stepAmount, steps, interval), interval);
+
+};
+shaunlusk.Layer.prototype._dimStep = function(amount, stepAmount, steps, interval) {
+  var canvasContext = this.getCanvasContext();
+  canvasContext.clearRect(0, 0, this.getWidth(), this.getHeight());
+  canvasContext.fillStyle = "rgba(0,0,0," + amount + ")";
+  canvasContext.fillRect(0, 0, this.getWidth(), this.getHeight());
+  if (steps > 0) {
+    setTimeout(this._dimStep.bind(this, amount + stepAmount, stepAmount, steps - 1, interval), interval);
+  }
+};

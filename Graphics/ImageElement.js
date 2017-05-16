@@ -110,9 +110,8 @@ shaunlusk.ImageElement.prototype.render = function(time,diff) {
       this.getWidth(),
       this.getHeight(),
       this.getElementScaleX(),
-      this.getElementScaleY()
+      this.getElementScaleY(),
+      this.getRotation()
     );
   }
-
-  shaunlusk.GfxElement.prototype.render.call(this, time, diff);
 };

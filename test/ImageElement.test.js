@@ -37,17 +37,5 @@ describe("ImageElement", function() {
       assert(calledRenderImage === true, "should have called renderImage");
       done();
     });
-    it("should call base class render", function(done) {
-      var calledBaseRender = false;
-      var savedFn = shaunlusk.GfxElement.prototype.render;
-      shaunlusk.GfxElement.prototype.render = function() {
-        calledBaseRender = true;
-      };
-      imageElement.render(1, 1);
-
-      assert(calledBaseRender === true, "should have called base render");
-      shaunlusk.GfxElement.prototype.render = savedFn;
-      done();
-    });
   });
 });

@@ -529,12 +529,12 @@ describe("GfxElement", function() {
       done();
     });
   });
-  describe("#render()", function() {
+  describe("#postRender()", function() {
     it("should update internal values", function(done) {
       element.setX(10);
       element.setY(10);
       element.setHasCollision(true);
-      element.render(1,1);
+      element.postRender(1,1);
 
       assert(element.getLastX() === 10, "should have updated lastX");
       assert(element.getLastY() === 10, "should have updated lastY");

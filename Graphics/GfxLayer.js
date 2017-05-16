@@ -154,7 +154,9 @@ shaunlusk.GfxLayer.prototype.render = function(time,diff) {
 
   while (this._dirtyElements.peek()) {
     var element = this._dirtyElements.pop().getElement();
+    element.preRender(time,diff);
     element.render(time,diff);
+    element.postRender(time,diff);
   }
 
   this._cleanUp();

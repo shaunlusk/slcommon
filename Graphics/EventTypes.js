@@ -1,0 +1,23 @@
+var shaunlusk = shaunlusk || {};
+
+shaunlusk.EventType = shaunlusk.EventType || {};
+shaunlusk.EventType.SCREEN_PAUSED = "SCREEN_PAUSED";
+shaunlusk.EventType.SCREEN_RESUMED = "SCREEN_RESUMED";
+shaunlusk.EventType.BEFORE_RENDER = "BEFORE_RENDER";
+shaunlusk.EventType.AFTER_RENDER = "AFTER_RENDER";
+shaunlusk.EventType.MOUSE_MOVE = "MOUSE_MOVE";
+shaunlusk.EventType.MOUSE_UP = "MOUSE_UP";
+shaunlusk.EventType.MOUSE_DOWN = "MOUSE_DOWN";
+shaunlusk.EventType.ELEMENT_MOVED = "ELEMENT_MOVED";
+shaunlusk.EventType.ELEMENT_STARTED_MOVING = "ELEMENT_STARTED_MOVING";
+shaunlusk.EventType.ELEMENT_STOPPED_MOVING = "ELEMENT_STOPPED_MOVING";
+shaunlusk.EventType.ELEMENT_COLLISION = "ELEMENT_COLLISION";
+shaunlusk.EventType.MOUSE_ENTER_ELEMENT = "MOUSE_ENTER_ELEMENT";
+shaunlusk.EventType.MOUSE_EXIT_ELEMENT = "MOUSE_EXIT_ELEMENT";
+shaunlusk.EventType.MOUSE_MOVE_OVER_ELEMENT = "MOUSE_MOVE_OVER_ELEMENT";
+shaunlusk.EventType.MOUSE_DOWN_ON_ELEMENT = "MOUSE_DOWN_ON_ELEMENT";
+shaunlusk.EventType.MOUSE_UP_ON_ELEMENT = "MOUSE_UP_ON_ELEMENT";
+shaunlusk.EventType.ELEMENT_HIT_LEFT_EDGE = "ELEMENT_HIT_LEFT_EDGE";
+shaunlusk.EventType.ELEMENT_HIT_RIGHT_EDGE = "ELEMENT_HIT_RIGHT_EDGE";
+shaunlusk.EventType.ELEMENT_HIT_TOP_EDGE = "ELEMENT_HIT_TOP_EDGE";
+shaunlusk.EventType.ELEMENT_HIT_BOTTOM_EDGE = "ELEMENT_HIT_BOTTOM_EDGE";
