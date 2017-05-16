@@ -358,40 +358,63 @@ shaunlusk.GfxElement.prototype.getRotation = function() {
 shaunlusk.GfxElement.prototype.getDiagonalSize = function() { return this._diagonalSize; };
 
 shaunlusk.GfxElement.prototype.setRotation = function(rotation) {
+  console.log("Called setRotation");
   this._rotation = rotation;
   if (this._rotation === null) {
-    if (this.wasRotated()) this.dirty = true;
+    if (this.wasRotated()) this.setDirty(true);
     return;
   }
   this._recalculateDiagonalSize();
   this._recalculateRotatedCollisionBox();
-  this.dirty = true;
+  this.setDirty(true);
 };
 shaunlusk.GfxElement.prototype.setBaseRotation = function(rotation) {
   this._baseRotation = rotation;
   if (this._baseRotation === null) {
-    if (this.wasRotated()) this.dirty = true;
+    if (this.wasRotated()) this.setDirty(true);
     return;
   }
   this._recalculateDiagonalSize();
   this._recalculateRotatedCollisionBox();
-  this.dirty = true;
+  this.setDirty(true);
 };
 
 shaunlusk.GfxElement.prototype.wasRotated = function() {return this._wasRotated;};
-shaunlusk.GfxElement.prototype.setWasRotated = function(wasRotated) {this._wasRotated = wasRotated;};
+shaunlusk.GfxElement.prototype.setWasRotated = function(wasRotated) {
+  console.log("Called setWasRotated: " + wasRotated);
+  this._wasRotated = wasRotated;
+};
+shaunlusk.GfxElement.prototype.hasRotation = function() {return !(shaunlusk.isNullOrUndefined(this._rotation) || this._rotation === 0);};
+
+shaunlusk.GfxElement.prototype.getRotatedX = function() {return this._rotatedX;};
+shaunlusk.GfxElement.prototype.getRotatedY = function() {return this._rotatedY;};
+shaunlusk.GfxElement.prototype.getRotatedLastX = function() {return this._rotatedLastX;};
+shaunlusk.GfxElement.prototype.getRotatedLastY = function() {return this._rotatedLastY;};
+shaunlusk.GfxElement.prototype.getLastDiagonalSize = function() {return this._lastDiagonalSize;};
+shaunlusk.GfxElement.prototype.getRotatedScaledX = function() {return this.getRotatedX() * this.getScreenScaleX();};
+shaunlusk.GfxElement.prototype.getRotatedScaledY = function() {return this.getRotatedY() * this.getScreenScaleY();};
+shaunlusk.GfxElement.prototype.getScaledDiagonalSize = function() {
+  return this.getDiagonalSize() * (this.getTotalScaleX() + this.getTotalScaleY()) / 2;
+};
+
+/** @private */
+shaunlusk.GfxElement.prototype.setRotatedLastX = function(x) {this._rotatedLastX = x;};
+/** @private */
+shaunlusk.GfxElement.prototype.setRotatedLastY = function(y) {this._rotatedLastY = y;};
+/** @private */
+shaunlusk.GfxElement.prototype.setLastDiagonalSize = function(size) {this._lastDiagonalSize = size;};
 
 shaunlusk.GfxElement.prototype._recalculateDiagonalSize = function() {
   if (this.getRotation() === null) return;
   // calculate diagonal
   // Note that for any amount of rotation, an expanded bounding box is used
-  this._diagonalSize = Math.ceil(Math.sqrt( Math.pow(this.dw, 2) + Math.pow(this.dh, 2)));
+  this._diagonalSize = Math.ceil(Math.sqrt( Math.pow(this.getWidth(), 2) + Math.pow(this.getHeight(), 2)));
 };
 
 shaunlusk.GfxElement.prototype._recalculateRotatedCollisionBox = function() {
   if (this.getRotation() === null) return;
-  this._rotatedX = Math.floor(this.x - (this._diagonalSize - this.dw) / 2);
-  this._rotatedY = Math.floor(this.y - (this._diagonalSize - this.dh) / 2);
+  this._rotatedX = Math.floor(this.getX() - (this.getDiagonalSize() - this.getWidth()) / 2);
+  this._rotatedY = Math.floor(this.getY() - (this.getDiagonalSize() - this.getHeight()) / 2);
 };
 
 
@@ -538,7 +561,7 @@ shaunlusk.GfxElement.prototype.update = function(time,diff) {
   }
 
   if (this.isDirty()) {
-    // TODO this._recalculateRotatedCollisionBox();
+    this._recalculateRotatedCollisionBox();
     return this;
   }
   return null;
@@ -591,24 +614,35 @@ shaunlusk.GfxElement.prototype._updateMoveOrder = function(time,diff) {
 * @param {number} diff
 */
 shaunlusk.GfxElement.prototype.clear = function(time, diff) {
-  // TODO rotation context
-  this.getCanvasContext().clearRect(
-    this.getLastX() * this.getScreenScaleX() - 1,
-    this.getLastY() * this.getScreenScaleY() - 1,
-    this.getLastWidth() * this.getTotalScaleX() + 2,
-    this.getLastHeight() * this.getTotalScaleY() + 2 );
+  if (this.wasRotated()) {
+    console.log(
+      "rotated clear:\n" +
+      "x:" + (this.getRotatedLastX() * this.getScreenScaleX() - 1) +
+      " y:" + (this.getRotatedLastY() * this.getScreenScaleY() - 1) +
+      " width:" + (this.getLastDiagonalSize() * this.getTotalScaleX() + 2) +
+      " height:" + (this.getLastDiagonalSize() * this.getTotalScaleX() + 2)
+    );
+    this.getCanvasContext().clearRect(
+      this.getRotatedLastX() * this.getScreenScaleX() - 1,
+      this.getRotatedLastY() * this.getScreenScaleY() - 1,
+      this.getLastDiagonalSize() * this.getTotalScaleX() + 2,
+      this.getLastDiagonalSize() * this.getTotalScaleY() + 2 );
+  } else {
+    console.log(
+      "unrotated clear:\n" +
+      "x:" + (this.getLastX() * this.getScreenScaleX() - 1) +
+      " y:" + (this.getLastY() * this.getScreenScaleY() - 1) +
+      " width:" + (this.getLastWidth() * this.getTotalScaleX() + 2) +
+      " height:" + (this.getLastHeight() * this.getTotalScaleY() + 2)
+    );
+    this.getCanvasContext().clearRect(
+      this.getLastX() * this.getScreenScaleX() - 1,
+      this.getLastY() * this.getScreenScaleY() - 1,
+      this.getLastWidth() * this.getTotalScaleX() + 2,
+      this.getLastHeight() * this.getTotalScaleY() + 2 );
+  }
 };
 
-
-
-// C64Style.TextElement.prototype.clear = function(time, diff) {
-//   this.getCanvasContext().clearRect(
-//     this.getLastX() * this.getScreenScaleX() - 1,
-//     this.getLastY() * this.getScreenScaleY() - 1,
-//     this.getLastWidth() * this.getTotalScaleX() + 2,
-//     this.getHeight() * this.getTotalScaleY() + 2 );
-//   this._lastWidth = null;
-// };
 
 // UiElement.prototype.clear = function(context) {
 //   if (!this.dirty) return;
@@ -655,10 +689,16 @@ shaunlusk.GfxElement.prototype.render = function(time, diff) {
 * @param {number} diff
 */
 shaunlusk.GfxElement.prototype.postRender = function(time, diff) {
+  console.log("Called postRender");
   this.setLastX( this.getX() );
   this.setLastY( this.getY() );
 
-  if (shaunlusk.isNullOrUndefined(this.getRotation())) this.setWasRotated(true);
+  if (this.hasRotation()) {
+    this.setWasRotated(true);
+    this.setRotatedLastX( this.getRotatedX() );
+    this.setRotatedLastY( this.getRotatedY() );
+    this.setLastDiagonalSize( this.getDiagonalSize() );
+  }
   else this.setWasRotated(false);
 
   this.setDirty(false);
@@ -741,22 +781,34 @@ shaunlusk.GfxElement.prototype.collidesWithY = function(y) {
 /** Returns the x value of the collision box.  Incorporates screen scale.
 * @return {number}
 */
-shaunlusk.GfxElement.prototype.getCollisionBoxX = function() {return this.getScaledX() - 1;};
+shaunlusk.GfxElement.prototype.getCollisionBoxX = function() {
+  if (this.hasRotation()) return this.getRotatedScaledX() - 1;
+  return this.getScaledX() - 1;
+};
 
 /** Returns the y value of the collision box.  Incorporates screen scale.
 * @return {number}
 */
-shaunlusk.GfxElement.prototype.getCollisionBoxY = function() {return this.getScaledY() - 1;};
+shaunlusk.GfxElement.prototype.getCollisionBoxY = function() {
+  if (this.hasRotation()) return this.getRotatedScaledY() - 1;
+  return this.getScaledY() - 1;
+};
 
 /** Returns the width value of the collision box.  Incorporates total scale.
 * @return {number}
 */
-shaunlusk.GfxElement.prototype.getCollisionBoxWidth = function() {return this.getScaledWidth() + 2;};
+shaunlusk.GfxElement.prototype.getCollisionBoxWidth = function() {
+  if (this.hasRotation()) return this.getScaledDiagonalSize() + 2;
+  return this.getScaledWidth() + 2;
+};
 
 /** Returns the height value of the collision box.  Incorporates total scale.
 * @return {number}
 */
-shaunlusk.GfxElement.prototype.getCollisionBoxHeight = function() {return this.getScaledHeight() + 2;};
+shaunlusk.GfxElement.prototype.getCollisionBoxHeight = function() {
+  if (this.hasRotation()) return this.getScaledDiagonalSize() + 2;
+  return this.getScaledHeight() + 2;
+};
 
 /** Fires events if the mouse event is on this element.<br />
 * Events emitted:
