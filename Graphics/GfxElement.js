@@ -809,17 +809,20 @@ shaunlusk.GfxElement.prototype.getCollisionBoxHeight = function() {
 * @param {shaunlusk.Event}
 */
 shaunlusk.GfxElement.prototype.handleMouseEvent = function(event) {
-  if (this.collidesWithCoordinates(event.data.x, event.data.y)) {
+  var eventData = {
+      x : event.data.x,
+      y : event.data.y,
+      row : event.data.row,
+      col : event.data.col,
+      scaledX : event.data.scaledX,
+      scaledY : event.data.scaledY,
+      element : this
+  };
+  if (this.collidesWithCoordinates(event.data.scaledX, event.data.scaledY)) {
     if (!this.isMouseOver()) {
       this.notify(new shaunlusk.Event(
         shaunlusk.EventType.MOUSE_ENTER_ELEMENT,
-        {
-          x : event.data.x,
-          y : event.data.y,
-          row : event.data.row,
-          col : event.data.col,
-          element : this
-        },
+        eventData,
         event.data.time
       ));
     }
@@ -839,13 +842,7 @@ shaunlusk.GfxElement.prototype.handleMouseEvent = function(event) {
     }
     var thisevent = new shaunlusk.Event(
       type,
-      {
-        x : event.data.x,
-        y : event.data.y,
-        row : event.data.row,
-        col : event.data.col,
-        element : this
-      },
+      eventData,
       event.data.time
     );
     this.notify(thisevent);
@@ -853,13 +850,7 @@ shaunlusk.GfxElement.prototype.handleMouseEvent = function(event) {
     if (this.isMouseOver()) {
       this.notify(new shaunlusk.Event(
         shaunlusk.EventType.MOUSE_EXIT_ELEMENT,
-        {
-          x : event.data.x,
-          y : event.data.y,
-          row : event.data.row,
-          col : event.data.col,
-          element : this
-        },
+        eventData,
         event.data.time
       ));
       this._mouseIsOver = false;

@@ -296,8 +296,12 @@ shaunlusk.Screen.prototype._handleMouseMoveEvent = function(time) {
   var event = new shaunlusk.Event(
     shaunlusk.EventType.MOUSE_MOVE,
     {
-      x : this._mouseX,
-      y : this._mouseY
+      x : this.getUnScaledX(this._mouseX),
+      y : this.getUnScaledX(this._mouseY),
+      row : this._mouseRow,
+      col : this._mouseCol,
+      scaledX : this._mouseX,
+      scaledY : this._mouseY,
     },
     time
   );
@@ -366,20 +370,24 @@ shaunlusk.Screen.prototype.handleMouseMoveEvent = function(e) {
 */
 shaunlusk.Screen.prototype.handleMouseEvent = function(e) {
   if (this._paused) return false;
-  var x = this.getXFromMouseEvent(e);
-  var y = this.getYFromMouseEvent(e);
+  var scaledX = this.getXFromMouseEvent(e);
+  var scaledY = this.getYFromMouseEvent(e);
 
-  if (x < 0 || x >= this._width || y < 0 || y >= this._height) {
+  if (scaledX < 0 || scaledX >= this._width || scaledY < 0 || scaledY >= this._height) {
     return false;
   }
+  var x = this.getUnScaledX(scaledX);
+  var y = this.getUnScaledY(scaledY);
 
   var type = e.type === "mouseup" ? shaunlusk.EventType.MOUSE_UP : shaunlusk.EventType.MOUSE_DOWN;
   var event = new shaunlusk.Event(
     type,
     {
-      x : this._mouseX,
-      y : this._mouseY,
-      baseEvent : e
+      x : x,
+      y : y,
+      baseEvent : e,
+      scaledX : scaledX,
+      scaledY : scaledY
     });
   this.notify(event);
 
@@ -408,4 +416,18 @@ shaunlusk.Screen.prototype.getXFromMouseEvent = function(e) {
 */
 shaunlusk.Screen.prototype.getYFromMouseEvent = function(e) {
   return (e.pageY - (this._targetDiv.offsetTop + this._borderSize));
+};
+
+/** Return an x value with scale removed.
+* @param {Event} e Mouse Event
+*/
+shaunlusk.Screen.prototype.getUnScaledX = function(x) {
+  return Math.floor(x / this._scaleX);
+};
+
+/** Return an x value with scale removed.
+* @param {Event} e Mouse Event
+*/
+shaunlusk.Screen.prototype.getUnScaledY = function(y) {
+  return Math.floor(y / this._scaleY);
 };
