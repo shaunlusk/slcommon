@@ -2,9 +2,9 @@ describe("ImageElement", function() {
   var imageElement, calledRenderImage;
   beforeEach(function() {
     calledRenderImage = false;
-    imageElement = new shaunlusk.ImageElement(
-      shaunlusk.Mocks.getMockScreen(),
-      shaunlusk.Mocks.getMockLayer(),
+    imageElement = new SL.ImageElement(
+      SL.Mocks.getMockScreen(),
+      SL.Mocks.getMockLayer(),
       {
         imageRenderer : {
           renderImage : function() {

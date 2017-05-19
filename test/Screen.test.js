@@ -5,7 +5,7 @@ describe("Screen", function() {
   requestAnimationFrame = function() {calledRequestAnimationFrame = true;};
   beforeEach(function() {
     // blanket.js weirdness means we have to reset document link each time
-    shaunlusk.Screen.document = {
+    SL.Screen.document = {
       addEventListener : function(event, listener) {
         if (!windowEventListeners[event]) windowEventListeners[event] = [];
         windowEventListeners[event].push(listener);
@@ -24,9 +24,9 @@ describe("Screen", function() {
       offsetTop : 16
     };
     fpsElem = {};
-    layerFactory = shaunlusk.Mocks.getMockLayerFactory();
+    layerFactory = SL.Mocks.getMockLayerFactory();
     config = {"fpsElem" : fpsElem};
-    scrn = new shaunlusk.Screen(targetDiv, layerFactory, config);
+    scrn = new SL.Screen(targetDiv, layerFactory, config);
   });
 
   describe("#initialize()", function() {
@@ -138,7 +138,7 @@ describe("Screen", function() {
 
       assert(scrn.isPaused() === true, "should have set paused");
       assert(scrn._unpaused === false, "should not have set unpaused true");
-      assert(eventType === shaunlusk.EventType.SCREEN_PAUSED, "should have notified of pause event");
+      assert(eventType === SL.EventType.SCREEN_PAUSED, "should have notified of pause event");
       assert(calledRequestAnimationFrame === false, "should not have called requestAnimationFrame");
       done();
     });
@@ -150,7 +150,7 @@ describe("Screen", function() {
 
       assert(scrn.isPaused() === false, "should have set paused false");
       assert(scrn._unpaused === true, "should have set unpaused true");
-      assert(eventType === shaunlusk.EventType.SCREEN_RESUMED, "should have notified of resume event");
+      assert(eventType === SL.EventType.SCREEN_RESUMED, "should have notified of resume event");
       assert(calledRequestAnimationFrame === true, "should have called requestAnimationFrame");
       done();
     });
@@ -235,8 +235,8 @@ describe("Screen", function() {
 
       scrn.render(1);
 
-      assert(eventTypes[0] === shaunlusk.EventType.BEFORE_RENDER, "should have notified of before render event.");
-      assert(eventTypes[1] === shaunlusk.EventType.AFTER_RENDER, "should have notified of after render event.");
+      assert(eventTypes[0] === SL.EventType.BEFORE_RENDER, "should have notified of before render event.");
+      assert(eventTypes[1] === SL.EventType.AFTER_RENDER, "should have notified of after render event.");
       done();
     });
     it("should call updateFps", function(done) {
@@ -303,7 +303,7 @@ describe("Screen", function() {
 
       scrn._handleMouseMoveEvent();
 
-      assert(eventType === shaunlusk.EventType.MOUSE_MOVE, "should have notified of before mouse move event.");
+      assert(eventType === SL.EventType.MOUSE_MOVE, "should have notified of before mouse move event.");
       done();
     });
     it("should propagate event", function(done) {
@@ -541,7 +541,7 @@ describe("Screen", function() {
 
       scrn.handleMouseEvent(e);
 
-      assert(eventType === shaunlusk.EventType.MOUSE_UP, "should have notified mouseup event");
+      assert(eventType === SL.EventType.MOUSE_UP, "should have notified mouseup event");
       done();
     });
     it("should notify mouseup", function(done) {
@@ -558,7 +558,7 @@ describe("Screen", function() {
 
       scrn.handleMouseEvent(e);
 
-      assert(eventType === shaunlusk.EventType.MOUSE_DOWN, "should have notified mousedown event");
+      assert(eventType === SL.EventType.MOUSE_DOWN, "should have notified mousedown event");
       done();
     });
     it("should propagate", function(done) {

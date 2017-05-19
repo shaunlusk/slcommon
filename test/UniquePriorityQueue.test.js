@@ -19,7 +19,7 @@ describe("UniquePriorityQueue", function() {
       compareTo : function(other) {return this.value > other.value ? 1 : this.value === other.value ? 0 : -1;},
       equals : function(other) {return this.value === other.value;}
     };
-    q = new shaunlusk.UniquePriorityQueue();
+    q = new SL.UniquePriorityQueue();
   });
   describe("#insert()", function() {
     it("should add element to queue", function(done) {

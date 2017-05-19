@@ -1,13 +1,13 @@
-var shaunlusk = shaunlusk || {};
+var SL = SL || {};
 
 /**
 * @interface
 */
-shaunlusk.LayerFactory = function() {
+SL.LayerFactory = function() {
 
 };
 
 /** abstract */
-shaunlusk.LayerFactory.prototype.getLayer = function(parentScreen, type, canvas, props) {
+SL.LayerFactory.prototype.getLayer = function(parentScreen, type, canvas, props) {
   throw new Error("getLayer() Not Implemented.");
 };

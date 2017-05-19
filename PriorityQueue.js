@@ -1,28 +1,28 @@
-var shaunlusk = shaunlusk || {};
+var SL = SL || {};
 
-/** shaunlusk.IComparable
+/** SL.IComparable
 * @interface
 */
-shaunlusk.IComparable = function() {};
+SL.IComparable = function() {};
 
 /**
 * @function
-* @name shaunlusk.IComparable#compareTo
+* @name SL.IComparable#compareTo
 * @param other {Object} The object to compare to this one.
 * @returns {int} -1: less than the other object; 0 equivalent to the other object; 1 greater than the other object.
 */
-shaunlusk.IComparable.prototype.compareTo = function(other) { throw new Error('not implemented'); };
+SL.IComparable.prototype.compareTo = function(other) { throw new Error('not implemented'); };
 /**
 * @function
-* @name shaunlusk.IComparable#equals
+* @name SL.IComparable#equals
 * @param other {Object} The object to compare to this one.
 * @returns {boolean} true if the objects are equivalent, false otherwise.
 */
-shaunlusk.IComparable.prototype.equals = function(other) { throw new Error('not implemented'); };
+SL.IComparable.prototype.equals = function(other) { throw new Error('not implemented'); };
 
 
 /** @class Heap-based priority queue */
-shaunlusk.PriorityQueue = function() {
+SL.PriorityQueue = function() {
 
   this._heapSize = 0;
   this._a = [];
@@ -40,13 +40,13 @@ shaunlusk.PriorityQueue = function() {
 * Setting the value will cause the queue to be reordered.
 * @param bool {boolean}
 */
-shaunlusk.PriorityQueue.prototype.setInvertPriority = function(bool) {
+SL.PriorityQueue.prototype.setInvertPriority = function(bool) {
   this.invertPriority = bool;
   this.sort();
 };
 
 /** Sorts the queue.  */
-shaunlusk.PriorityQueue.prototype.sort = function() {
+SL.PriorityQueue.prototype.sort = function() {
 
   this._buildMaxHeap();
 
@@ -57,7 +57,7 @@ shaunlusk.PriorityQueue.prototype.sort = function() {
 };
 
 /** @private */
-shaunlusk.PriorityQueue.prototype._maxHeapify = function( i, size, dir ) {
+SL.PriorityQueue.prototype._maxHeapify = function( i, size, dir ) {
   var largest = 0;
   var left = 2 * i + 1;
   var right = 2 * i + 2;
@@ -80,14 +80,14 @@ shaunlusk.PriorityQueue.prototype._maxHeapify = function( i, size, dir ) {
 };
 
 /** @private */
-shaunlusk.PriorityQueue.prototype._swap = function(i1,i2) {
+SL.PriorityQueue.prototype._swap = function(i1,i2) {
   var temp = this._a[i1];
   this._a[i1] = this._a[i2];
   this._a[i2] = temp;
 };
 
 /** @private */
-shaunlusk.PriorityQueue.prototype._buildMaxHeap = function() {
+SL.PriorityQueue.prototype._buildMaxHeap = function() {
   for (var i = Math.floor((this._heapSize - 1) / 2); i >= 0; i--) {
     this._maxHeapify( i, this._heapSize );
   }
@@ -96,7 +96,7 @@ shaunlusk.PriorityQueue.prototype._buildMaxHeap = function() {
 /** Removes and returns the item at the front of the queue
 * @return {Object} The item at the front of the queue.
 */
-shaunlusk.PriorityQueue.prototype.extractMax = function() {
+SL.PriorityQueue.prototype.extractMax = function() {
   if ( this._heapSize < 1 ) {
     return null;
   }
@@ -109,9 +109,9 @@ shaunlusk.PriorityQueue.prototype.extractMax = function() {
 };
 
 /** Adds a new item to the queue.
-* @param element {shaunlusk.IComparable} The item to be added to the queue.  Must implement Comparable.
+* @param element {SL.IComparable} The item to be added to the queue.  Must implement Comparable.
 */
-shaunlusk.PriorityQueue.prototype.insert = function( element ) {
+SL.PriorityQueue.prototype.insert = function( element ) {
   var i = this._heapSize;
 
   if (this._heapSize === this._a.length)
@@ -128,7 +128,7 @@ shaunlusk.PriorityQueue.prototype.insert = function( element ) {
 * Assumes you have updated the value on your own.
 * @param i {int} The index of the element to be updated.
 */
-shaunlusk.PriorityQueue.prototype.increaseKey = function(i) {
+SL.PriorityQueue.prototype.increaseKey = function(i) {
   while (i > 0 && this._a[this._parent(i)].compareTo(this._a[i]) === (this.invertPriority ? -1 : 1)) {
     this._swap(i,this._parent(i));
     i = this._parent(i);
@@ -140,7 +140,7 @@ shaunlusk.PriorityQueue.prototype.increaseKey = function(i) {
 * Assumes you have updated the value on your own.
 * @param i {int} The index of the element to be updated.
 */
-shaunlusk.PriorityQueue.prototype.decreaseKey = function(i) {
+SL.PriorityQueue.prototype.decreaseKey = function(i) {
   this._maxHeapify(i, this._heapSize, this.invertPriority ? 1 : -1);
 };
 
@@ -149,7 +149,7 @@ shaunlusk.PriorityQueue.prototype.decreaseKey = function(i) {
 * @param i {int} The index of the target element
 * @return {Object} The element found at the specified index.
 */
-shaunlusk.PriorityQueue.prototype.getByIndex = function(i) {
+SL.PriorityQueue.prototype.getByIndex = function(i) {
   if (i > this._heapSize || i < 0)
     throw new Error("Index out of bounds: " + i + ". (queue size:" + this._heapSize + ")");
   return this._a[i];
@@ -157,10 +157,10 @@ shaunlusk.PriorityQueue.prototype.getByIndex = function(i) {
 
 /** Retrieve the first element that equals one specified.
 * Use this if you need to update the value/priority of an element in the queue.
-* @param i {shaunlusk.IComparable} An element to search for.
+* @param i {SL.IComparable} An element to search for.
 * @return {Object} The element if found; null otherwise.
 */
-shaunlusk.PriorityQueue.prototype.getByEquality = function(element) {
+SL.PriorityQueue.prototype.getByEquality = function(element) {
   var idx = this.indexOf(element);
   if (idx === -1) return null;
   return this._a[idx];
@@ -169,15 +169,15 @@ shaunlusk.PriorityQueue.prototype.getByEquality = function(element) {
 /** Returns the size of the queue
 * @return {int} The size of the queue.
 */
-shaunlusk.PriorityQueue.prototype.size = function() {
+SL.PriorityQueue.prototype.size = function() {
   return this._heapSize;
 };
 
 /** Returns whether the item exists in the queue.
-* @param element {shaunlusk.IComparable} The element to search for.
+* @param element {SL.IComparable} The element to search for.
 * @return {boolean} True if the element is in the queue; false otherwise.
 */
-shaunlusk.PriorityQueue.prototype.contains = function(element) {
+SL.PriorityQueue.prototype.contains = function(element) {
   for (var i = 0; i < this._heapSize; i++) {
     if (element.equals(this._a[i])) return true;
   }
@@ -185,10 +185,10 @@ shaunlusk.PriorityQueue.prototype.contains = function(element) {
 };
 
 /** Returns the index of the item if it exists in the queue.
-* @param element {shaunlusk.IComparable} The element to search for.
+* @param element {SL.IComparable} The element to search for.
 * @return {int} The index of the element in the queue; -1 if it does not exist.
 */
-shaunlusk.PriorityQueue.prototype.indexOf = function(element) {
+SL.PriorityQueue.prototype.indexOf = function(element) {
   for (var i = 0; i < this._heapSize; i++) {
     if (element.equals(this._a[i])) return i;
   }
@@ -198,7 +198,7 @@ shaunlusk.PriorityQueue.prototype.indexOf = function(element) {
 /**
 * @param element {Object} The element to be removed from the list.
 */
-shaunlusk.PriorityQueue.prototype.remove = function(element) {
+SL.PriorityQueue.prototype.remove = function(element) {
   if ( this._heapSize < 1 ) {
     return;
   }
@@ -212,10 +212,10 @@ shaunlusk.PriorityQueue.prototype.remove = function(element) {
 };
 
 /** Clear the queue. */
-shaunlusk.PriorityQueue.prototype.clear = function() {this._heapSize = 0;};
+SL.PriorityQueue.prototype.clear = function() {this._heapSize = 0;};
 
 /** @private */
-shaunlusk.PriorityQueue.prototype._verifyHeap = function(i) {
+SL.PriorityQueue.prototype._verifyHeap = function(i) {
   if (i === undefined || i === null) i = 0;
   if (i >= this._heapSize) return true;
   var dir = this.invertPriority ? 1 : -1;
@@ -236,27 +236,27 @@ shaunlusk.PriorityQueue.prototype._verifyHeap = function(i) {
 };
 
 /** @private */
-shaunlusk.PriorityQueue.prototype._parent = function(i) { return Math.floor((i - 1) / 2); };
+SL.PriorityQueue.prototype._parent = function(i) { return Math.floor((i - 1) / 2); };
 
 /** Removes and returns the item at the front of the queue
 * @method
 * @return {Object} The item at the front of the queue.
 */
-shaunlusk.PriorityQueue.prototype.pop = shaunlusk.PriorityQueue.prototype.extractMax;
+SL.PriorityQueue.prototype.pop = SL.PriorityQueue.prototype.extractMax;
 
 /** Removes and returns the item at the front of the queue
 * @method
 * @return {Object} The item at the front of the queue.
 */
-shaunlusk.PriorityQueue.prototype.poll = shaunlusk.PriorityQueue.prototype.extractMax;
+SL.PriorityQueue.prototype.poll = SL.PriorityQueue.prototype.extractMax;
 
 /** Adds a new item to the queue.
 * @method
-* @param element {shaunlusk.IComparable} The item to be added to the queue.  Must implement Comparable.
+* @param element {SL.IComparable} The item to be added to the queue.  Must implement Comparable.
 */
-shaunlusk.PriorityQueue.prototype.push = shaunlusk.PriorityQueue.prototype.insert;
+SL.PriorityQueue.prototype.push = SL.PriorityQueue.prototype.insert;
 
 /** Retrieve the element at the front of the queue.
 * @return {Object} The element at the front of the queue.
 */
-shaunlusk.PriorityQueue.prototype.peek = function() {return this._heapSize < 1 ? null : this._a[0];};
+SL.PriorityQueue.prototype.peek = function() {return this._heapSize < 1 ? null : this._a[0];};

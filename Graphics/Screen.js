@@ -1,5 +1,5 @@
 /** @namespace */
-var shaunlusk = shaunlusk || {};
+var SL = SL || {};
 
 /** The Screen is the overriding container for Graphics components.
 * The Screen orchestrates updating and rendering its layers, propagates
@@ -18,7 +18,7 @@ var shaunlusk = shaunlusk || {};
 *   <li>borderSize - integer - The borderSize of the screen, in pixels. Default: 1</li>
 * </ul>
 */
-shaunlusk.Screen = function(targetDiv, layerFactory, config) {
+SL.Screen = function(targetDiv, layerFactory, config) {
   this._targetDiv = targetDiv;
   this._layerFactory = layerFactory;
   this._config = config || {};
@@ -46,43 +46,43 @@ shaunlusk.Screen = function(targetDiv, layerFactory, config) {
 
   this.EventNotifierMixinInitializer({
     eventListeners:[
-      shaunlusk.EventType.SCREEN_PAUSED,
-      shaunlusk.EventType.SCREEN_RESUMED,
-      shaunlusk.EventType.BEFORE_RENDER,
-      shaunlusk.EventType.AFTER_RENDER,
-      shaunlusk.EventType.MOUSE_MOVE,
-      shaunlusk.EventType.MOUSE_UP,
-      shaunlusk.EventType.MOUSE_DOWN,
-      shaunlusk.EventType.ELEMENT_MOVED,
-      shaunlusk.EventType.ELEMENT_STARTED_MOVING,
-      shaunlusk.EventType.ELEMENT_STOPPED_MOVING,
-      shaunlusk.EventType.ELEMENT_COLLISION,
-      shaunlusk.EventType.MOUSE_ENTER_ELEMENT,
-      shaunlusk.EventType.MOUSE_EXIT_ELEMENT,
-      shaunlusk.EventType.MOUSE_MOVE_OVER_ELEMENT,
-      shaunlusk.EventType.MOUSE_DOWN_ON_ELEMENT,
-      shaunlusk.EventType.MOUSE_UP_ON_ELEMENT,
-      shaunlusk.EventType.ELEMENT_HIT_LEFT_EDGE,
-      shaunlusk.EventType.ELEMENT_HIT_RIGHT_EDGE,
-      shaunlusk.EventType.ELEMENT_HIT_TOP_EDGE,
-      shaunlusk.EventType.ELEMENT_HIT_BOTTOM_EDGE
+      SL.EventType.SCREEN_PAUSED,
+      SL.EventType.SCREEN_RESUMED,
+      SL.EventType.BEFORE_RENDER,
+      SL.EventType.AFTER_RENDER,
+      SL.EventType.MOUSE_MOVE,
+      SL.EventType.MOUSE_UP,
+      SL.EventType.MOUSE_DOWN,
+      SL.EventType.ELEMENT_MOVED,
+      SL.EventType.ELEMENT_STARTED_MOVING,
+      SL.EventType.ELEMENT_STOPPED_MOVING,
+      SL.EventType.ELEMENT_COLLISION,
+      SL.EventType.MOUSE_ENTER_ELEMENT,
+      SL.EventType.MOUSE_EXIT_ELEMENT,
+      SL.EventType.MOUSE_MOVE_OVER_ELEMENT,
+      SL.EventType.MOUSE_DOWN_ON_ELEMENT,
+      SL.EventType.MOUSE_UP_ON_ELEMENT,
+      SL.EventType.ELEMENT_HIT_LEFT_EDGE,
+      SL.EventType.ELEMENT_HIT_RIGHT_EDGE,
+      SL.EventType.ELEMENT_HIT_TOP_EDGE,
+      SL.EventType.ELEMENT_HIT_BOTTOM_EDGE
     ]
   });
 };
 
-shaunlusk.EventNotifierMixin.call(shaunlusk.Screen.prototype);
+SL.EventNotifierMixin.call(SL.Screen.prototype);
 
-shaunlusk.Screen.document = window.document;
+SL.Screen.document = window.document;
 
 /** Setup the screen on the page. Must be called prior to rendering.
 */
-shaunlusk.Screen.prototype.initialize = function() {
+SL.Screen.prototype.initialize = function() {
   this._prepareDiv();
   this._setupEventListeners();
 };
 
 /** @private */
-shaunlusk.Screen.prototype._prepareDiv = function() {
+SL.Screen.prototype._prepareDiv = function() {
   this._targetDiv.style.width = this._width;
   this._targetDiv.style.height = this._height;
   this._targetDiv.style.backgroundColor = this._backgroundColor;
@@ -90,15 +90,15 @@ shaunlusk.Screen.prototype._prepareDiv = function() {
 };
 
 /** @private */
-shaunlusk.Screen.prototype._setupEventListeners = function() {
+SL.Screen.prototype._setupEventListeners = function() {
   this._targetDiv.addEventListener("mouseup",this.handleMouseEvent.bind(this), true);
   this._targetDiv.addEventListener("mousedown",this.handleMouseEvent.bind(this), true);
   this._targetDiv.addEventListener("mousemove",this.handleMouseMoveEvent.bind(this), true);
-  shaunlusk.Screen.document.addEventListener("visibilitychange", this.handleVisibilityChange.bind(this), false);
+  SL.Screen.document.addEventListener("visibilitychange", this.handleVisibilityChange.bind(this), false);
 };
 
 /** @private */
-shaunlusk.Screen.prototype.handleVisibilityChange = function() {
+SL.Screen.prototype.handleVisibilityChange = function() {
   this._tabNotVisible = document.hidden;
   if (!this._tabNotVisible && !this._paused) {
     this._unpaused = true;
@@ -110,14 +110,14 @@ shaunlusk.Screen.prototype.handleVisibilityChange = function() {
 * @param {string} event The type of event.
 * @param {Function} listener The function to call when the event occurs.
 */
-shaunlusk.Screen.prototype.addEventListenerToDocument = function(event, listener) {
-  shaunlusk.Screen.document.addEventListener(event,listener);
+SL.Screen.prototype.addEventListenerToDocument = function(event, listener) {
+  SL.Screen.document.addEventListener(event,listener);
 };
 
 /** Set the background color.
-* @param {string} color Any valid CSS color string, or shaunlusk.Color value.
+* @param {string} color Any valid CSS color string, or SL.Color value.
 */
-shaunlusk.Screen.prototype.setBackgroundColor = function(color) {
+SL.Screen.prototype.setBackgroundColor = function(color) {
   this._backgroundColor = color;
   this._targetDiv.style.backgroundColor = color;
 };
@@ -125,14 +125,14 @@ shaunlusk.Screen.prototype.setBackgroundColor = function(color) {
 /** Return the current backgroundColor.
 * @returns {string}
 */
-shaunlusk.Screen.prototype.getBackgroundColor = function(color) {
+SL.Screen.prototype.getBackgroundColor = function(color) {
   return this._backgroundColor;
 };
 
 /** Set the border color.
-* @param {string} color Any valid CSS color string, or shaunlusk.Color value.
+* @param {string} color Any valid CSS color string, or SL.Color value.
 */
-shaunlusk.Screen.prototype.setBorderColor = function(color) {
+SL.Screen.prototype.setBorderColor = function(color) {
   this._borderColor = color;
   this._targetDiv.style.border = this._borderSize + "px solid " + color;
 };
@@ -140,14 +140,14 @@ shaunlusk.Screen.prototype.setBorderColor = function(color) {
 /** Return the current border color.
 * @returns {string}
 */
-shaunlusk.Screen.prototype.getBorderColor = function() {
+SL.Screen.prototype.getBorderColor = function() {
   return this._borderColor;
 };
 
 /** Set the border size.
 * @param {integer} size The size for the border; will be interpretted as pixels.
 */
-shaunlusk.Screen.prototype.setBorderSize = function(size) {
+SL.Screen.prototype.setBorderSize = function(size) {
   this._borderSize = size;
   this._targetDiv.style.border = size + "px solid " + this._borderColor;
 };
@@ -155,46 +155,46 @@ shaunlusk.Screen.prototype.setBorderSize = function(size) {
 /** Return the current border size, in pixels.
 * @returns {integer}
 */
-shaunlusk.Screen.prototype.getBorderSize = function() {
+SL.Screen.prototype.getBorderSize = function() {
   return this._borderSize;
 };
 
 /** Return the width.
 * @returns {integer}
 */
-shaunlusk.Screen.prototype.getWidth = function() {return this._width;};
+SL.Screen.prototype.getWidth = function() {return this._width;};
 
 /** Return the height.
 * @returns {integer}
 */
-shaunlusk.Screen.prototype.getHeight = function() {return this._height;};
+SL.Screen.prototype.getHeight = function() {return this._height;};
 
 /** Return the x-scale.
 * @returns {integer}
 */
-shaunlusk.Screen.prototype.getScaleX = function() {return this._scaleX;};
+SL.Screen.prototype.getScaleX = function() {return this._scaleX;};
 
 /** Return the y-scale.
 * @returns {integer}
 */
-shaunlusk.Screen.prototype.getScaleY = function() {return this._scaleY;};
+SL.Screen.prototype.getScaleY = function() {return this._scaleY;};
 
 /** Return the current x coordinate of the mouse.
 * @returns {integer}
 */
-shaunlusk.Screen.prototype.getMouseX = function() {return this._mouseX;};
+SL.Screen.prototype.getMouseX = function() {return this._mouseX;};
 
 /** Return the current y coordinate of the mouse.
 * @returns {integer}
 */
-shaunlusk.Screen.prototype.getMouseY = function() {return this._mouseY;};
+SL.Screen.prototype.getMouseY = function() {return this._mouseY;};
 
-/** Create a new {@link shaunlusk.Layer} and add it to this screen.  Layers will be rendered in FIFO order,
+/** Create a new {@link SL.Layer} and add it to this screen.  Layers will be rendered in FIFO order,
 * so layers added later will be drawn on top of layers added earlier.
 * @param {string} type The type of layer to add - either "TextLayer" or "GfxLayer"
-* @see shaunlusk.Layer
+* @see SL.Layer
 */
-shaunlusk.Screen.prototype.createLayer = function(type, props) {
+SL.Screen.prototype.createLayer = function(type, props) {
   var canvas = this.createCanvasForLayer();
   props = props || {};
   props.width = this.getWidth();
@@ -206,7 +206,7 @@ shaunlusk.Screen.prototype.createLayer = function(type, props) {
   return layer;
 };
 
-shaunlusk.Screen.prototype.createCanvasForLayer = function() {
+SL.Screen.prototype.createCanvasForLayer = function() {
   var canvas = document.createElement("CANVAS");
   this._targetDiv.appendChild(canvas);
   canvas.width = this._width;
@@ -215,33 +215,33 @@ shaunlusk.Screen.prototype.createCanvasForLayer = function() {
   return canvas;
 };
 
-/** Add a new  {@link shaunlusk.Layer} to this screen.  The preferred method of adding layers
+/** Add a new  {@link SL.Layer} to this screen.  The preferred method of adding layers
 * is via the createLayer() method, but this will also work.
 * Layers will be rendered in FIFO order,
 * so layers added later will be drawn on top of layers added earlier.
-* @param {shaunlusk.Layer} layer The layer to add to the screen.
-* @see shaunlusk.Layer
+* @param {SL.Layer} layer The layer to add to the screen.
+* @see SL.Layer
 */
-shaunlusk.Screen.prototype.addLayer = function(layer) {
+SL.Screen.prototype.addLayer = function(layer) {
   this._layers.push(layer);
 };
 
 /** Return the array of layers.
 * @returns {Array}
 */
-shaunlusk.Screen.prototype.getLayers = function() {
+SL.Screen.prototype.getLayers = function() {
   return this._layers;
 };
 
 /** Pause or unpause the screen.
 * @param {boolean} boolean true = pause the screen; false = unpause the screen.
 */
-shaunlusk.Screen.prototype.setPaused = function(boolean) {
+SL.Screen.prototype.setPaused = function(boolean) {
   if (this._paused && !boolean) this._unpaused = true;
   this._paused = boolean;
   this.notify(
-    new shaunlusk.Event(
-      this._paused ? shaunlusk.EventType.SCREEN_PAUSED : shaunlusk.EventType.SCREEN_RESUMED
+    new SL.Event(
+      this._paused ? SL.EventType.SCREEN_PAUSED : SL.EventType.SCREEN_RESUMED
     )
   );
   if (!this._paused) requestAnimationFrame(this.render.bind(this));
@@ -250,12 +250,12 @@ shaunlusk.Screen.prototype.setPaused = function(boolean) {
 /** Return whether the screen is paused
 * @returns {boolean}
 */
-shaunlusk.Screen.prototype.isPaused = function() {return this._paused;};
+SL.Screen.prototype.isPaused = function() {return this._paused;};
 
 /** Render the screen and all layers.
 * @param {number} time The current time in milliseconds.
 */
-shaunlusk.Screen.prototype.render = function(time) {
+SL.Screen.prototype.render = function(time) {
   time = time || 1;
   if (this._paused || this._tabNotVisible) return;
   if (this._unpaused) {
@@ -272,7 +272,7 @@ shaunlusk.Screen.prototype.render = function(time) {
   }
 
   this.notify(
-    new shaunlusk.Event(shaunlusk.EventType.BEFORE_RENDER, {diff:diff}, time)
+    new SL.Event(SL.EventType.BEFORE_RENDER, {diff:diff}, time)
   );
 
   this._updateFps(diff);
@@ -281,7 +281,7 @@ shaunlusk.Screen.prototype.render = function(time) {
   this._render(time,diff);
 
   this.notify(
-    new shaunlusk.Event(shaunlusk.EventType.AFTER_RENDER,  {diff:diff}, time)
+    new SL.Event(SL.EventType.AFTER_RENDER,  {diff:diff}, time)
   );
 
   elapsed = Date.now() - elapsed;
@@ -292,9 +292,9 @@ shaunlusk.Screen.prototype.render = function(time) {
 };
 
 /** @private */
-shaunlusk.Screen.prototype._handleMouseMoveEvent = function(time) {
-  var event = new shaunlusk.Event(
-    shaunlusk.EventType.MOUSE_MOVE,
+SL.Screen.prototype._handleMouseMoveEvent = function(time) {
+  var event = new SL.Event(
+    SL.EventType.MOUSE_MOVE,
     {
       x : this.getUnScaledX(this._mouseX),
       y : this.getUnScaledX(this._mouseY),
@@ -311,7 +311,7 @@ shaunlusk.Screen.prototype._handleMouseMoveEvent = function(time) {
 };
 
 /** @private */
-shaunlusk.Screen.prototype._updateFps = function(diff) {
+SL.Screen.prototype._updateFps = function(diff) {
   if (this._fpsElem) {
     var fps = Math.floor(1000 / diff);
     if (this._fpsMonitorArray.length < 30){
@@ -332,14 +332,14 @@ shaunlusk.Screen.prototype._updateFps = function(diff) {
 };
 
 /** @private */
-shaunlusk.Screen.prototype._update = function (time,diff) {
+SL.Screen.prototype._update = function (time,diff) {
   for (var i = 0; i < this._layers.length; i++) {
     this._layers[i].update(time,diff);
   }
 };
 
 /** @private */
-shaunlusk.Screen.prototype._render = function(time,diff) {
+SL.Screen.prototype._render = function(time,diff) {
   for (var i = 0; i < this._layers.length; i++) {
     this._layers[i].render(time,diff);
   }
@@ -350,7 +350,7 @@ shaunlusk.Screen.prototype._render = function(time,diff) {
 * The event will be propagated during the next render cycle.
 * @param {Event} e The mouse event
 */
-shaunlusk.Screen.prototype.handleMouseMoveEvent = function(e) {
+SL.Screen.prototype.handleMouseMoveEvent = function(e) {
   if (this._paused) return false;
   this._mouseMoved = true;
   var x = this.getXFromMouseEvent(e);
@@ -368,7 +368,7 @@ shaunlusk.Screen.prototype.handleMouseMoveEvent = function(e) {
 /** Handles mouse up and mouse down events; notifies any local handlers and propagates the event to all layers.
 * @param {Event} e The mouse event
 */
-shaunlusk.Screen.prototype.handleMouseEvent = function(e) {
+SL.Screen.prototype.handleMouseEvent = function(e) {
   if (this._paused) return false;
   var scaledX = this.getXFromMouseEvent(e);
   var scaledY = this.getYFromMouseEvent(e);
@@ -379,8 +379,8 @@ shaunlusk.Screen.prototype.handleMouseEvent = function(e) {
   var x = this.getUnScaledX(scaledX);
   var y = this.getUnScaledY(scaledY);
 
-  var type = e.type === "mouseup" ? shaunlusk.EventType.MOUSE_UP : shaunlusk.EventType.MOUSE_DOWN;
-  var event = new shaunlusk.Event(
+  var type = e.type === "mouseup" ? SL.EventType.MOUSE_UP : SL.EventType.MOUSE_DOWN;
+  var event = new SL.Event(
     type,
     {
       x : x,
@@ -398,7 +398,7 @@ shaunlusk.Screen.prototype.handleMouseEvent = function(e) {
 };
 
 /** @private */
-shaunlusk.Screen.prototype.propagateMouseEventThroughLayers = function(event) {
+SL.Screen.prototype.propagateMouseEventThroughLayers = function(event) {
   for (var i = 0; i < this._layers.length; i++) {
     this._layers[i].handleMouseEvent(event);
   }
@@ -407,27 +407,27 @@ shaunlusk.Screen.prototype.propagateMouseEventThroughLayers = function(event) {
 /** Return the x coordinate from a mouse event.  Accounts for screen position.
 * @param {Event} e Mouse Event
 */
-shaunlusk.Screen.prototype.getXFromMouseEvent = function(e) {
+SL.Screen.prototype.getXFromMouseEvent = function(e) {
   return (e.pageX - (this._targetDiv.offsetLeft + this._borderSize));
 };
 
 /** Return the y coordinate from a mouse event.  Accounts for screen position.
 * @param {Event} e Mouse Event
 */
-shaunlusk.Screen.prototype.getYFromMouseEvent = function(e) {
+SL.Screen.prototype.getYFromMouseEvent = function(e) {
   return (e.pageY - (this._targetDiv.offsetTop + this._borderSize));
 };
 
 /** Return an x value with scale removed.
 * @param {Event} e Mouse Event
 */
-shaunlusk.Screen.prototype.getUnScaledX = function(x) {
+SL.Screen.prototype.getUnScaledX = function(x) {
   return Math.floor(x / this._scaleX);
 };
 
 /** Return an x value with scale removed.
 * @param {Event} e Mouse Event
 */
-shaunlusk.Screen.prototype.getUnScaledY = function(y) {
+SL.Screen.prototype.getUnScaledY = function(y) {
   return Math.floor(y / this._scaleY);
 };

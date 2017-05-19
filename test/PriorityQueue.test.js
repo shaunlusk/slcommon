@@ -1,7 +1,7 @@
 describe("PriorityQueue",function(){
   describe("push pop", function() {
     it("should pop in ascending order", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(50) );
       q.push( getPriorityQueueElement(20) );
       q.push( getPriorityQueueElement(10) );
@@ -22,7 +22,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("should pop in descending order when invertPriority is set.", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.setInvertPriority(true);
       q.push( getPriorityQueueElement(50) );
       q.push( getPriorityQueueElement(20) );
@@ -44,14 +44,14 @@ describe("PriorityQueue",function(){
       done();
     });
     it("should return null when queue is empty.", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       assert( q.pop() === null, "should have returned null.");
       done();
     });
   });
   describe("#sort()",function(){
     it("should sort a tiny list ascending", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(2) );
       q.push( getPriorityQueueElement(1) );
       //q.sort();
@@ -60,7 +60,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("should sort a tiny list descending", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.setInvertPriority(true);
       q.push( getPriorityQueueElement(1) );
       q.push( getPriorityQueueElement(2) );
@@ -71,7 +71,7 @@ describe("PriorityQueue",function(){
     });
     it("should sort a larger list ascending", function(done){
       var i;
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       var arr = [40,48,81,26,67,66,38,76,38,97,45,89,83,40,64,24,75,9,68,84,2,40,89,43,89,95,70,6,2,96,9,80,41,84,78,73,78,18,16,52,90,96,69,30,62,65,69,20,50,73,33,84,57,46,73,22,22,46,97,74,32,8,8,61,76,93,96,90,94,25,85,23,50,85,25,66,3,89,27,26,76,40,74,58,100,39,9,76,38,48,23,56,86,32,21,68,93,62,86,73];
       var sorted = [2,2,3,6,8,8,9,9,9,16,18,20,21,22,22,23,23,24,25,25,26,26,27,30,32,32,33,38,38,38,39,40,40,40,40,41,43,45,46,46,48,48,50,50,52,56,57,58,61,62,62,64,65,66,66,67,68,68,69,69,70,73,73,73,73,74,74,75,76,76,76,76,78,78,80,81,83,84,84,84,85,85,86,86,89,89,89,89,90,90,93,93,94,95,96,96,96,97,97,100];
       for (i = 0; i < arr.length; i++) {
@@ -87,7 +87,7 @@ describe("PriorityQueue",function(){
     });
     it("should sort a list ascending", function(done){
       var i;
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       var arr = [9,4,8,8,10];
       var sorted = [4,8,8,9,10];
       for (i = 0; i < arr.length; i++) {
@@ -115,7 +115,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("should sort a larger list descending", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.setInvertPriority(true);
       var arr = [57,7,88,74,34,97,84,34,57,39,11,41,13,48,41,60,84,89,16,71,100,25,63,12,44,56,68,72,99,74,4,44,38,30,32,28,8,84,22,15,38,65,93,53,54,90,51,28,10,34,13,19,4,95,70,19,82,30,77,43,56,14,63,18,48,23,26,5,23,6,38,70,43,48,100,57,59,12,65,61,44,24,49,42,60,68,72,20,55,3,75,78,59,83,94,76,29,99,95,79];
       var sorted = [100,100,99,99,97,95,95,94,93,90,89,88,84,84,84,83,82,79,78,77,76,75,74,74,72,72,71,70,70,68,68,65,65,63,63,61,60,60,59,59,57,57,57,56,56,55,54,53,51,49,48,48,48,44,44,44,43,43,42,41,41,39,38,38,38,34,34,34,32,30,30,29,28,28,26,25,24,23,23,22,20,19,19,18,16,15,14,13,13,12,12,11,10,8,7,6,5,4,4,3];
@@ -132,7 +132,7 @@ describe("PriorityQueue",function(){
   });
   describe("#setInvertPriority()", function(){
     it("should reorder queue descending when set true.", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
       q.push( getPriorityQueueElement(2) );
       q.push( getPriorityQueueElement(3) );
@@ -142,7 +142,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("should reorder queue ascending when set false.", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.setInvertPriority(true);
       q.push( getPriorityQueueElement(3) );
       q.push( getPriorityQueueElement(2) );
@@ -156,7 +156,7 @@ describe("PriorityQueue",function(){
   });
   describe("#increaseKey()", function() {
     it("it should increase the priority of the element", function(done) {
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
       var e = getPriorityQueueElement(8);
       q.push( e );
@@ -176,7 +176,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("it should increase the priority of the element when the priority is inverted", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.setInvertPriority(true);
       q.push( getPriorityQueueElement(1) );
       var e = getPriorityQueueElement(2);
@@ -197,7 +197,7 @@ describe("PriorityQueue",function(){
   });
   describe("#decreaseKey()", function(){
     it("it should decrease the priority of the element", function(done) {
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
       var e = getPriorityQueueElement(2);
       q.push( e );
@@ -216,7 +216,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("it should decrease the priority of the element when the priority is inverted", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.setInvertPriority(true);
       q.push( getPriorityQueueElement(2) );
       var e = getPriorityQueueElement(5);
@@ -236,7 +236,7 @@ describe("PriorityQueue",function(){
   });
   describe("#getByIndex()", function() {
     it("should return the element at the specified index.", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
       q.push( getPriorityQueueElement(2) );
       q.push( getPriorityQueueElement(3) );
@@ -247,7 +247,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("should throw exception when index is out of bounds", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
       q.push( getPriorityQueueElement(2) );
       q.push( getPriorityQueueElement(3) );
@@ -261,7 +261,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("should throw exception when index is < 0", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
       q.push( getPriorityQueueElement(2) );
       q.push( getPriorityQueueElement(3) );
@@ -277,7 +277,7 @@ describe("PriorityQueue",function(){
   });
   describe("#getByEquality()", function() {
     it("should return the element when it is found", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
       q.push( getPriorityQueueElement(2) );
       var e = getPriorityQueueElement(3);
@@ -291,7 +291,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("should return null when element is not found", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
       q.push( getPriorityQueueElement(2) );
       var e = getPriorityQueueElement(3);
@@ -306,7 +306,7 @@ describe("PriorityQueue",function(){
   });
   describe("#contains()", function() {
     it("should return true when the element is found", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
       q.push( getPriorityQueueElement(2) );
       var e = getPriorityQueueElement(3);
@@ -320,7 +320,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("should return false when the element is not found", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
       q.push( getPriorityQueueElement(2) );
       var e = getPriorityQueueElement(3);
@@ -335,7 +335,7 @@ describe("PriorityQueue",function(){
   });
   describe("#_verifyHeap()", function() {
     it("should return true when heap is valid", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
       q.push( getPriorityQueueElement(2) );
       q.push( getPriorityQueueElement(3) );
@@ -348,7 +348,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("should return true when heap is valid and priority has been inverted", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.setInvertPriority(true);
       q.push( getPriorityQueueElement(1) );
       q.push( getPriorityQueueElement(2) );
@@ -362,7 +362,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("should return false when heap has been manually tampered with in such a way that it is no longer valid.", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
       q.push( getPriorityQueueElement(2) );
       q.push( getPriorityQueueElement(3) );
@@ -378,7 +378,7 @@ describe("PriorityQueue",function(){
   });
   describe("#remove()", function() {
     it("should remove the specified element.", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
       q.push( getPriorityQueueElement(2) );
       var e = getPriorityQueueElement(3);
@@ -395,7 +395,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("should do nothing if the specified element is not found.", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
       q.push( getPriorityQueueElement(2) );
       var e = getPriorityQueueElement(3);
@@ -411,7 +411,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("should do nothing no elements in queue.", function(done){
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       var e = getPriorityQueueElement(3);
       var size = q.size();
       q.remove(e);
@@ -423,7 +423,7 @@ describe("PriorityQueue",function(){
   });
   describe("#clear()", function() {
     it("should set heap size to 0", function(done) {
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(50) );
       q.push( getPriorityQueueElement(20) );
       q.push( getPriorityQueueElement(10) );
@@ -439,7 +439,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("after clear, peek should return null", function(done) {
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(50) );
       q.push( getPriorityQueueElement(20) );
       q.push( getPriorityQueueElement(10) );
@@ -455,7 +455,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("after clear, pop should return null", function(done) {
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(50) );
       q.push( getPriorityQueueElement(20) );
       q.push( getPriorityQueueElement(10) );
@@ -471,7 +471,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("after clear, then push, size should be 1, peek should return newly added element", function(done) {
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(50) );
       q.push( getPriorityQueueElement(20) );
       q.push( getPriorityQueueElement(10) );
@@ -488,7 +488,7 @@ describe("PriorityQueue",function(){
       done();
     });
     it("after clear, multiple pushes should be ordered properly", function(done) {
-      var q = new shaunlusk.PriorityQueue();
+      var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(50) );
       q.push( getPriorityQueueElement(20) );
       q.push( getPriorityQueueElement(10) );

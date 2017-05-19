@@ -2,7 +2,7 @@ describe("Queue", function() {
   var q;
 
   beforeEach(function() {
-    q = new shaunlusk.Queue();
+    q = new SL.Queue();
   });
 
   describe("#push()", function() {
@@ -53,7 +53,7 @@ describe("Queue", function() {
     it("should return new iterator", function(done) {
       var result = q.newIterator();
 
-      assert(result instanceof shaunlusk.QueueIterator, "should have returned queue iterator");
+      assert(result instanceof SL.QueueIterator, "should have returned queue iterator");
       done();
     });
   });
@@ -169,11 +169,11 @@ describe("QueueIterator", function() {
       elem:"item2",
       next:item1
     };
-    qi = new shaunlusk.QueueIterator(item2);
+    qi = new SL.QueueIterator(item2);
   });
   describe("#getCurrent()", function() {
     it("should return null", function(done) {
-      qi = new shaunlusk.QueueIterator(null);
+      qi = new SL.QueueIterator(null);
       var result = qi.getCurrent();
       assert(result === null, "should have returned null");
       done();

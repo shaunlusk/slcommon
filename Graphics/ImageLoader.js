@@ -1,4 +1,4 @@
-var shaunlusk = shaunlusk || {};
+var SL = SL || {};
 
 /**
 * @class
@@ -6,13 +6,13 @@ var shaunlusk = shaunlusk || {};
 * @param imagesHash : format imageId:{path:path}
 * e.g.,: warriorSpriteImage1:{path:"images/warrior1Sprite.png"}
 */
-shaunlusk.ImageLoader = function(imagesHash) {
+SL.ImageLoader = function(imagesHash) {
   this.imagesHash = imagesHash;
   this.imageCount = 0;
   this.imageLoadedCounter = 0;
 };
 
-shaunlusk.ImageLoader.prototype.loadImages = function(callback) {
+SL.ImageLoader.prototype.loadImages = function(callback) {
   this.imagesDoneLoadingCallback = callback;
   var keys = Object.keys(this.imagesHash);
   this.imageCount = keys.length;
@@ -25,7 +25,7 @@ shaunlusk.ImageLoader.prototype.loadImages = function(callback) {
   }
 };
 
-shaunlusk.ImageLoader.prototype.loadImagesCallback = function() {
+SL.ImageLoader.prototype.loadImagesCallback = function() {
   this.imageLoadedCounter++;
   if (this.imageLoadedCounter === this.imageCount) {
     this.imagesDoneLoadingCallback(this.imagesHash);

@@ -2,7 +2,7 @@ describe("ImageRenderer", function() {
   describe("#renderImage()", function() {
     it("should call drawImage on context", function(done) {
       var screenScaleX = 2, screenScaleY = 2;
-      var renderer = new shaunlusk.ImageRenderer(screenScaleX, screenScaleY);
+      var renderer = new SL.ImageRenderer(screenScaleX, screenScaleY);
       var context = {
         drawImage : function(image, sx, sy, sWidth, sHeight, tx, ty, tWidth, tHeight) {
           this.sx = sx;

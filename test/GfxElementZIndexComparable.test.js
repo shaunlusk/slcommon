@@ -1,7 +1,7 @@
 describe("GfxElementZIndexComparable", function() {
   var zIndexComparable;
   beforeEach(function(){
-    zIndexComparable = new shaunlusk.GfxElementZIndexComparable();
+    zIndexComparable = new SL.GfxElementZIndexComparable();
   });
   describe("#getElement()", function() {
     it("should return element", function(done) {
@@ -18,7 +18,7 @@ describe("GfxElementZIndexComparable", function() {
       zIndexComparable._parentElement = {
         getZIndex : function() {return 0;}
       };
-      var other = new shaunlusk.GfxElementZIndexComparable({
+      var other = new SL.GfxElementZIndexComparable({
         getZIndex : function() {return 1;}
       });
       var expected = -1;
@@ -31,7 +31,7 @@ describe("GfxElementZIndexComparable", function() {
       zIndexComparable._parentElement = {
         getZIndex : function() {return 0;}
       };
-      var other = new shaunlusk.GfxElementZIndexComparable({
+      var other = new SL.GfxElementZIndexComparable({
         getZIndex : function() {return 0;}
       });
       var expected = 0;
@@ -44,7 +44,7 @@ describe("GfxElementZIndexComparable", function() {
       zIndexComparable._parentElement = {
         getZIndex : function() {return 2;}
       };
-      var other = new shaunlusk.GfxElementZIndexComparable({
+      var other = new SL.GfxElementZIndexComparable({
         getZIndex : function() {return 1;}
       });
       var expected = 1;
@@ -59,7 +59,7 @@ describe("GfxElementZIndexComparable", function() {
       zIndexComparable._parentElement = {
         getZIndex : function() {return 1;}
       };
-      var other = new shaunlusk.GfxElementZIndexComparable({
+      var other = new SL.GfxElementZIndexComparable({
         getZIndex : function() {return 1;}
       });
       var expected = true;
@@ -72,7 +72,7 @@ describe("GfxElementZIndexComparable", function() {
       zIndexComparable._parentElement = {
         getZIndex : function() {return 1;}
       };
-      var other = new shaunlusk.GfxElementZIndexComparable({
+      var other = new SL.GfxElementZIndexComparable({
         getZIndex : function() {return 2;}
       });
       var expected = false;

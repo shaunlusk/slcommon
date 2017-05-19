@@ -1,17 +1,17 @@
-var shaunlusk = shaunlusk || {};
+var SL = SL || {};
 
-shaunlusk.renderWithRotation = function (context, x, y, rotation, renderCallback) {
+SL.renderWithRotation = function (context, x, y, rotation, renderCallback) {
   context.save();
-  shaunlusk.translateAndRotateCanvasContext(context, x, y, rotation);
+  SL.translateAndRotateCanvasContext(context, x, y, rotation);
   renderCallback();
   context.restore();
 };
 
-shaunlusk.translateAndRotateCanvasContext = function (context, x, y, rotation) {
+SL.translateAndRotateCanvasContext = function (context, x, y, rotation) {
   context.translate(x, y);
   context.rotate(rotation);
 };
 
-shaunlusk.clearCanvasContext = function (context) {
+SL.clearCanvasContext = function (context) {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 };

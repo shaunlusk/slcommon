@@ -1,13 +1,13 @@
-var shaunlusk = shaunlusk || {};
+var SL = SL || {};
 
-shaunlusk.Utils = {};
+SL.Utils = {};
 
 /** Check whether the argument is a function.
 * @memberof C64Style
 * @param {Object} callback The object to check.
 * @returns {boolean} true if it is a function, false otherwise.
 */
-shaunlusk.isFunction = function(callback) {return typeof callback === "function";};
+SL.isFunction = function(callback) {return typeof callback === "function";};
 
 /** Search an array for a given value, using an equality function; returns the index
 * of the first occurence in the array, or -1 if not found.
@@ -18,17 +18,17 @@ shaunlusk.isFunction = function(callback) {return typeof callback === "function"
 *   Should retruen true when elements are equal, false otherwise.
 * @returns {integer} The index of the located value, or -1 if not found
 */
-shaunlusk.linSearch = function(array, value, equalityFunction) {
+SL.linSearch = function(array, value, equalityFunction) {
   for (var i = 0; i < array.length; i++) {
     if (equalityFunction(array[i], value)) return i;
   }
   return -1;
 };
 
-shaunlusk.isNullOrUndefined = function(value) {
+SL.isNullOrUndefined = function(value) {
   return value === null || value === undefined;
 };
 
-shaunlusk.degreesToRadians = function(degrees) {
+SL.degreesToRadians = function(degrees) {
   return (degrees / 180) * Math.PI;
 };

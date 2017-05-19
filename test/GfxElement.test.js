@@ -113,14 +113,14 @@ describe("GfxElement", function() {
   });
   describe("#getTotalScaleX()", function() {
     it("should return total scalex", function() {
-      element = new shaunlusk.GfxElement(shaunlusk.Mocks.getMockScreen({scaleX:2}), shaunlusk.Mocks.getMockLayer(), {scaleX:3});
+      element = new SL.GfxElement(SL.Mocks.getMockScreen({scaleX:2}), SL.Mocks.getMockLayer(), {scaleX:3});
       var scaleX = element.getTotalScaleX();
       assert(scaleX === element.getElementScaleX() * element.getScreenScaleX());
     });
   });
   describe("#getTotalScaleY()", function() {
     it("should return total scaley", function() {
-      element = new shaunlusk.GfxElement(shaunlusk.Mocks.getMockScreen({scaleY:4}), shaunlusk.Mocks.getMockLayer(), {scaleY:7});
+      element = new SL.GfxElement(SL.Mocks.getMockScreen({scaleY:4}), SL.Mocks.getMockLayer(), {scaleY:7});
       var scaleY = element.getTotalScaleY();
       assert(scaleY === element.getElementScaleY() * element.getScreenScaleY());
     });
@@ -240,7 +240,7 @@ describe("GfxElement", function() {
       var expectedX = 0, expectedY = 0;
       element._xMoveRate = 10;
       element.setMoveRates(expectedX, expectedY);
-      assert(result === shaunlusk.EventType.ELEMENT_STOPPED_MOVING, "should have notified of element stopping");
+      assert(result === SL.EventType.ELEMENT_STOPPED_MOVING, "should have notified of element stopping");
       done();
     });
     it("should notify element started moving", function(done) {
@@ -250,7 +250,7 @@ describe("GfxElement", function() {
       };
       var expectedX = 10, expectedY = 2;
       element.setMoveRates(expectedX, expectedY);
-      assert(result === shaunlusk.EventType.ELEMENT_STARTED_MOVING, "should have notified of element starting");
+      assert(result === SL.EventType.ELEMENT_STARTED_MOVING, "should have notified of element starting");
       done();
     });
   });
@@ -294,7 +294,7 @@ describe("GfxElement", function() {
       };
       var x = 10, y = 10, duration = 200;
       element.moveTo(x, y, duration);
-      assert(result === shaunlusk.EventType.ELEMENT_STARTED_MOVING, "should have notified");
+      assert(result === SL.EventType.ELEMENT_STARTED_MOVING, "should have notified");
       done();
     });
   });
@@ -320,7 +320,7 @@ describe("GfxElement", function() {
 
       element._runMove();
 
-      assert(result === shaunlusk.EventType.ELEMENT_STOPPED_MOVING, "should have notified element stopped");
+      assert(result === SL.EventType.ELEMENT_STOPPED_MOVING, "should have notified element stopped");
       done();
     });
   });
@@ -439,7 +439,7 @@ describe("GfxElement", function() {
 
       element.update(1,1);
 
-      assert(result === shaunlusk.EventType.ELEMENT_MOVED, "should have notified");
+      assert(result === SL.EventType.ELEMENT_MOVED, "should have notified");
       done();
     });
     it("should return element", function(done) {
@@ -596,7 +596,7 @@ describe("GfxElement", function() {
 
       element.collidesWith(other);
 
-      assert(result === shaunlusk.EventType.ELEMENT_COLLISION, "should have notified");
+      assert(result === SL.EventType.ELEMENT_COLLISION, "should have notified");
       done();
     });
   });
@@ -804,35 +804,35 @@ describe("GfxElement", function() {
     });
     it("should notify MOUSE_MOVE_OVER_ELEMENT", function(done) {
       var event = {
-        type : shaunlusk.EventType.MOUSE_MOVE,
+        type : SL.EventType.MOUSE_MOVE,
         data : {x:0, y:0, row:0, col:0, time:0}
       };
 
       element.handleMouseEvent(event);
 
-      assert(result === shaunlusk.EventType.MOUSE_MOVE_OVER_ELEMENT, "should have notified with MOUSE_MOVE_OVER_ELEMENT");
+      assert(result === SL.EventType.MOUSE_MOVE_OVER_ELEMENT, "should have notified with MOUSE_MOVE_OVER_ELEMENT");
       done();
     });
     it("should notify MOUSE_DOWN_ON_ELEMENT", function(done) {
       var event = {
-        type : shaunlusk.EventType.MOUSE_DOWN,
+        type : SL.EventType.MOUSE_DOWN,
         data : {x:0, y:0, row:0, col:0, time:0}
       };
 
       element.handleMouseEvent(event);
 
-      assert(result === shaunlusk.EventType.MOUSE_DOWN_ON_ELEMENT, "should have notified with MOUSE_DOWN_ON_ELEMENT");
+      assert(result === SL.EventType.MOUSE_DOWN_ON_ELEMENT, "should have notified with MOUSE_DOWN_ON_ELEMENT");
       done();
     });
     it("should notify MOUSE_UP_ON_ELEMENT", function(done) {
       var event = {
-        type : shaunlusk.EventType.MOUSE_UP,
+        type : SL.EventType.MOUSE_UP,
         data : {x:0, y:0, row:0, col:0, time:0}
       };
 
       element.handleMouseEvent(event);
 
-      assert(result === shaunlusk.EventType.MOUSE_UP_ON_ELEMENT, "should have notified with MOUSE_UP_ON_ELEMENT");
+      assert(result === SL.EventType.MOUSE_UP_ON_ELEMENT, "should have notified with MOUSE_UP_ON_ELEMENT");
       done();
     });
   });
@@ -904,13 +904,13 @@ describe("GfxElement", function() {
   describe("#getZIndexComparable()", function() {
     it("should return zindex comparable", function(done) {
       var result = element.getZIndexComparable();
-      assert(result instanceof shaunlusk.GfxElementZIndexComparable, "should have returned zindexComparable");
+      assert(result instanceof SL.GfxElementZIndexComparable, "should have returned zindexComparable");
       done();
     });
   });
 });
 
 function getGfxElement(props) {
-  var element = new shaunlusk.GfxElement(shaunlusk.Mocks.getMockScreen(), shaunlusk.Mocks.getMockLayer(), props);
+  var element = new SL.GfxElement(SL.Mocks.getMockScreen(), SL.Mocks.getMockLayer(), props);
   return element;
 }

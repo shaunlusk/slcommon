@@ -1,14 +1,14 @@
 describe("GfxLayer", function() {
   var gfxLayer, mockElement;
   beforeEach(function() {
-    gfxLayer = new shaunlusk.GfxLayer();
-    mockElement = shaunlusk.Mocks.getMockGfxElement({id:"mockElement"});
+    gfxLayer = new SL.GfxLayer();
+    mockElement = SL.Mocks.getMockGfxElement({id:"mockElement"});
     gfxLayer.addElement(mockElement);
   });
   describe("#addElement()", function() {
     it("should add an element to _elements array.", function(done) {
-      var gfxLayer = new shaunlusk.GfxLayer();
-      var mockElement = shaunlusk.Mocks.getMockGfxElement();
+      var gfxLayer = new SL.GfxLayer();
+      var mockElement = SL.Mocks.getMockGfxElement();
 
       gfxLayer.addElement(mockElement);
 
@@ -63,7 +63,7 @@ describe("GfxLayer", function() {
       gfxLayer._handleCollisions = function() {};
       gfxLayer._checkBorderCollision = function() {};
       mockElement.update = function() {this.calledIt = true;};
-      var mockElement2 = shaunlusk.Mocks.getMockGfxElement({id:"mockElement2"});
+      var mockElement2 = SL.Mocks.getMockGfxElement({id:"mockElement2"});
       mockElement2.update = function() {this.calledIt = true;};
       gfxLayer.addElement(mockElement2);
 
@@ -78,7 +78,7 @@ describe("GfxLayer", function() {
       var calledItCount = 0;
       gfxLayer._checkBorderCollision = function() {calledItCount++;};
       mockElement.update = function() {};
-      var mockElement2 = shaunlusk.Mocks.getMockGfxElement({id:"mockElement2"});
+      var mockElement2 = SL.Mocks.getMockGfxElement({id:"mockElement2"});
       gfxLayer._checkBorderCollision = function() {calledItCount++;};
       mockElement2.update = function() {};
       gfxLayer.addElement(mockElement2);
@@ -121,9 +121,9 @@ describe("GfxLayer", function() {
   });
   describe("#_collisionCheckElementsIfNeeded()", function() {
     it("should call collision check if either element is visible or not dirty", function(done) {
-      var mockElement1 = shaunlusk.Mocks.getMockGfxElement({dirty:true});
+      var mockElement1 = SL.Mocks.getMockGfxElement({dirty:true});
       mockElement1.collidesWith = function() {this.calledIt = true;};
-      var mockElement2 = shaunlusk.Mocks.getMockGfxElement({hidden:true});
+      var mockElement2 = SL.Mocks.getMockGfxElement({hidden:true});
 
       gfxLayer._collisionCheckElementsIfNeeded(mockElement1,mockElement2);
 
@@ -132,9 +132,9 @@ describe("GfxLayer", function() {
     });
     it("should not call update on collision if collisionCheck is false", function(done) {
       gfxLayer._updateElementOnCollision = function() {this.calledIt = true;};
-      var mockElement1 = shaunlusk.Mocks.getMockGfxElement();
+      var mockElement1 = SL.Mocks.getMockGfxElement();
       mockElement1.collidesWith = function() {return false;};
-      var mockElement2 = shaunlusk.Mocks.getMockGfxElement();
+      var mockElement2 = SL.Mocks.getMockGfxElement();
 
       gfxLayer._collisionCheckElementsIfNeeded(mockElement1,mockElement2);
 
@@ -144,9 +144,9 @@ describe("GfxLayer", function() {
     it("should call updateOnCollision for each element if collisionCheck is true", function(done) {
       gfxLayer.calledItCount = 0;
       gfxLayer._updateElementOnCollision = function() {this.calledItCount++;};
-      var mockElement1 = shaunlusk.Mocks.getMockGfxElement();
+      var mockElement1 = SL.Mocks.getMockGfxElement();
       mockElement1.collidesWith = function() {return true;};
-      var mockElement2 = shaunlusk.Mocks.getMockGfxElement();
+      var mockElement2 = SL.Mocks.getMockGfxElement();
 
       gfxLayer._collisionCheckElementsIfNeeded(mockElement1,mockElement2);
 
@@ -156,7 +156,7 @@ describe("GfxLayer", function() {
   });
   describe("#_updateElementOnCollision()", function() {
     it("should set element hasCollision", function(done) {
-      var mockElement1 = shaunlusk.Mocks.getMockGfxElement();
+      var mockElement1 = SL.Mocks.getMockGfxElement();
 
       gfxLayer._updateElementOnCollision(mockElement1);
 
@@ -164,7 +164,7 @@ describe("GfxLayer", function() {
       done();
     });
     it("should set element dirty", function(done) {
-      var mockElement1 = shaunlusk.Mocks.getMockGfxElement();
+      var mockElement1 = SL.Mocks.getMockGfxElement();
 
       gfxLayer._updateElementOnCollision(mockElement1);
 
@@ -172,7 +172,7 @@ describe("GfxLayer", function() {
       done();
     });
     it("should add element to dirty elements list, if wasn't dirty", function(done) {
-      var mockElement1 = shaunlusk.Mocks.getMockGfxElement();
+      var mockElement1 = SL.Mocks.getMockGfxElement();
 
       gfxLayer._updateElementOnCollision(mockElement1);
 
@@ -180,7 +180,7 @@ describe("GfxLayer", function() {
       done();
     });
     it("should add element to dirty elements list, even if was dirty", function(done) {
-      var mockElement1 = shaunlusk.Mocks.getMockGfxElement({dirty:true});
+      var mockElement1 = SL.Mocks.getMockGfxElement({dirty:true});
 
       gfxLayer._updateElementOnCollision(mockElement1);
 
@@ -190,7 +190,7 @@ describe("GfxLayer", function() {
   });
   describe("#render()", function() {
     it("should call clear on dirtyElements", function(done) {
-      var mockElement1 = shaunlusk.Mocks.getMockGfxElement();
+      var mockElement1 = SL.Mocks.getMockGfxElement();
       mockElement1.clear = function() {this.calledIt = true;};
       gfxLayer._dirtyElements.push(mockElement1.getZIndexComparable());
 
@@ -200,7 +200,7 @@ describe("GfxLayer", function() {
       done();
     });
     it("should call render on dirtyElements", function(done) {
-      var mockElement1 = shaunlusk.Mocks.getMockGfxElement();
+      var mockElement1 = SL.Mocks.getMockGfxElement();
       mockElement1.render = function() {this.calledIt = true;};
       gfxLayer._dirtyElements.push(mockElement1.getZIndexComparable());
 
@@ -251,7 +251,7 @@ describe("GfxLayer", function() {
 
       gfxLayer._checkBorderCollision(mockElement,time);
 
-      assert(notifiedWith === shaunlusk.EventType.ELEMENT_HIT_LEFT_EDGE);
+      assert(notifiedWith === SL.EventType.ELEMENT_HIT_LEFT_EDGE);
       done();
     });
     it("should notify screen when ELEMENT_HIT_RIGHT_EDGE", function(done) {
@@ -260,7 +260,7 @@ describe("GfxLayer", function() {
 
       gfxLayer._checkBorderCollision(mockElement,time);
 
-      assert(notifiedWith === shaunlusk.EventType.ELEMENT_HIT_RIGHT_EDGE);
+      assert(notifiedWith === SL.EventType.ELEMENT_HIT_RIGHT_EDGE);
       done();
     });
     it("should notify screen when ELEMENT_HIT_TOP_EDGE", function(done) {
@@ -269,7 +269,7 @@ describe("GfxLayer", function() {
 
       gfxLayer._checkBorderCollision(mockElement,time);
 
-      assert(notifiedWith === shaunlusk.EventType.ELEMENT_HIT_TOP_EDGE);
+      assert(notifiedWith === SL.EventType.ELEMENT_HIT_TOP_EDGE);
       done();
     });
     it("should notify screen when ELEMENT_HIT_BOTTOM_EDGE", function(done) {
@@ -278,14 +278,14 @@ describe("GfxLayer", function() {
 
       gfxLayer._checkBorderCollision(mockElement,time);
 
-      assert(notifiedWith === shaunlusk.EventType.ELEMENT_HIT_BOTTOM_EDGE);
+      assert(notifiedWith === SL.EventType.ELEMENT_HIT_BOTTOM_EDGE);
       done();
     });
   });
   describe("#_handleCollisions()", function() {
     var mockElement2;
     beforeEach(function() {
-      mockElement2 = shaunlusk.Mocks.getMockGfxElement({id:"mockElement2"});
+      mockElement2 = SL.Mocks.getMockGfxElement({id:"mockElement2"});
       gfxLayer.addElement(mockElement2);
     });
     it("should call _collisionCheckElementsIfNeeded on element pairs", function(done) {

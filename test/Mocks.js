@@ -1,24 +1,24 @@
-var shaunlusk = shaunlusk || {};
-shaunlusk.Mocks = {};
+var SL = SL || {};
+SL.Mocks = {};
 
-shaunlusk.Mocks.getMockLayerFactory = function(props) {
+SL.Mocks.getMockLayerFactory = function(props) {
   props = props || {};
   var factory = {
-    layer : shaunlusk.Mocks.getMockLayer(props),
+    layer : SL.Mocks.getMockLayer(props),
     getLayer : function() {return this.layer;}
   };
 
   return factory;
 };
 
-shaunlusk.Mocks.getMockLayer = function(props) {
+SL.Mocks.getMockLayer = function(props) {
   props = props || {};
   var layer = {
     getWidth : function() {return 0;},
     getHeight : function() {return 0;},
     getScreenContext : function() {return props.screenContext || null;},
     getCanvas : function() {return null;},
-    getCanvasContext : function() {return shaunlusk.Mocks.getMockCanvasContext();},
+    getCanvasContext : function() {return SL.Mocks.getMockCanvasContext();},
     update : function() {},
     render : function() {},
     handleMouseEvent : function() {},
@@ -28,7 +28,7 @@ shaunlusk.Mocks.getMockLayer = function(props) {
   return layer;
 };
 
-shaunlusk.Mocks.getMockGfxElement = function(props) {
+SL.Mocks.getMockGfxElement = function(props) {
   props = props || {};
   var element = {};
   element.id = props.id || 1;
@@ -70,7 +70,7 @@ shaunlusk.Mocks.getMockGfxElement = function(props) {
   return element;
 };
 
-shaunlusk.Mocks.getMockScreen = function(props) {
+SL.Mocks.getMockScreen = function(props) {
   props = props || {};
   var screen = {};
   screen.scaleX = props.scaleX || 1;
@@ -82,7 +82,7 @@ shaunlusk.Mocks.getMockScreen = function(props) {
   return screen;
 };
 
-shaunlusk.Mocks.getMockCanvasContext = function(props) {
+SL.Mocks.getMockCanvasContext = function(props) {
   props = props || {};
   var context = {};
   context.clearRect = function(x, y, width, height) {

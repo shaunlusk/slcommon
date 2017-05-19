@@ -3,7 +3,7 @@ describe("MoveOrder", function(){
     it("should return if not started", function(done){
       var time = 0;
       var diff = 16;
-      var move = new shaunlusk.MoveOrder(shaunlusk.Mocks.getMockGfxElement(),5, 5, 100);
+      var move = new SL.MoveOrder(SL.Mocks.getMockGfxElement(),5, 5, 100);
 
       move.update(time,diff);
 
@@ -13,7 +13,7 @@ describe("MoveOrder", function(){
     it("should return if ended", function(done){
       var time = 0;
       var diff = 16;
-      var move = new shaunlusk.MoveOrder(shaunlusk.Mocks.getMockGfxElement(),5, 5, 100);
+      var move = new SL.MoveOrder(SL.Mocks.getMockGfxElement(),5, 5, 100);
       move._end = true;
 
       move.update(time,diff);
@@ -24,7 +24,7 @@ describe("MoveOrder", function(){
     it("should set start time if start time is -1", function(done){
       var time = 0;
       var diff = 16;
-      var move = new shaunlusk.MoveOrder(shaunlusk.Mocks.getMockGfxElement(),5, 5, 100);
+      var move = new SL.MoveOrder(SL.Mocks.getMockGfxElement(),5, 5, 100);
       move.start();
 
       move.update(time,diff);
@@ -35,7 +35,7 @@ describe("MoveOrder", function(){
     it("should not set start time if start time is not -1", function(done){
       var time = 0;
       var diff = 16;
-      var move = new shaunlusk.MoveOrder(shaunlusk.Mocks.getMockGfxElement(),5, 5, 100);
+      var move = new SL.MoveOrder(SL.Mocks.getMockGfxElement(),5, 5, 100);
       move.start();
       move.update(time,diff);
       time = 8;
@@ -48,7 +48,7 @@ describe("MoveOrder", function(){
     it("should end if time percent is >=1", function(done){
       var time = 0;
       var diff = 16;
-      var move = new shaunlusk.MoveOrder(shaunlusk.Mocks.getMockGfxElement(),5, 5, 100);
+      var move = new SL.MoveOrder(SL.Mocks.getMockGfxElement(),5, 5, 100);
       move.start();
       move.update(time,diff);
       time = 100;
@@ -61,8 +61,8 @@ describe("MoveOrder", function(){
     it("should update element coords if time percent is < 1", function(done){
       var time = 0;
       var diff = 16;
-      var element = shaunlusk.Mocks.getMockGfxElement();
-      var move = new shaunlusk.MoveOrder(element,5, 5, 100);
+      var element = SL.Mocks.getMockGfxElement();
+      var move = new SL.MoveOrder(element,5, 5, 100);
 
       move.start();
       move.update(time,diff);
@@ -76,7 +76,7 @@ describe("MoveOrder", function(){
   });
   describe("#_end()", function(){
     it("should set end true", function(done){
-      var move = new shaunlusk.MoveOrder(shaunlusk.Mocks.getMockGfxElement(),5, 5, 100);
+      var move = new SL.MoveOrder(SL.Mocks.getMockGfxElement(),5, 5, 100);
 
       move.end();
 
@@ -84,7 +84,7 @@ describe("MoveOrder", function(){
       done();
     });
     it("should set element coords to move target coords", function(done){
-      var move = new shaunlusk.MoveOrder(shaunlusk.Mocks.getMockGfxElement(),5, 5, 100);
+      var move = new SL.MoveOrder(SL.Mocks.getMockGfxElement(),5, 5, 100);
 
       move.end();
 
@@ -94,7 +94,7 @@ describe("MoveOrder", function(){
     });
     it("should call elementCallback", function(done){
       var a = {};
-      var move = new shaunlusk.MoveOrder(shaunlusk.Mocks.getMockGfxElement(),5, 5, 100, function() {
+      var move = new SL.MoveOrder(SL.Mocks.getMockGfxElement(),5, 5, 100, function() {
         a.calledIt = true;
       });
 
@@ -105,7 +105,7 @@ describe("MoveOrder", function(){
   });
   describe("#_timePercent()", function() {
     it("it should return proper time percent", function(done){
-      var move = new shaunlusk.MoveOrder(shaunlusk.Mocks.getMockGfxElement(), null, null, 100);
+      var move = new SL.MoveOrder(SL.Mocks.getMockGfxElement(), null, null, 100);
       move._startTime = 0;
       var result, time;
       time = 0;
