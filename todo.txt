@@ -4,6 +4,10 @@ flash
 shake
 nudge
 
+sprites
+
+pause on tab not visible
+
 pix element
 
 screen scrolling
