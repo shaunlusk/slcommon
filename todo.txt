@@ -1,6 +1,12 @@
-flip element
+what goes in this package vs c64style?
+
+flash
+shake
+nudge
 
 pix element
+
+screen scrolling
 
 support for turning mouse tracking off
 
