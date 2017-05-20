@@ -27,9 +27,9 @@ SL.ImageRenderer = function(screenScaleX, screenScaleY) {
 * @param {integer} imageScaleX The amount to scale the drawn image horizontally.
 * @param {integer} imageScaleY The amount to scale the drawn image vertically.
 */
-SL.ImageRenderer.prototype.renderImage = function(context, image, sx, sy, sWidth, sHeight, x, y, width, height, imageScaleX, imageScaleY, rotation) {
-  if (rotation) {
-    this.renderRotatedImage(context, image, sx, sy, sWidth, sHeight, x, y, width, height, imageScaleX, imageScaleY, rotation);
+SL.ImageRenderer.prototype.renderImage = function(context, image, sx, sy, sWidth, sHeight, x, y, width, height, imageScaleX, imageScaleY, flipHorizontally, flipVertically, rotation) {
+  if (flipHorizontally || flipVertically || rotation) {
+    this.renderImageWithTranslation(context, image, sx, sy, sWidth, sHeight, x, y, width, height, imageScaleX, imageScaleY, flipHorizontally, flipVertically, rotation);
   } else {
     context.drawImage(
       image,
@@ -44,10 +44,10 @@ SL.ImageRenderer.prototype.renderImage = function(context, image, sx, sy, sWidth
   }
 };
 
-SL.ImageRenderer.prototype.renderRotatedImage = function(context, image, sx, sy, sWidth, sHeight, x, y, width, height, imageScaleX, imageScaleY, rotation) {
+SL.ImageRenderer.prototype.renderImageWithTranslation = function(context, image, sx, sy, sWidth, sHeight, x, y, width, height, imageScaleX, imageScaleY, flipHorizontally, flipVertically, rotation) {
   var translationX = x * this.getScreenScaleX() + (width * this.getTotalScaleX(imageScaleX))/2;
   var translationY = y * this.getScreenScaleY() + (height * this.getTotalScaleY(imageScaleY))/2;
-  SL.renderWithRotation(context, translationX, translationY, rotation, function() {
+  SL.renderWithTranslation(context, translationX, translationY, flipHorizontally, flipVertically, rotation, function() {
     context.drawImage(
       image,
       sx,

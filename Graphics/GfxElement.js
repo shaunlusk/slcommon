@@ -75,7 +75,7 @@ SL.GfxElement = function(screenContext, parentLayer, props) {
   this._zIndex = props.zIndex || -1;
   this._zIndexComparable = new SL.GfxElementZIndexComparable(this);
 
-  this._rotation = null;
+  this._rotation = props.rotation || null;
   this._baseRotation = props.baseRotation || null;
   this._wasRotated = false;
 
@@ -85,6 +85,9 @@ SL.GfxElement = function(screenContext, parentLayer, props) {
   this._rotatedLastX = 0;
   this._rotatedLastY = 0;
   this._lastDiagonalSize = 0;
+
+  this._horizontalFlip = false;
+  this._verticalFlip = false;
 
   this.EventNotifierMixinInitializer({
     eventListeners:[
@@ -414,6 +417,19 @@ SL.GfxElement.prototype._recalculateRotatedCollisionBox = function() {
   this._rotatedX = Math.floor(this.getX() - (this.getDiagonalSize() - this.getWidth()) / 2);
   this._rotatedY = Math.floor(this.getY() - (this.getDiagonalSize() - this.getHeight()) / 2);
 };
+
+SL.GfxElement.prototype.isHorizontallyFlipped = function() {return this._horizontalFlip;};
+SL.GfxElement.prototype.isVerticallyFlipped = function() {return this._verticalFlip;};
+
+SL.GfxElement.prototype.setHorizontallyFlipped = function(flipped) {
+  if (this._horizontalFlip !== flipped) this.setDirty(true);
+  this._horizontalFlip = flipped;
+};
+SL.GfxElement.prototype.setVerticallyFlipped = function(flipped) {
+  if (this._verticalFlip !== flipped) this.setDirty(true);
+  this._verticalFlip = flipped;
+};
+
 
 /**
 * Set the horizontal and vertical movement rates for this element.

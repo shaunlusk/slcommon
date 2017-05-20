@@ -111,6 +111,8 @@ SL.ImageElement.prototype.render = function(time,diff) {
       this.getHeight(),
       this.getElementScaleX(),
       this.getElementScaleY(),
+      this.isHorizontallyFlipped(),
+      this.isVerticallyFlipped(),
       this.getRotation()
     );
   }
