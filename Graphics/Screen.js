@@ -195,12 +195,12 @@ SL.Screen.prototype.getMouseY = function() {return this._mouseY;};
 * @see SL.Layer
 */
 SL.Screen.prototype.createLayer = function(type, props) {
-  var canvas = this.createCanvasForLayer();
+  var canvasContextWrapper = this.createCanvasForLayer();
   props = props || {};
   props.width = this.getWidth();
   props.height = this.getHeight();
 
-  var layer = this._layerFactory.getLayer(this, type, canvas, props);
+  var layer = this._layerFactory.getLayer(this, type, canvasContextWrapper, props);
 
   this.addLayer(layer);
   return layer;
@@ -212,7 +212,7 @@ SL.Screen.prototype.createCanvasForLayer = function() {
   canvas.width = this._width;
   canvas.height = this._height;
   canvas.style.position = "absolute";
-  return canvas;
+  return new SL.CanvasContextWrapper(canvas);
 };
 
 /** Add a new  {@link SL.Layer} to this screen.  The preferred method of adding layers

@@ -5,7 +5,7 @@ var SL = SL || {};
 * Existing implementations: {@link SL.TextLayer}, {@link SL.GfxLayer}
 * @constructor
 * @param {SL.Screen} screenContext The parent screen
-* @param {CanvasContext} canvas The canvas context that this layer will draw to.
+* @param {Canvas} canvas The canvas element. This layer will draw to the canvas' context.
 * @param {Object} props The properties for this layer:
 * <ul>
 *   <li>width - number - The width of the layer.  Should match Screen.</li>
@@ -14,14 +14,26 @@ var SL = SL || {};
 * @see SL.TextLayer
 * @see SL.GfxLayer
 */
-SL.Layer = function(screenContext, canvas, props) {
+SL.Layer = function(screenContext, canvasContextWrapper, props) {
   props = props || {};
   this._width = props.width || 320;
   this._height = props.height || 200;
   this._screenContext = screenContext;
-  this._canvas = canvas;
-  this._canvasContext = canvas ? canvas.getContext("2d") : null;
+  this._canvas = canvasContextWrapper ? canvasContextWrapper.getCanvas() : null;
+  this._canvasContext = canvasContextWrapper;
+  this._dirty = true;
 };
+
+/** Return whether this element is dirty.
+* @return {boolean}
+*/
+SL.Layer.prototype.isDirty = function() {return this._dirty;};
+
+/**
+* Set whether element is dirty.  If dirty, the element will be cleared and redrawn during the next render phase.
+* @param {boolean} dirty
+*/
+SL.Layer.prototype.setDirty = function(dirty) {this._dirty = dirty;};
 
 /** Returns the width of the Layer
 * @returns {number}

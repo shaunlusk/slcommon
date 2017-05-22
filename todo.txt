@@ -1,3 +1,32 @@
+Scrollable layers
+  Layer needs set/isDirty
+  child classes should know to redraw everything if dirty
+
+  extend canvas? or wrap?
+
+    view origin x/y
+    methods:
+      Layer.clearLayer()
+        this._canvasContext.clearRect(0, 0, this.getWidth(), this.getHeight());
+      Layer._dimStep()
+        canvasContext.clearRect(0, 0, this.getWidth(), this.getHeight());
+        canvasContext.fillRect(0, 0, this.getWidth(), this.getHeight());
+      GfxElement.clear()
+        clearRect
+      ImageRenderer.renderImage, renderImageWithTranslation
+        drawImage
+
+      clearRect
+      fillRect
+      drawImage
+      fillStyle - needs to be applied at fillRect time
+      save
+      restore
+      translate
+      scale
+      rotate
+
+
 what goes in this package vs c64style?
 
 flash
@@ -5,6 +34,9 @@ shake
 nudge
 
 sprites
+
+is there a way of dimming layers without clearing the layer
+- also use internal time instead of setTimeout
 
 pause on tab not visible
 

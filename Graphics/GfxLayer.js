@@ -5,7 +5,7 @@ var SL = SL || {};
 * Generally, the use of SL.Screen.createLayer("GfxLayer") is preferred over creating layer by hand.
 * @constructor
 * @param {SL.Screen} screenContext The parent screen for this layer.
-* @param {CanvasContext} canvas The CanvasContext that this layer will draw to.
+* @param {Canvas} canvas The canvas element. This layer will draw to the canvas' context.
 * @param {Object} props The properties to create this layer with. <br />
 * From SL.Layer:
 * <ul>
@@ -14,9 +14,9 @@ var SL = SL || {};
 * </ul>
 * GfxLayer doesn't require/support any properties beyond those used by SL.Layer.
 */
-SL.GfxLayer = function(screenContext, canvas, props) {
+SL.GfxLayer = function(screenContext, canvasContextWrapper, props) {
   props = props || {};
-  SL.Layer.call(this, screenContext, canvas, props);
+  SL.Layer.call(this, screenContext, canvasContextWrapper, props);
   this._elements = [];
   this._dirtyElements = new SL.UniquePriorityQueue();
   this._dirtyElements.setInvertPriority(false);
