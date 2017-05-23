@@ -20,12 +20,20 @@ SL.CanvasContextWrapper.prototype.clearRect = function(x, y, width, height) {
   this._canvasContext.clearRect(x + this._viewOriginX, y + this._viewOriginY, width, height);
 };
 
+SL.CanvasContextWrapper.prototype.clear = function() {
+  this._canvasContext.clearRect(0, 0, this._canvas.width, this._canvas.height);
+};
+
 SL.CanvasContextWrapper.prototype.fillRect = function(x, y, width, height) {
   this._canvasContext.fillRect(x + this._viewOriginX, y + this._viewOriginY, width, height);
 };
 
 SL.CanvasContextWrapper.prototype.drawImage = function(image, sx, sy, sWidth, sHeight, x, y, width, height) {
   this._canvasContext.drawImage(image, sx, sy, sWidth, sHeight, x + this._viewOriginX, y + this._viewOriginY, width, height);
+};
+
+SL.CanvasContextWrapper.prototype.drawImageWithTranslation = function(image, sx, sy, sWidth, sHeight, x, y, width, height) {
+  this._canvasContext.drawImage(image, sx, sy, sWidth, sHeight, x, y, width, height);
 };
 
 SL.CanvasContextWrapper.prototype.save = function() {

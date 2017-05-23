@@ -341,7 +341,9 @@ SL.Screen.prototype._update = function (time,diff) {
 /** @private */
 SL.Screen.prototype._render = function(time,diff) {
   for (var i = 0; i < this._layers.length; i++) {
+    this._layers[i].prerender(time,diff);
     this._layers[i].render(time,diff);
+    this._layers[i].postrender(time,diff);
   }
 };
 

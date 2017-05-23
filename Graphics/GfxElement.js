@@ -639,30 +639,6 @@ SL.GfxElement.prototype.clear = function(time, diff) {
   }
 };
 
-
-// UiElement.prototype.clear = function(context) {
-//   if (!this.dirty) return;
-//   if (this._rotation) {
-//     // clear area that matches the collision bounding box that was checked
-//     context.clearRect(this._rotatedLastX - 1, this._rotatedLastY - 1, this._diagonalSize + 2, this._diagonalSize + 2);
-//   } else {
-//     context.clearRect(this.lastX - 1,this.lastY - 1, this.dw + 2, this.dh + 2);
-//   }
-//   if (this.hidden) {
-//     this.setDirty(false);
-//     this._hiddenRecently = false;
-//   }
-//   this.lastX = this.x;
-//   this.lastY = this.y;
-//   this._lastDw = this.dw;
-//   this._lastDh = this.dh;
-//   if (this.getRotation()) {
-//     this._rotatedLastX = this._rotatedX;
-//     this._rotatedLastY = this._rotatedY;
-//     this._lastDiagonalSize = this._diagonalSize;
-//   }
-// };
-
 /** Perform any preRendering steps.
 */
 SL.GfxElement.prototype.preRender = function(time, diff) {

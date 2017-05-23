@@ -5,7 +5,7 @@ var SL = SL || {};
 * Generally, the use of SL.Screen.createLayer("GfxLayer") is preferred over creating layer by hand.
 * @constructor
 * @param {SL.Screen} screenContext The parent screen for this layer.
-* @param {Canvas} canvas The canvas element. This layer will draw to the canvas' context.
+* @param {CanvasContextWrapper} canvasContextWrapper The canvasContextWrapper. This layer will draw to the canvas' context, via wrapper's exposed methods.
 * @param {Object} props The properties to create this layer with. <br />
 * From SL.Layer:
 * <ul>
@@ -85,6 +85,8 @@ SL.GfxLayer.prototype.update = function(time,diff) {
   var dirtyElement;
   var i;
   for (i = 0; i < this._elements.length; i++) {
+      // ensure all elements are redrawn if the layer is dirty
+      if (this.isDirty()) this._elements[i].setDirty(true);
       dirtyElement = this._elements[i].update(time,diff);
       if (dirtyElement) {
         this._dirtyElements.push(this._elements[i].getZIndexComparable());
@@ -139,6 +141,17 @@ SL.GfxLayer.prototype._updateElementOnCollision = function(element) {
   this._dirtyElements.push(element.getZIndexComparable());
 };
 
+SL.GfxLayer.prototype.prerender = function(time,diff) {
+  var i;
+  SL.Layer.prototype.prerender.call(this,time,diff);
+  // layer will have been completely cleared if dirty, so no need to clear individual elements
+  if (!this.isDirty()) {
+    for (i = 0; i < this._dirtyElements.size(); i++) {
+      this._dirtyElements.getByIndex(i).getElement().clear(time,diff);
+    }
+  }
+};
+
 /** Render the dirty elements on this layer.
 * Calls clear for all dirty elements first, then calls render on each.
 * Time and diff parameters are not directly used, they are made available for extension purposes, and passed on to clear and render for the same.
@@ -146,12 +159,6 @@ SL.GfxLayer.prototype._updateElementOnCollision = function(element) {
 * @param {number} diff The difference between the last time and the current time  (milliseconds)
 */
 SL.GfxLayer.prototype.render = function(time,diff) {
-  var i;
-
-  for (i = 0; i < this._dirtyElements.size(); i++) {
-    this._dirtyElements.getByIndex(i).getElement().clear(time,diff);
-  }
-
   while (this._dirtyElements.peek()) {
     var element = this._dirtyElements.pop().getElement();
     element.preRender(time,diff);

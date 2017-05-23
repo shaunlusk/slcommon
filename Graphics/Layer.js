@@ -5,7 +5,7 @@ var SL = SL || {};
 * Existing implementations: {@link SL.TextLayer}, {@link SL.GfxLayer}
 * @constructor
 * @param {SL.Screen} screenContext The parent screen
-* @param {Canvas} canvas The canvas element. This layer will draw to the canvas' context.
+* @param {CanvasContextWrapper} canvasContextWrapper The canvasContextWrapper. This layer will draw to the canvas' context, via wrapper's exposed methods.
 * @param {Object} props The properties for this layer:
 * <ul>
 *   <li>width - number - The width of the layer.  Should match Screen.</li>
@@ -22,18 +22,36 @@ SL.Layer = function(screenContext, canvasContextWrapper, props) {
   this._canvas = canvasContextWrapper ? canvasContextWrapper.getCanvas() : null;
   this._canvasContext = canvasContextWrapper;
   this._dirty = true;
+  this._pendingViewOriginX = null;
+  this._pendingViewOriginY = null;
 };
 
-/** Return whether this element is dirty.
+/** Return whether this layer is dirty.  A dirty layer needs to be completely redrawn.
 * @return {boolean}
 */
 SL.Layer.prototype.isDirty = function() {return this._dirty;};
 
 /**
-* Set whether element is dirty.  If dirty, the element will be cleared and redrawn during the next render phase.
+* Set whether layer is dirty.  If dirty, the layer will be cleared and redrawn during the next render phase.
 * @param {boolean} dirty
 */
 SL.Layer.prototype.setDirty = function(dirty) {this._dirty = dirty;};
+
+
+SL.Layer.prototype.setViewOriginX = function(viewOriginX) {
+  this._pendingViewOriginX = viewOriginX;
+  if (this._pendingViewOriginX !== null && this._pendingViewOriginX !== this.getViewOriginX()) this.setDirty(true);
+};
+SL.Layer.prototype.setViewOriginY = function(viewOriginY) {
+  this._pendingViewOriginY = viewOriginY;
+  if (this._pendingViewOriginY !== null && this._pendingViewOriginY !== this.getViewOriginY()) this.setDirty(true);
+};
+
+SL.Layer.prototype.getViewOriginX = function() {return this._canvasContext.getViewOriginX();};
+SL.Layer.prototype.getViewOriginY = function() {return this._canvasContext.getViewOriginY();};
+
+SL.Layer.prototype.getPendingViewOriginX = function() {return this._pendingViewOriginX;};
+SL.Layer.prototype.getPendingViewOriginY = function() {return this._pendingViewOriginY;};
 
 /** Returns the width of the Layer
 * @returns {number}
@@ -74,6 +92,20 @@ SL.Layer.prototype.update = function(time,diff) {};
 * @param {number} diff The difference between the last time and the current time  (milliseconds)
 */
 SL.Layer.prototype.render = function(time,diff) {};
+SL.Layer.prototype.prerender = function(time,diff) {
+  if (this.isDirty()) this.getCanvasContext().clear();
+  if (this.getPendingViewOriginX()) {
+    this.getCanvasContext().setViewOriginX(this.getPendingViewOriginX());
+    this._pendingViewOriginX = null;
+  }
+  if (this.getPendingViewOriginY()) {
+    this.getCanvasContext().setViewOriginY(this.getPendingViewOriginY());
+    this._pendingViewOriginY = null;
+  }
+};
+SL.Layer.prototype.postrender = function(time,diff) {
+  this.setDirty(false);
+};
 
 /** Propagate a mouse event to this Layer. <b>Sub-classes MUST implement this method</b>
 * @abstract
