@@ -1,8 +1,6 @@
 Scrollable layers
   documentation!
 
-  don't render if outside of viewport
-
   fillStyle set methods
 
 

@@ -2,6 +2,8 @@ var SL = SL || {};
 
 SL.CanvasContextWrapper = function(canvas, viewOriginX, viewOriginY) {
   this._canvas = canvas;
+  this._width = this._canvas.width;
+  this._height = this._canvas.height;
   this._canvasContext = canvas.getContext("2d");
   this._viewOriginX = viewOriginX || 0;
   this._viewOriginY = viewOriginY || 0;
@@ -17,18 +19,21 @@ SL.CanvasContextWrapper.prototype.getCanvas = function() {return this._canvas;};
 SL.CanvasContextWrapper.prototype.getCanvasContext = function() {return this._canvasContext;};
 
 SL.CanvasContextWrapper.prototype.clearRect = function(x, y, width, height) {
+  if (this.isOutOfView(x, y, width, height))  return;
   this._canvasContext.clearRect(x + this._viewOriginX, y + this._viewOriginY, width, height);
 };
 
 SL.CanvasContextWrapper.prototype.clear = function() {
-  this._canvasContext.clearRect(0, 0, this._canvas.width, this._canvas.height);
+  this._canvasContext.clearRect(0, 0, this._width, this._height);
 };
 
 SL.CanvasContextWrapper.prototype.fillRect = function(x, y, width, height) {
+  if (this.isOutOfView(x, y, width, height))  return;
   this._canvasContext.fillRect(x + this._viewOriginX, y + this._viewOriginY, width, height);
 };
 
 SL.CanvasContextWrapper.prototype.drawImage = function(image, sx, sy, sWidth, sHeight, x, y, width, height) {
+  if (this.isOutOfView(x, y, width, height))  return;
   this._canvasContext.drawImage(image, sx, sy, sWidth, sHeight, x + this._viewOriginX, y + this._viewOriginY, width, height);
 };
 
@@ -54,6 +59,13 @@ SL.CanvasContextWrapper.prototype.scale = function(x, y) {
 
 SL.CanvasContextWrapper.prototype.rotate = function(rotation) {
   this._canvasContext.rotate(rotation);
+};
+
+SL.CanvasContextWrapper.prototype.isOutOfView = function(x, y, width, height) {
+  return x + width < this._viewOriginX ||
+    x > this._width + this._viewOriginX ||
+    y + height < this._viewOriginY ||
+    y > this._height + this._viewOriginY;
 };
 
 /*
