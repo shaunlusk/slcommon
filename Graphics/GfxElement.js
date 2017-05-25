@@ -89,6 +89,14 @@ SL.GfxElement = function(screenContext, parentLayer, props) {
   this._horizontalFlip = false;
   this._verticalFlip = false;
 
+  this._flashDoneCallback = null;
+  this._isFlashing = false;
+  this._flashStartTime = -1;
+  this._flashDuration = 0;
+  this._flashHidden = false;
+  this._flashElapsed = 0;
+  this._flashInterval = 0;
+
   this.EventNotifierMixinInitializer({
     eventListeners:[
       SL.EventType.ELEMENT_MOVED,
@@ -430,6 +438,47 @@ SL.GfxElement.prototype.setVerticallyFlipped = function(flipped) {
   this._verticalFlip = flipped;
 };
 
+/*
+If duration is -1, will flash until turned off.
+*/
+SL.GfxElement.prototype.flash = function(interval, duration, callback) {
+  this._flashInterval = interval;
+  this._flashDuration = duration;
+  this._isFlashing = true;
+  this._flashStartTime = -1;
+  this._flashElapsed = 0;
+  this._flashHidden = false;
+  this._flashDoneCallback = callback;
+};
+
+SL.GfxElement.prototype.isFlashing = function() { return this._isFlashing; };
+
+SL.GfxElement.prototype.turnFlashOff = function() {
+  this._endFlash();
+};
+
+SL.GfxElement.prototype._endFlash = function() {
+  this._isFlashing = false;
+  this._flashStartTime = -1;
+  this._flashElapsed = 0;
+  this._flashHidden = false;
+  if (SL.isFunction(this._flashDoneCallback)) this._flashDoneCallback();
+};
+
+SL.GfxElement.prototype._updateFlash = function(time,diff) {
+  if (this._flashStartTime === -1) this._flashStartTime = time;
+  if (time - this._flashStartTime >= this._flashDuration && this._flashDuration > -1) {
+    this._endFlash();
+    return;
+  }
+
+  this._flashElapsed += diff;
+  if (this._flashElapsed >= this._flashInterval) {
+    this._flashElapsed -= this._flashInterval;
+    this._flashHidden = !this._flashHidden;
+    this.setDirty(true);
+  }
+};
 
 /**
 * Set the horizontal and vertical movement rates for this element.
@@ -559,6 +608,8 @@ SL.GfxElement.prototype.update = function(time,diff) {
   // Will take precedence over move rate
   this._updateMoveOrder(time,diff);
 
+  if (this._isFlashing) this._updateFlash(time,diff);
+
   if (this.getX() !== this.getLastX() || this.getY() !== this.getLastY()) {
     this.setDirty(true);
     this.notify(
@@ -639,10 +690,11 @@ SL.GfxElement.prototype.clear = function(time, diff) {
   }
 };
 
-/** Perform any preRendering steps.
+/** Perform any preRendering steps, return whether the element needs to be rendered.
 */
 SL.GfxElement.prototype.preRender = function(time, diff) {
-
+  if (!this.isHidden() && !this._flashHidden && this.isDirty()) return true;
+  return false;
 };
 
 /**

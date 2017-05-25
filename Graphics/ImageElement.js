@@ -97,7 +97,6 @@ SL.ImageElement.prototype.getSourceHeight = function() {return this._sHeight;};
 * @param {number} diff The difference between the last time and the current time  (milliseconds)
 */
 SL.ImageElement.prototype.render = function(time,diff) {
-  if (!this.isHidden() && this.isDirty()) {
     this._imageRenderer.renderImage(
       this.getCanvasContext(),
       this.getImage(),
@@ -115,5 +114,4 @@ SL.ImageElement.prototype.render = function(time,diff) {
       this.isVerticallyFlipped(),
       this.getRotation()
     );
-  }
 };

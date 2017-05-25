@@ -1,3 +1,5 @@
+ctx.imageSmoothingEnabled
+
 Scrollable layers
   documentation!
 
