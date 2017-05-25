@@ -97,6 +97,12 @@ SL.GfxElement = function(screenContext, parentLayer, props) {
   this._flashElapsed = 0;
   this._flashInterval = 0;
 
+  this._nudgeDoneCallback = null;
+  this._isProcessingNudge = false;
+
+  this._shakeDoneCallback = null;
+  this._isProcessingShake = false;
+
   this.EventNotifierMixinInitializer({
     eventListeners:[
       SL.EventType.ELEMENT_MOVED,
@@ -480,6 +486,60 @@ SL.GfxElement.prototype._updateFlash = function(time,diff) {
   }
 };
 
+SL.GfxElement.prototype.nudge = function(offsetX, offsetY, decay, interval, intervalDecay, callback) {
+  if (interval < 0) throw new Error ("interval cannot be less than 0");
+  this._nudgeDoneCallback = callback;
+  var tx,ty;
+  var xdir = offsetX >= 0 ? 1 : -1;
+  var ydir = offsetY >= 0 ? 1 : -1;
+  var count = 0;
+
+  while((Math.abs(offsetX) > decay || Math.abs(offsetY) > decay) && interval >= 0) {
+    tx = this.x + offsetX;
+    ty = this.y + offsetY;
+    this.moveTo(tx, ty, interval);
+    this._isProcessingNudge = true;
+
+    interval -= intervalDecay;
+    xdir = xdir * -1;
+    ydir = ydir * -1;
+    offsetX = offsetX !== 0 ? xdir * (Math.abs(offsetX) - decay) : 0;
+    offsetY = offsetY !== 0 ? ydir * (Math.abs(offsetY) - decay) : 0;
+
+    count++;
+    if (count > 1000) throw new Error("GfxElement.nudge() looped too many times.");
+  }
+  this.moveTo(this.x, this.y, interval < 0 ? 0 : interval);
+};
+
+SL.GfxElement.prototype.shake = function(intensity, intensityDecay, interval, intervalDecay, notToExceedTime, callback, callbackArgs) {
+  if (interval < 0) throw new Error ("interval cannot be less than 0");
+  if (intervalDecay === 0 && !notToExceedTime) throw new Error("must specify either intervalDecay or notToExceedTime");
+  this._shakeDoneCallback = callback;
+  var tx,ty;
+  var count = 0;
+  var elapsed = 0;
+  var offsetX = intensity - Math.floor(Math.random() * intensity * 2);
+  var offsetY = intensity - Math.floor(Math.random() * intensity * 2);
+
+  while(intensity > 0 && interval > 0 && elapsed < (notToExceedTime||Number.POSITIVE_INFINITY)) {
+    tx = this.x + offsetX;
+    ty = this.y + offsetY;
+    this.moveTo(tx, ty, interval);
+    this._isProcessingShake = true;
+
+    elapsed += interval;
+    interval -= intervalDecay;
+    intensity -= intensityDecay;
+    offsetX = intensity - Math.floor(Math.random() * intensity * 2);
+    offsetY = intensity - Math.floor(Math.random() * intensity * 2);
+
+    count++;
+    if (count > 1000) throw new Error("GfxElement.shake() looped too many times.");
+  }
+  this.moveTo(this.x, this.y, interval < 0 ? 0 : interval);
+};
+
 /**
 * Set the horizontal and vertical movement rates for this element.
 * Rates will be treated as approximately pixels per second.
@@ -561,7 +621,16 @@ SL.GfxElement.prototype._runMove = function() {
 /** @private */
 SL.GfxElement.prototype.moveOrderCallback = function() {
   this._currentMove = null;
-  this._runMove();
+  if (! this._runMove()){
+    if (this._isProcessingNudge) {
+      if (SL.isFunction(this._nudgeDoneCallback)) this._nudgeDoneCallback();
+      this._isProcessingNudge = false;
+    }
+    if (this._isProcessingShake) {
+      if (SL.isFunction(this._shakeDoneCallback)) this._shakeDoneCallback();
+      this._isProcessingShake = false;
+    }
+  }
 };
 
 /**
