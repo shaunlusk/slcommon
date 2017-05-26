@@ -8,10 +8,6 @@ Scrollable layers
 
 what goes in this package vs c64style?
 
-flash
-shake
-nudge
-
 sprites
 
 is there a way of dimming layers without clearing the layer

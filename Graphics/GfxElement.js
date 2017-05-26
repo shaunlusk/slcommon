@@ -495,8 +495,8 @@ SL.GfxElement.prototype.nudge = function(offsetX, offsetY, decay, interval, inte
   var count = 0;
 
   while((Math.abs(offsetX) > decay || Math.abs(offsetY) > decay) && interval >= 0) {
-    tx = this.x + offsetX;
-    ty = this.y + offsetY;
+    tx = this.getX() + offsetX;
+    ty = this.getY() + offsetY;
     this.moveTo(tx, ty, interval);
     this._isProcessingNudge = true;
 
@@ -509,10 +509,10 @@ SL.GfxElement.prototype.nudge = function(offsetX, offsetY, decay, interval, inte
     count++;
     if (count > 1000) throw new Error("GfxElement.nudge() looped too many times.");
   }
-  this.moveTo(this.x, this.y, interval < 0 ? 0 : interval);
+  this.moveTo(this.getX(), this.getY(), interval < 0 ? 0 : interval);
 };
 
-SL.GfxElement.prototype.shake = function(intensity, intensityDecay, interval, intervalDecay, notToExceedTime, callback, callbackArgs) {
+SL.GfxElement.prototype.shake = function(intensity, intensityDecay, interval, intervalDecay, notToExceedTime, callback) {
   if (interval < 0) throw new Error ("interval cannot be less than 0");
   if (intervalDecay === 0 && !notToExceedTime) throw new Error("must specify either intervalDecay or notToExceedTime");
   this._shakeDoneCallback = callback;
@@ -523,8 +523,8 @@ SL.GfxElement.prototype.shake = function(intensity, intensityDecay, interval, in
   var offsetY = intensity - Math.floor(Math.random() * intensity * 2);
 
   while(intensity > 0 && interval > 0 && elapsed < (notToExceedTime||Number.POSITIVE_INFINITY)) {
-    tx = this.x + offsetX;
-    ty = this.y + offsetY;
+    tx = this.getX() + offsetX;
+    ty = this.getY() + offsetY;
     this.moveTo(tx, ty, interval);
     this._isProcessingShake = true;
 
@@ -537,7 +537,7 @@ SL.GfxElement.prototype.shake = function(intensity, intensityDecay, interval, in
     count++;
     if (count > 1000) throw new Error("GfxElement.shake() looped too many times.");
   }
-  this.moveTo(this.x, this.y, interval < 0 ? 0 : interval);
+  this.moveTo(this.getX(), this.getY(), interval < 0 ? 0 : interval);
 };
 
 /**
