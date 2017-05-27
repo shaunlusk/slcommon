@@ -1,5 +1,8 @@
 ctx.imageSmoothingEnabled
 
+
+update documentation for imported gfx classes
+
 Scrollable layers
   documentation!
 
@@ -8,6 +11,7 @@ Scrollable layers
 
 what goes in this package vs c64style?
 
+double check for comment references to pix elements and sprites
 sprites
 
 is there a way of dimming layers without clearing the layer
