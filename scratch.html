@@ -1,0 +1,61 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>Scratch Page</title>
+  <script type="text/javascript" src="Utils.js"></script>
+  <script type="text/javascript" src="PriorityQueue.js"></script>
+  <script type="text/javascript" src="UniquePriorityQueue.js"></script>
+  <script type="text/javascript" src="Queue.js"></script>
+  <script type="text/javascript" src="EventNotifierMixin.js"></script>
+  <script type="text/javascript" src="Event.js"></script>
+  <script type="text/javascript" src="./Graphics/EventTypes.js"></script>
+  <script type="text/javascript" src="./Graphics/CanvasContextWrapper.js"></script>
+  <script type="text/javascript" src="./Graphics/Layer.js"></script>
+  <script type="text/javascript" src="./Graphics/LayerFactory.js"></script>
+  <script type="text/javascript" src="./Graphics/MoveOrder.js"></script>
+  <script type="text/javascript" src="./Graphics/GfxElementZIndexComparable.js"></script>
+  <script type="text/javascript" src="./Graphics/GfxElement.js"></script>
+  <script type="text/javascript" src="./Graphics/GfxLayer.js"></script>
+  <script type="text/javascript" src="./Graphics/Sprite.js"></script>
+  <script type="text/javascript" src="./Graphics/ImageRenderer.js"></script>
+  <script type="text/javascript" src="./Graphics/ImageSprite.js"></script>
+  <script type="text/javascript" src="./Graphics/Screen.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+<style>
+body {
+  background-color: black;
+  color: white;
+  font-family: sans-serif;
+}
+</style>
+</head>
+<body>
+  <div id="content">
+  </div>
+  <div id="buttons"><button onclick="screen.setPaused(!screen.isPaused());">Pause</button></div>
+  <div id="info"></div>
+
+  <script type="text/javascript">
+  var SL = SL || {};
+  var screen = null,
+  canvas,
+  context,
+    gfxLayer = null,
+    element = null;
+  var config = {
+    "scaleX" : 1,
+    "scaleY" : 1,
+    "fpsElem" : document.getElementById('info')
+  };
+
+  function initialize(targetDiv, config) {
+    screen = new SL.Screen(targetDiv, null, config);
+    screen.initialize();
+    gfxLayer = screen.createLayer("GfxLayer");
+    screen.render();
+  }
+
+  initialize(document.getElementById("content"), config);
+  </script>
+</body>
+</html>

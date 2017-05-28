@@ -20,7 +20,7 @@ var SL = SL || {};
 */
 SL.Screen = function(targetDiv, layerFactory, config) {
   this._targetDiv = targetDiv;
-  this._layerFactory = layerFactory;
+  this._layerFactory = layerFactory || new SL.LayerFactory();
   this._config = config || {};
   this._scaleX = this._config.scaleX || 1;
   this._scaleY = this._config.scaleY || 1;
