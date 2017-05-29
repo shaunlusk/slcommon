@@ -1,12 +1,13 @@
 var SL = SL || {};
 
-SL.CanvasContextWrapper = function(canvas, viewOriginX, viewOriginY) {
+SL.CanvasContextWrapper = function(canvas, viewOriginX, viewOriginY, imageSmoothingEnabled) {
   this._canvas = canvas;
   this._width = this._canvas.width;
   this._height = this._canvas.height;
   this._canvasContext = canvas.getContext("2d");
   this._viewOriginX = viewOriginX || 0;
   this._viewOriginY = viewOriginY || 0;
+  this.setImageSmoothingEnabled(imageSmoothingEnabled || false);
 };
 
 SL.CanvasContextWrapper.prototype.getViewOriginX = function() {return this._viewOriginX;};
@@ -17,6 +18,9 @@ SL.CanvasContextWrapper.prototype.setViewOriginY = function(viewOriginY) {this._
 
 SL.CanvasContextWrapper.prototype.getCanvas = function() {return this._canvas;};
 SL.CanvasContextWrapper.prototype.getCanvasContext = function() {return this._canvasContext;};
+
+SL.CanvasContextWrapper.prototype.isImageSmoothingEnabled = function() {return this._canvasContext.imageSmoothingEnabled;};
+SL.CanvasContextWrapper.prototype.setImageSmoothingEnabled = function(imageSmoothingEnabled) { this._canvasContext.imageSmoothingEnabled = imageSmoothingEnabled;};
 
 SL.CanvasContextWrapper.prototype.clearRect = function(x, y, width, height) {
   if (this.isOutOfView(x, y, width, height))  return;

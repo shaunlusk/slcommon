@@ -27,6 +27,7 @@ SL.Screen = function(targetDiv, layerFactory, config) {
   this._width = (this._config.width || 640) * this._scaleX;
   this._height = (this._config.height || 480) * this._scaleY;
   this._fpsElem = this._config.fpsElem || null;
+  this._imageSmoothingEnabled = config.imageSmoothingEnabled || false;
   this._avgTime = 0;
   this._last = 0;
   this._mouseX = -1;
@@ -189,6 +190,10 @@ SL.Screen.prototype.getMouseX = function() {return this._mouseX;};
 */
 SL.Screen.prototype.getMouseY = function() {return this._mouseY;};
 
+SL.Screen.prototype.isImageSmoothingEnabled = function() {return this._imageSmoothingEnabled;};
+SL.Screen.prototype.setImageSmoothingEnabled = function(imageSmoothingEnabled) {this._imageSmoothingEnabled = imageSmoothingEnabled;};
+
+
 /** Create a new {@link SL.Layer} and add it to this screen.  Layers will be rendered in FIFO order,
 * so layers added later will be drawn on top of layers added earlier.
 * @param {string} type The type of layer to add - either "TextLayer" or "GfxLayer"
@@ -212,7 +217,7 @@ SL.Screen.prototype.createCanvasForLayer = function() {
   canvas.width = this._width;
   canvas.height = this._height;
   canvas.style.position = "absolute";
-  return new SL.CanvasContextWrapper(canvas);
+  return new SL.CanvasContextWrapper(canvas, 0, 0, this._imageSmoothingEnabled);
 };
 
 /** Add a new  {@link SL.Layer} to this screen.  The preferred method of adding layers

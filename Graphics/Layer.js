@@ -79,6 +79,12 @@ SL.Layer.prototype.getCanvas = function() {return this._canvas;};
 */
 SL.Layer.prototype.getCanvasContext = function() {return this._canvasContext;};
 
+SL.Layer.prototype.isImageSmoothingEnabled = function() {return this._canvasContext.isImageSmoothingEnabled();};
+SL.Layer.prototype.setImageSmoothingEnabled = function(imageSmoothingEnabled) {
+  this._canvasContext.setImageSmoothingEnabled(imageSmoothingEnabled);
+  this.setDirty(true);
+};
+
 /** Update this Layer. <b>Sub-classes MUST implement this method</b>
 * @abstract
 * @param {number} time The current time (milliseconds)
