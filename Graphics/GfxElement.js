@@ -428,8 +428,8 @@ SL.GfxElement.prototype._recalculateDiagonalSize = function() {
 
 SL.GfxElement.prototype._recalculateRotatedCollisionBox = function() {
   if (this.getRotation() === null) return;
-  this._rotatedX = Math.floor(this.getX() - (this.getDiagonalSize() - this.getWidth()) / 2);
-  this._rotatedY = Math.floor(this.getY() - (this.getDiagonalSize() - this.getHeight()) / 2);
+  this._rotatedX = Math.floor(this.getX() - (this.getScaledDiagonalSize() - this.getScaledWidth()) / 2);
+  this._rotatedY = Math.floor(this.getY() - (this.getScaledDiagonalSize() - this.getScaledHeight()) / 2);
 };
 
 SL.GfxElement.prototype.isHorizontallyFlipped = function() {return this._horizontalFlip;};
