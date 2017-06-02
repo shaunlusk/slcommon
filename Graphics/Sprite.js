@@ -164,13 +164,18 @@ SL.Sprite.prototype.update = function (time,diff) {
 
   if (this._frames.length === 0 || this._done) return null;
 
-  if (this._ttl > -1) {
-    this._elapsed += diff;
-    if (this._elapsed >= this._ttl){
-      this._done = true;
-    }
-  }
+  this._updateTtl(diff);
+  this._updateFrame(diff);
 
+  if (this._done) {
+    this.doEndOfAnimation();
+  }
+  if (this.isDirty()) return this;
+
+  return null;
+};
+
+SL.Sprite.prototype._updateFrame = function(diff) {
   this._currentFrameElapsed += diff;
   if (this._currentFrameElapsed >= this._frames[this._fidx].getDuration()) {
     while (this._currentFrameElapsed >= this._frames[this._fidx].getDuration()) {
@@ -189,12 +194,15 @@ SL.Sprite.prototype.update = function (time,diff) {
     }
     this.setDirty(true);
   }
-  if (this._done) {
-    this.doEndOfAnimation();
-  }
-  if (this.isDirty()) return this;
+};
 
-  return null;
+SL.Sprite.prototype._updateTtl = function(diff) {
+  if (this._ttl > -1) {
+    this._elapsed += diff;
+    if (this._elapsed >= this._ttl){
+      this._done = true;
+    }
+  }
 };
 
 /** Render the current frame of the sprite, if the Sprite is dirty.
