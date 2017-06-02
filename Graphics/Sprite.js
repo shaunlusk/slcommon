@@ -1,19 +1,5 @@
 var SL = SL || {};
 
-/**
-* Animation frame interface used by sprites.
-* These are intended to be lightweight, and purpose built for the type of Sprite.
-* @interface AnimationFrame
-* @see SL.ImageSprite
-* @see SL.PixSprite
-*/
-SL.AnimationFrame = function() {};
-
-/** Return the duration to display this frame.
-* @returns {number}
-*/
-SL.AnimationFrame.prototype.getDuration = function() {throw new Error("getDuration Not Implemented on this AnimationFrame");};
-
 /** Base element for displaying animations.<br />
 * <b>Extends</b> {@link SL.GfxElement} <br />
 * <p>Animation is provided through an array of frames.  Each frame will be shown for a specified duration; after that duration, the next frame is shown.
