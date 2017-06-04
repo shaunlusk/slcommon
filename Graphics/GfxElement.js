@@ -74,14 +74,12 @@ SL.GfxElement = function(screenContext, parentLayer, props) {
   this._mouseIsOver = false;
   this._zIndex = props.zIndex || -1;
   this._zIndexComparable = new SL.GfxElementZIndexComparable(this);
-  this._width = 0;
-  this._height = 0;
+  this._width = props.width;
+  this._height = props.height;
 
-  // this._rotation = props.rotation || null;
-  this._rotation = null;
+  this._rotation = props.rotation || null;
   this._baseRotation = props.baseRotation || null;
   this._wasRotated = props.rotation ? true: false ;
-
 
   this._diagonalSize = 0; // only needed for determining collision box when rotated
   this._rotatedX = 0;
@@ -124,7 +122,9 @@ SL.GfxElement = function(screenContext, parentLayer, props) {
       SL.EventType.ELEMENT_HIT_BOTTOM_EDGE
     ]
   });
-  this.setRotation(props.rotation);
+
+  this._recalculateDiagonalSize();
+  this._recalculateRotatedCollisionBox();
 };
 
 SL.EventNotifierMixin.call(SL.GfxElement.prototype);
@@ -345,11 +345,10 @@ SL.GfxElement.prototype.setLastY = function(y) {this._lastY = y;};
 SL.GfxElement.prototype.isMouseOver = function() {return this._mouseIsOver;};
 
 /**
-* Return this element's width. <b>Sub-classes must implement this method!</b>
+* Return this element's width.
 * @abstract
 * @return {number}
 */
-// SL.GfxElement.prototype.getWidth = function() {throw new Error("getWidth needs to be implemented on this element.");};
 SL.GfxElement.prototype.getWidth = function() {return this._width;};
 
 /**
@@ -359,11 +358,10 @@ SL.GfxElement.prototype.getWidth = function() {return this._width;};
 SL.GfxElement.prototype.getScaledWidth = function() {return this.getWidth() * this.getTotalScaleX();};
 
 /**
-* Return this elements height. <b>Sub-classes must implement this method!</b>
+* Return this elements height.
 * @abstract
 * @return {number}
 */
-// SL.GfxElement.prototype.getHeight = function() {throw new Error("getHeight needs to be implemented on this element.");};
 SL.GfxElement.prototype.getHeight = function() {return this._height;};
 
 /**

@@ -59,16 +59,6 @@ SL.ImageSprite.prototype.constructor = SL.ImageSprite;
 */
 SL.ImageSprite.prototype.getImage = function() {return this._image;};
 
-/** Returns the Sprite width.
-* @returns {number}
-*/
-SL.ImageSprite.prototype.getWidth = function() {return this._width;};
-
-/** Returns the Sprite height.
-* @returns {number}
-*/
-SL.ImageSprite.prototype.getHeight = function() {return this._height;};
-
 /** Render the specified frame.
 * @override
 * @param {number} time The current time (milliseconds).

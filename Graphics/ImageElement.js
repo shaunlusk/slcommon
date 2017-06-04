@@ -45,9 +45,6 @@ SL.ImageElement = function(screenContext, parentLayer, props) {
   this._sWidth = props.sourceWidth;
   this._sHeight = props.sourceHeight;
 
-  this._width = props.width;
-  this._height = props.height;
-
   this._imageRenderer = props.imageRenderer || new SL.ImageRenderer(screenContext.getScaleX(), screenContext.getScaleY());
 };
 
