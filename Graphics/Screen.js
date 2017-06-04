@@ -66,7 +66,8 @@ SL.Screen = function(targetDiv, layerFactory, config) {
       SL.EventType.ELEMENT_HIT_LEFT_EDGE,
       SL.EventType.ELEMENT_HIT_RIGHT_EDGE,
       SL.EventType.ELEMENT_HIT_TOP_EDGE,
-      SL.EventType.ELEMENT_HIT_BOTTOM_EDGE
+      SL.EventType.ELEMENT_HIT_BOTTOM_EDGE,
+      SL.EventType.SPRITE_ANIMATION_DONE
     ]
   });
 };

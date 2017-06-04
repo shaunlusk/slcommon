@@ -1,36 +1,30 @@
+SpriteSet?
+
+Need way of removing event listeners
+
+Eventing
+  screen.onNextFrameBegin
+  screen.onNextFrameEnd
+  add eventing to layers and more eventing to elements
+  replacement for setTimeout / setInterval?
+
+pause on tab not visible
 update documentation for imported gfx classes
 
 rotate over time
 
 Scrollable layers
   documentation!
-
   fillStyle set methods
 
-
-what goes in this package vs c64style?
-
 double check for comment references to pix elements and sprites
-sprites
 
-is there a way of dimming layers without clearing the layer
-- also use internal time instead of setTimeout
-
-pause on tab not visible
-
-pix element
-
-screen scrolling
+is there a way of dimming layers without clearing the layer?
+- also use internal time instead of setTimeout - use replacement in common eventing system?
 
 support for turning mouse tracking off
 
-screen.onNextFrameBegin
-screen.onNextFrameEnd
-
 remove all elements
-
-add eventing to layers and more eventing to elements
-
 
 move element from one layer to another
   parentLayer
@@ -38,7 +32,7 @@ move element from one layer to another
 
 LocalStorage - from RuneTx
 
-
+pix element?
 
 
 Known Issues:
