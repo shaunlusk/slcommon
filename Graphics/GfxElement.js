@@ -74,10 +74,14 @@ SL.GfxElement = function(screenContext, parentLayer, props) {
   this._mouseIsOver = false;
   this._zIndex = props.zIndex || -1;
   this._zIndexComparable = new SL.GfxElementZIndexComparable(this);
+  this._width = 0;
+  this._height = 0;
 
-  this._rotation = props.rotation || null;
+  // this._rotation = props.rotation || null;
+  this._rotation = null;
   this._baseRotation = props.baseRotation || null;
-  this._wasRotated = false;
+  this._wasRotated = props.rotation ? true: false ;
+
 
   this._diagonalSize = 0; // only needed for determining collision box when rotated
   this._rotatedX = 0;
@@ -86,8 +90,8 @@ SL.GfxElement = function(screenContext, parentLayer, props) {
   this._rotatedLastY = 0;
   this._lastDiagonalSize = 0;
 
-  this._horizontalFlip = false;
-  this._verticalFlip = false;
+  this._horizontalFlip = props.horizontalFlip || false;
+  this._verticalFlip = props.verticalFlip || false;
 
   this._flashDoneCallback = null;
   this._isFlashing = false;
@@ -120,6 +124,7 @@ SL.GfxElement = function(screenContext, parentLayer, props) {
       SL.EventType.ELEMENT_HIT_BOTTOM_EDGE
     ]
   });
+  this.setRotation(props.rotation);
 };
 
 SL.EventNotifierMixin.call(SL.GfxElement.prototype);
@@ -344,7 +349,8 @@ SL.GfxElement.prototype.isMouseOver = function() {return this._mouseIsOver;};
 * @abstract
 * @return {number}
 */
-SL.GfxElement.prototype.getWidth = function() {throw new Error("getWidth needs to be implemented on this element.");};
+// SL.GfxElement.prototype.getWidth = function() {throw new Error("getWidth needs to be implemented on this element.");};
+SL.GfxElement.prototype.getWidth = function() {return this._width;};
 
 /**
 * Return this element's width, incorporating screen and element-local scaling.
@@ -357,7 +363,8 @@ SL.GfxElement.prototype.getScaledWidth = function() {return this.getWidth() * th
 * @abstract
 * @return {number}
 */
-SL.GfxElement.prototype.getHeight = function() {throw new Error("getHeight needs to be implemented on this element.");};
+// SL.GfxElement.prototype.getHeight = function() {throw new Error("getHeight needs to be implemented on this element.");};
+SL.GfxElement.prototype.getHeight = function() {return this._height;};
 
 /**
 * Return this element's height, incorporating screen and element-local scaling.

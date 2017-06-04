@@ -62,33 +62,6 @@ body {
     gfxLayer = screen.createLayer("GfxLayer");
     screen.render();
 
-    // element = new SL.ImageElement(screen, gfxLayer, {
-    //   image:images.gnome.image,
-    //   x:100,
-    //   y:100,
-    //   sourceX:4,
-    //   sourceY:0,
-    //   sourceWidth:24,
-    //   sourceHeight:32,
-    //   width:24,
-    //   height:32,
-    //   scaleX:2,
-    //   scaleY:2
-    // });
-
-
-    // element = new SL.ImageElement(screen, gfxLayer, {
-    //   image:images.blueBall.image,
-    //   sourceX:0,
-    //   sourceY:0,
-    //   sourceWidth:32,
-    //   sourceHeight:32,
-    //   width:32,
-    //   height:32,
-    //   scaleX:2,
-    //   scaleY:2
-    // });
-
     var frame1 = new SL.ImageSpriteFrame({
       duration : 200,
       sourceX : 4,
@@ -124,11 +97,35 @@ body {
       width:24,
       height:32,
       scaleX:2,
-      scaleY:2
+      scaleY:2,
+      // verticalFlip:Math.random() > 0.5 ? true : false,
+      // horizontalFlip:Math.random() > 0.5 ? true : false,
+      // rotation:SL.degreesToRadians(Math.floor(Math.random() * 180))
+      rotation:SL.degreesToRadians(1)
     });
+    // element2.setRotation(SL.degreesToRadians(1));
     element2.addFrame(frame1);
     element2.addFrame(frame2);
     gfxLayer.addElement(element2);
+
+    var el = null;
+    for (var i = 0; i < 10; i++) {
+      el = new SL.ImageSprite(screen, gfxLayer, {
+        image:images.gnome.image,
+        x:Math.floor(Math.random() * 640),
+        y:Math.floor(Math.random() * 480),
+        width:24,
+        height:32,
+        scaleX:2,
+        scaleY:2,
+        // verticalFlip:Math.random() > 0.5 ? true : false,
+        // horizontalFlip:Math.random() > 0.5 ? true : false,
+        rotation:SL.degreesToRadians(Math.floor(Math.random() * 180))
+      });
+      el.addFrame(frame1);
+      el.addFrame(frame2);
+      // gfxLayer.addElement(el);
+    }
   }
 
   new SL.ImageLoader({
