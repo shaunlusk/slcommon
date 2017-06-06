@@ -100,11 +100,11 @@ SL.Layer.prototype.update = function(time,diff) {};
 SL.Layer.prototype.render = function(time,diff) {};
 SL.Layer.prototype.prerender = function(time,diff) {
   if (this.isDirty()) this.getCanvasContext().clear();
-  if (this.getPendingViewOriginX()) {
+  if (!SL.isNullOrUndefined(this.getPendingViewOriginX())) {
     this.getCanvasContext().setViewOriginX(this.getPendingViewOriginX());
     this._pendingViewOriginX = null;
   }
-  if (this.getPendingViewOriginY()) {
+  if (!SL.isNullOrUndefined(this.getPendingViewOriginY())) {
     this.getCanvasContext().setViewOriginY(this.getPendingViewOriginY());
     this._pendingViewOriginY = null;
   }

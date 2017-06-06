@@ -76,19 +76,6 @@ body {
       sourceHeight : 32
     });
 
-    element = new SL.ImageSprite(screen, gfxLayer, {
-      image:images.gnome.image,
-      x:100,
-      y:100,
-      width:24,
-      height:32,
-      scaleX:2,
-      scaleY:2
-    });
-    element.addFrame(frame1);
-    element.addFrame(frame2);
-    gfxLayer.addElement(element);
-
     element2 = new SL.ImageSprite(screen, gfxLayer, {
       image:images.gnome.image,
       x:200,
@@ -117,14 +104,53 @@ body {
         height:32,
         scaleX:2,
         scaleY:2,
-        verticalFlip:Math.random() > 0.5 ? true : false,
-        horizontalFlip:Math.random() > 0.5 ? true : false,
-        rotation:SL.degreesToRadians(Math.floor(Math.random() * 180))
+        // verticalFlip:Math.random() > 0.5 ? true : false,
+        // horizontalFlip:Math.random() > 0.5 ? true : false,
+        // rotation:SL.degreesToRadians(Math.floor(Math.random() * 180))
       });
       el.addFrame(frame1);
       el.addFrame(frame2);
       gfxLayer.addElement(el);
     }
+
+    element = new SL.ImageSprite(screen, gfxLayer, {
+      image:images.gnome.image,
+      x:100,
+      y:100,
+      width:24,
+      height:32,
+      scaleX:2,
+      scaleY:2
+    });
+    element.addFrame(frame1);
+    element.addFrame(frame2);
+    gfxLayer.addElement(element);
+    element.identifier = true;
+  }
+
+  function updateLayer() {
+    var layer = screen._layers[0];
+    layer.setViewOriginX(layer.getViewOriginX() + 1);
+    if (layer.getViewOriginX() > 640){
+      layer.setViewOriginX(-640);
+    }
+  }
+
+  function updateLayer2() {
+    this.increment = this.increment || -1;
+    var layer = screen._layers[0];
+    layer.setViewOriginX(layer.getViewOriginX() + this.increment);
+    if (layer.getViewOriginX() < -640) {
+      this.increment = 1;
+    }
+
+    if (layer.getViewOriginX() > 640){
+     this.increment = -1;
+    }
+  }
+
+  function logElement1() {
+
   }
 
   new SL.ImageLoader({
@@ -136,6 +162,7 @@ body {
       initialize(document.getElementById("content"), config);
     }
   );
+
 
   </script>
 </body>

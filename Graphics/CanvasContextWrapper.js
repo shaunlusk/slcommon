@@ -32,12 +32,12 @@ SL.CanvasContextWrapper.prototype.clear = function() {
 };
 
 SL.CanvasContextWrapper.prototype.fillRect = function(x, y, width, height) {
-  if (this.isOutOfView(x, y, width, height))  return;
+  if (this.isOutOfView(x, y, width, height)) return;
   this._canvasContext.fillRect(x + this._viewOriginX, y + this._viewOriginY, width, height);
 };
 
 SL.CanvasContextWrapper.prototype.drawImage = function(image, sx, sy, sWidth, sHeight, x, y, width, height) {
-  if (this.isOutOfView(x, y, width, height))  return;
+  if (this.isOutOfView(x, y, width, height)) return;
   this._canvasContext.drawImage(image, sx, sy, sWidth, sHeight, x + this._viewOriginX, y + this._viewOriginY, width, height);
 };
 
@@ -66,11 +66,12 @@ SL.CanvasContextWrapper.prototype.rotate = function(rotation) {
 };
 
 SL.CanvasContextWrapper.prototype.isOutOfView = function(x, y, width, height) {
-  return x + width < this._viewOriginX ||
-    x > this._width + this._viewOriginX ||
-    y + height < this._viewOriginY ||
-    y > this._height + this._viewOriginY;
+  return this._viewOriginX + x + width < 0 ||
+    this._viewOriginX + x > this._width ||
+    this._viewOriginY + y + height < 0 ||
+    this._viewOriginY + y > this._height;
 };
+
 
 /*
 
