@@ -2,6 +2,18 @@ var SL = SL || {};
 
 /** Add Event Notification functions to a class.
 * Tracks event handlers and notifies them when events occur.
+* Usage:
+* Call:
+*   SL.EventNotifierMixin.call(MyClass.prototype);
+* And in your constructor, call initializer with the event types you want to listen for:
+*   this.EventNotifierMixinInitializer({
+*     eventListeners:[
+*       "myEvent1",
+*       "myEvent2",
+*     ]
+*   });
+* Then you can add handlers:
+*   myClassInstance.on("myEvent1", someHandlerCallback);
 * @mixin
 */
 SL.EventNotifierMixin = function(props) {
@@ -39,6 +51,8 @@ SL.EventNotifierMixin = function(props) {
     }
   };
 
+  /**
+  */
   this.EventNotifierMixinInitializer = function(props) {
     this._eventListeners  =  {};
     if (props.eventListeners) {
