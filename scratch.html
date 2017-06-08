@@ -95,7 +95,7 @@ body {
     gfxLayer.addElement(element2);
 
     var el = null;
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 40; i++) {
       el = new SL.ImageSprite(screen, gfxLayer, {
         image:images.gnome.image,
         x:Math.floor(Math.random() * 640),
@@ -104,13 +104,14 @@ body {
         height:32,
         scaleX:2,
         scaleY:2,
-        // verticalFlip:Math.random() > 0.5 ? true : false,
-        // horizontalFlip:Math.random() > 0.5 ? true : false,
-        // rotation:SL.degreesToRadians(Math.floor(Math.random() * 180))
+        verticalFlip:Math.random() > 0.5 ? true : false,
+        horizontalFlip:Math.random() > 0.5 ? true : false,
+        rotation:SL.degreesToRadians(Math.floor(Math.random() * 180))
       });
       el.addFrame(frame1);
       el.addFrame(frame2);
       gfxLayer.addElement(el);
+      setInterval(function (e) {e.setRotation( e.getRotation() + 0.02);}.bind(null,el), 20);
     }
 
     element = new SL.ImageSprite(screen, gfxLayer, {
