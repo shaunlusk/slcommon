@@ -1,7 +1,5 @@
 SpriteSet?
 
-Need way of removing event listeners
-
 Eventing
   screen.onNextFrameBegin
   screen.onNextFrameEnd
@@ -14,6 +12,7 @@ update documentation for imported gfx classes
 rotate over time
 
 Scrollable layers
+  scroll to point
   documentation!
   fillStyle set methods
 

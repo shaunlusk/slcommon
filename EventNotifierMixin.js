@@ -41,6 +41,13 @@ SL.EventNotifierMixin = function(props) {
   */
   this.on = this.addEventHandler;
 
+  this.removeEventHandler = function(eventHandlerId) {
+    // delete
+    Object.keys(this._eventListeners).forEach(function(listenerKey) {
+      if (this._eventListeners[listenerKey][eventHandlerId]) delete this._eventListeners[listenerKey][eventHandlerId];
+    }.bind(this));
+  };
+
   /** Clear all event handlers for a given event type.
   * @param {SL.EventType} eventType The type of the event.
   */
