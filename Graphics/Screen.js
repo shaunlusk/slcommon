@@ -67,7 +67,9 @@ SL.Screen = function(targetDiv, layerFactory, config) {
       SL.EventType.ELEMENT_HIT_RIGHT_EDGE,
       SL.EventType.ELEMENT_HIT_TOP_EDGE,
       SL.EventType.ELEMENT_HIT_BOTTOM_EDGE,
-      SL.EventType.SPRITE_ANIMATION_DONE
+      SL.EventType.SPRITE_ANIMATION_DONE,
+      SL.EventType.NEXT_FRAME_BEGIN,
+      SL.EventType.NEXT_FRAME_END,
     ]
   });
 };
@@ -253,6 +255,42 @@ SL.Screen.prototype.setPaused = function(boolean) {
   if (!this._paused) requestAnimationFrame(this.render.bind(this));
 };
 
+/** Add a one-time event handler for the start of the next frame.
+* @param {Function} callback The handler function.
+* @returns {String} The Id assigned to the handler function.
+*/
+SL.Screen.prototype.onNextFrameBegin = function(callback) {
+  return this.on(SL.EventType.NEXT_FRAME_BEGIN, callback);
+};
+
+/** Add a one-time event handler for the end of the next frame.
+* @param {Function} callback The handler function.
+* @returns {String} The Id assigned to the handler function.
+*/
+SL.Screen.prototype.onNextFrameEnd = function(callback) {
+  return this.on(SL.EventType.NEXT_FRAME_END, callback);
+};
+
+SL.Screen.prototype._doBeforeRenderEvents = function(time, diff) {
+  this.notify(
+    new SL.Event(SL.EventType.NEXT_FRAME_BEGIN, {diff:diff}, time)
+  );
+  this.clearEventHandlers(SL.EventType.NEXT_FRAME_BEGIN);
+  this.notify(
+    new SL.Event(SL.EventType.BEFORE_RENDER, {diff:diff}, time)
+  );
+};
+
+SL.Screen.prototype._doAfterRenderEvents = function(time, diff) {
+  this.notify(
+    new SL.Event(SL.EventType.NEXT_FRAME_END, {diff:diff}, time)
+  );
+  this.clearEventHandlers(SL.EventType.NEXT_FRAME_END);
+  this.notify(
+    new SL.Event(SL.EventType.AFTER_RENDER, {diff:diff}, time)
+  );
+};
+
 /** Return whether the screen is paused
 * @returns {boolean}
 */
@@ -277,18 +315,14 @@ SL.Screen.prototype.render = function(time) {
     this._handleMouseMoveEvent(time);
   }
 
-  this.notify(
-    new SL.Event(SL.EventType.BEFORE_RENDER, {diff:diff}, time)
-  );
+  this._doBeforeRenderEvents(time, diff);
 
   this._updateFps(diff);
 
   this._update(time,diff);
   this._render(time,diff);
 
-  this.notify(
-    new SL.Event(SL.EventType.AFTER_RENDER,  {diff:diff}, time)
-  );
+  this._doAfterRenderEvents(time, diff);
 
   elapsed = Date.now() - elapsed;
   if (this._fpsElem && this._fpsMonitorIndex === 0)

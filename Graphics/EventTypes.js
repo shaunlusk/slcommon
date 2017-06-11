@@ -22,3 +22,7 @@ SL.EventType.ELEMENT_HIT_RIGHT_EDGE = "ELEMENT_HIT_RIGHT_EDGE";
 SL.EventType.ELEMENT_HIT_TOP_EDGE = "ELEMENT_HIT_TOP_EDGE";
 SL.EventType.ELEMENT_HIT_BOTTOM_EDGE = "ELEMENT_HIT_BOTTOM_EDGE";
 SL.EventType.SPRITE_ANIMATION_DONE = "SPRITE_ANIMATION_DONE";
+/** Intended for use as one-time events; handlers will be cleared by the screen after each frame. */
+SL.EventType.NEXT_FRAME_BEGIN = "NEXT_FRAME_BEGIN";
+/** Intended for use as one-time events; handlers will be cleared by the screen after each frame. */
+SL.EventType.NEXT_FRAME_END = "NEXT_FRAME_END";

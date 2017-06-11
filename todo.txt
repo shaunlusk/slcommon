@@ -1,12 +1,9 @@
 SpriteSet?
 
 Eventing
-  screen.onNextFrameBegin
-  screen.onNextFrameEnd
   add eventing to layers and more eventing to elements
   replacement for setTimeout / setInterval?
 
-pause on tab not visible
 update documentation for imported gfx classes
 
 rotate over time

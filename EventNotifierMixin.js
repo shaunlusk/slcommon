@@ -27,6 +27,7 @@ SL.EventNotifierMixin = function(props) {
   */
   this.addEventHandler = function(eventType, callback, id) {
     var handlerId = id || "eventHandler_" + this._eventNotifierMixinId + "." + this._eventNotifierMixinHandlerId;
+    this._eventNotifierMixinHandlerId++;
     if (!this._eventListeners[eventType]) {
       this._eventListeners[eventType] = {};
     }
