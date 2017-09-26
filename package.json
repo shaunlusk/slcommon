@@ -1,6 +1,6 @@
 {
   "name": "slcommon",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Common functionality for Shaun's projects.",
   "main": "index.js",
   "repository": "https://github.com/shaunlusk/slcommon.git",
