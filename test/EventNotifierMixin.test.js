@@ -70,6 +70,14 @@ describe("EventNotifierMixin", function() {
         assert(SL.isNullOrUndefined(testClass._eventListeners[eventType1][id]) === false, "should have added handler");
         done();
       });
+      it("should add new event handler type", function(done) {
+        var type = "New event handler type";
+        var id = testClass.addEventHandler(type, function (){});
+
+        assert(SL.isNullOrUndefined(id) === false, "should have assigned id");
+        assert(SL.isNullOrUndefined(testClass._eventListeners[type][id]) === false, "should have added handler");
+        done();
+      });
     });
     describe("#removeEventHandler", function() {
       it("should remove event handler", function(done) {
@@ -86,6 +94,42 @@ describe("EventNotifierMixin", function() {
 
         testClass.clearEventHandlers(eventType1);
         assert(testClass._eventListeners[eventType1][id] === undefined, "should have removed handler");
+        done();
+      });
+      it("should throw error for unknown event type", function(done) {
+        var id = testClass.addEventHandler(eventType1, function (){});
+
+        var result = throwsError(testClass.clearEventHandlers.bind(testClass, "bogus event type"));
+        assert(result === true, "should have thrown error");
+        done();
+      });
+    });
+    describe("#notify", function() {
+      var notified = {};
+      var eventData = {
+        stuff:"stuff"
+      };
+      var time = 101;
+      beforeEach(function() {
+        notified = {};
+        testClass.addEventHandler(eventType1, function (event){
+          notified.eventType = event.type;
+          notified.stuff = event.data.stuff;
+          notified.time = event.time;
+        });
+      });
+      it("should notify event handlers", function(done) {
+        testClass.notify(new SL.Event(eventType1, eventData, time));
+
+        assert(notified.eventType === eventType1, "should have notified handler: eventType");
+        assert(notified.stuff === eventData.stuff, "should have notified handler: stuff");
+        assert(notified.time === time, "should have notified handler: time");
+        done();
+      });
+      it("should throw error if unknown event type", function(done) {
+        var result = throwsError(testClass.notify.bind(testClass, new SL.Event("bogus event type", eventData, time)));
+
+        assert(result === true, "should have thrown error");
         done();
       });
     });

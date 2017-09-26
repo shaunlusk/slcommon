@@ -98,7 +98,6 @@ describe("PriorityQueue",function(){
       for (i = 0; i < sorted.length; i++) {
         str +=q.getByIndex(i).value + ",";
       }
-      console.log("before " + str);
 
       q.sort();
 
@@ -106,7 +105,6 @@ describe("PriorityQueue",function(){
       for (i = 0; i < sorted.length; i++) {
         str +=q.getByIndex(i).value + ",";
       }
-      console.log("after " + str);
 
       for (i = 0; i < sorted.length; i++) {
         assert( q.getByIndex(i).value === sorted[i], "sort didn't work. idx[" + i + "]: " + q.getByIndex(i).value + ", expected " + sorted[i]);

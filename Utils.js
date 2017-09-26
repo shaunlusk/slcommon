@@ -25,14 +25,34 @@ SL.linSearch = function(array, value, equalityFunction) {
   return -1;
 };
 
+/** Return whether the value is null or undefined.
+* @param {Any} value The value to test.
+* @returns {Boolean} True if the value is null or undefined; false otherwise.
+*/
 SL.isNullOrUndefined = function(value) {
   return value === null || value === undefined;
 };
 
+/** Return the degree value converted to radians.
+* @param {Number} degrees The value in degrees.
+* @returns {Number} The value in radians.
+*/
 SL.degreesToRadians = function(degrees) {
   return (degrees / 180) * Math.PI;
 };
 
+/** Return whether two boxes collide.
+* @param {Number} x1 The X coordinate top left corner of box 1.
+* @param {Number} y1 The y coordinate top left corner of box 1.
+* @param {Number} width1 The width of box 1.
+* @param {Number} height1 The X height of box 1.
+* @param {Number} x2 The X coordinate top left corner of box 2.
+* @param {Number} y2 The y coordinate top left corner of box 2.
+* @param {Number} width2 The width of box 2.
+* @param {Number} height2 The X height of box 2.
+* @returns {Boolean} Returns true if boxes overlap,
+* false if they only touch or are disjoint.
+*/
 SL.checkCollision = function(x1, y1, width1, height1, x2, y2, width2, height2) {
   return x1 < x2 + width2 &&
     x1 + width1 > x2 &&
