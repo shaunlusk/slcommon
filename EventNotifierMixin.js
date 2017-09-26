@@ -72,7 +72,11 @@ SL.EventNotifierMixin = function(props) {
     }
   };
 
-  /**
+  /** Initialize events to listen for.
+  * @param {Object} props Supported configuration properties.
+  * <ul>
+  *   <li>eventListeners - Array<string> - A list of event types to listen for.</li>
+  * </ul>
   */
   this.EventNotifierMixinInitializer = function(props) {
     this._eventListeners  =  {};
