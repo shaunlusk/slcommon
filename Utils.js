@@ -59,3 +59,15 @@ SL.checkCollision = function(x1, y1, width1, height1, x2, y2, width2, height2) {
     y1 < y2 + height2 &&
     y1 + height1 > y2;
 };
+
+/** Merge a collection of properties into an object.
+* Modifies the object.
+* @param {Object} properties The set of properties to merge into the object.
+* @param {Object} object The object to recieve the properties.
+*/
+SL.mergeProperties = function(properties, object) {
+  var keys = Object.keys(properties);
+  keys.forEach(function(key) {
+    object[key] = properties[key];
+  });
+};
