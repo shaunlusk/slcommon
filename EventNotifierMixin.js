@@ -35,6 +35,12 @@ SL.EventNotifierMixin = function(props) {
     return handlerId;
   };
 
+  /** Register an event type.
+  * @deprecated
+  * No longer necessary to register types explicitly.
+  * Being notified of untracked events will no longer throw an error,
+  * unless in debug mode.
+  */
   this.registerEventType = function(eventType) {
     if (!this._eventListeners[eventType]) {
       this._eventListeners[eventType] = {};
@@ -70,7 +76,8 @@ SL.EventNotifierMixin = function(props) {
   */
   this.notify = function(event) {
     if (!this._eventListeners[event.type]) {
-      throw new Error("Unknown event type:" + event.type);
+      if (SL.debug) throw new Error("Unknown event type:" + event.type);
+      return;
     }
     var keys = Object.keys(this._eventListeners[event.type]);
     for (var i = 0; i < keys.length; i++) {

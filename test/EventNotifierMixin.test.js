@@ -126,10 +126,10 @@ describe("EventNotifierMixin", function() {
         assert(notified.time === time, "should have notified handler: time");
         done();
       });
-      it("should throw error if unknown event type", function(done) {
+      it("should no longer throw error if unknown event type", function(done) {
         var result = throwsError(testClass.notify.bind(testClass, new SL.Event("bogus event type", eventData, time)));
 
-        assert(result === true, "should have thrown error");
+        assert(result !== true, "should not have thrown error");
         done();
       });
     });
