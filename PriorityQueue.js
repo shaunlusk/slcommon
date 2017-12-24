@@ -25,6 +25,7 @@ SL.IComparable.prototype.equals = function(other) { throw new Error('not impleme
 SL.PriorityQueue = function() {
 
   this._heapSize = 0;
+  this.length = this._heapSize;
   this._a = [];
   /** True: largest values will be at the front of the queue.
   * False: smallest values will be at the front of the queue.
@@ -105,6 +106,7 @@ SL.PriorityQueue.prototype.extractMax = function() {
   this._a[0] = this._a[this._heapSize-1];
   this._a[this._heapSize-1] = null;
   this._heapSize--;
+  this.length = this._heapSize;
   this._maxHeapify( 0, this._heapSize,  this.invertPriority ? 1 : -1);
   return max;
 };
@@ -120,6 +122,7 @@ SL.PriorityQueue.prototype.insert = function( element ) {
   else
     this._a[i] = element;
   this._heapSize++;
+  this.length = this._heapSize;
 
   this.increaseKey(i);
 };
@@ -212,11 +215,18 @@ SL.PriorityQueue.prototype.remove = function(element, equalityCheckFn) {
   this._a[idx] = this._a[this._heapSize-1];
   this._a[this._heapSize-1] = null;
   this._heapSize--;
+  this.length = this._heapSize;
   this._maxHeapify( idx, this._heapSize,  this.invertPriority ? 1 : -1);
 };
 
 /** Clear the queue. */
-SL.PriorityQueue.prototype.clear = function() {this._heapSize = 0;};
+SL.PriorityQueue.prototype.clear = function() {
+  this._heapSize = 0;
+  this.length = this._heapSize;
+  for (var i = 0; i < this._a.length; i++) {
+    this._a[i] = null;
+  }
+};
 
 /** @private */
 SL.PriorityQueue.prototype._verifyHeap = function(i) {
