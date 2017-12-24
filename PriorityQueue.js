@@ -201,12 +201,12 @@ SL.PriorityQueue.prototype.indexOf = function(element, equalityCheckFn) {
 /**
 * @param element {Object} The element to be removed from the list.
 */
-SL.PriorityQueue.prototype.remove = function(element) {
+SL.PriorityQueue.prototype.remove = function(element, equalityCheckFn) {
   if ( this._heapSize < 1 ) {
     return;
   }
 
-  var idx = this.indexOf(element);
+  var idx = this.indexOf(element, equalityCheckFn);
   if (idx < 0) return;
 
   this._a[idx] = this._a[this._heapSize-1];
