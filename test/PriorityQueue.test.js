@@ -273,7 +273,7 @@ describe("PriorityQueue",function(){
       done();
     });
   });
-  describe("#getByEquality()", function() {
+  describe("#getByEquality(target)", function() {
     it("should return the element when it is found", function(done){
       var q = new SL.PriorityQueue();
       q.push( getPriorityQueueElement(1) );
@@ -297,6 +297,36 @@ describe("PriorityQueue",function(){
       q.push( getPriorityQueueElement(5) );
 
       var f = q.getByEquality(e);
+
+      assert( f === null , "wrong element retrieved" );
+      done();
+    });
+  });
+  describe("#getByEquality(target, equalityCheckFn)", function() {
+    var equalityCheckFn = function(a,b) {return a === b;};
+    it("should return the element when it is found", function(done){
+      var q = new SL.PriorityQueue();
+      q.push( getPriorityQueueElement(1) );
+      q.push( getPriorityQueueElement(2) );
+      var e = getPriorityQueueElement(3);
+      q.push( e );
+      q.push( getPriorityQueueElement(4) );
+      q.push( getPriorityQueueElement(5) );
+
+      var f = q.getByEquality(e,equalityCheckFn);
+
+      assert( e.equals(f) , "wrong element retrieved" );
+      done();
+    });
+    it("should return null when element is not found", function(done){
+      var q = new SL.PriorityQueue();
+      q.push( getPriorityQueueElement(1) );
+      q.push( getPriorityQueueElement(2) );
+      var e = getPriorityQueueElement(3);
+      q.push( getPriorityQueueElement(4) );
+      q.push( getPriorityQueueElement(5) );
+
+      var f = q.getByEquality(e, equalityCheckFn);
 
       assert( f === null , "wrong element retrieved" );
       done();

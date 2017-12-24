@@ -53,23 +53,21 @@ SL.Queue.prototype.newIterator = function() {
 /** Returns whether this queue contains the target object.
 * @returns {boolean}
 */
-SL.Queue.prototype.contains = function(target) {
-  var it = this.newIterator();
-  var element = null;
-  while ((element = it.getCurrent()) !== null ) {
-    if (element === target || (SL.isFunction(element.equals) && element.equals(target))) return true;
-    it.next();
-  }
+SL.Queue.prototype.contains = function(target, equalityCheckFn) {
+  if (this.getByEquality(target,equalityCheckFn)) return true;
   return false;
 };
 
 /** Check if the specified object exists in the queue; if so return the element, else return null.
 * @returns {Object}
 */
-SL.Queue.prototype.getByEquality = function(target) {
+SL.Queue.prototype.getByEquality = function(target, equalityCheckFn) {
   var it = this.newIterator();
   var element = null;
   while ((element = it.getCurrent()) !== null ) {
+    if (equalityCheckFn && SL.isFunction(equalityCheckFn)) {
+      if (equalityCheckFn(element, target)) return element;
+    }
     if (element === target || (SL.isFunction(element.equals) && element.equals(target))) return element;
     it.next();
   }

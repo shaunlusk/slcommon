@@ -161,8 +161,8 @@ SL.PriorityQueue.prototype.getByIndex = function(i) {
 * @param i {SL.IComparable} An element to search for.
 * @return {Object} The element if found; null otherwise.
 */
-SL.PriorityQueue.prototype.getByEquality = function(element) {
-  var idx = this.indexOf(element);
+SL.PriorityQueue.prototype.getByEquality = function(element, equalityCheckFn) {
+  var idx = this.indexOf(element, equalityCheckFn);
   if (idx === -1) return null;
   return this._a[idx];
 };
@@ -178,10 +178,8 @@ SL.PriorityQueue.prototype.size = function() {
 * @param element {SL.IComparable} The element to search for.
 * @return {boolean} True if the element is in the queue; false otherwise.
 */
-SL.PriorityQueue.prototype.contains = function(element) {
-  for (var i = 0; i < this._heapSize; i++) {
-    if (element.equals(this._a[i])) return true;
-  }
+SL.PriorityQueue.prototype.contains = function(element, equalityCheckFn) {
+  if (this.indexOf(element, equalityCheckFn) !== -1) return true;
   return false;
 };
 
@@ -189,9 +187,13 @@ SL.PriorityQueue.prototype.contains = function(element) {
 * @param element {SL.IComparable} The element to search for.
 * @return {int} The index of the element in the queue; -1 if it does not exist.
 */
-SL.PriorityQueue.prototype.indexOf = function(element) {
+SL.PriorityQueue.prototype.indexOf = function(element, equalityCheckFn) {
   for (var i = 0; i < this._heapSize; i++) {
-    if (element.equals(this._a[i])) return i;
+    if (equalityCheckFn && SL.isFunction(equalityCheckFn)) {
+      if (equalityCheckFn(element, this._a[i])) return i;
+    } else {
+      if (element.equals(this._a[i])) return i;
+    }
   }
   return -1;
 };
