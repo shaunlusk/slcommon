@@ -103,6 +103,7 @@ SL.PriorityQueue.prototype.extractMax = function() {
 
   var max = this._a[0];
   this._a[0] = this._a[this._heapSize-1];
+  this._a[this._heapSize-1] = null;
   this._heapSize--;
   this._maxHeapify( 0, this._heapSize,  this.invertPriority ? 1 : -1);
   return max;
@@ -207,6 +208,7 @@ SL.PriorityQueue.prototype.remove = function(element) {
   if (idx < 0) return;
 
   this._a[idx] = this._a[this._heapSize-1];
+  this._a[this._heapSize-1] = null;
   this._heapSize--;
   this._maxHeapify( idx, this._heapSize,  this.invertPriority ? 1 : -1);
 };
@@ -260,3 +262,10 @@ SL.PriorityQueue.prototype.push = SL.PriorityQueue.prototype.insert;
 * @return {Object} The element at the front of the queue.
 */
 SL.PriorityQueue.prototype.peek = function() {return this._heapSize < 1 ? null : this._a[0];};
+
+/** Retrieve an iterator for this PriorityQueue.
+* @returns {SL.PriorityQueueIterator}
+*/
+SL.PriorityQueue.prototype.newIterator = function() {
+  return new SL.PriorityQueueIterator(this._a, this._heapSize);
+};
