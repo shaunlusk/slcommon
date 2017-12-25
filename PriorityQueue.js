@@ -25,7 +25,6 @@ SL.IComparable.prototype.equals = function(other) { throw new Error('not impleme
 SL.PriorityQueue = function() {
 
   this._heapSize = 0;
-  this.length = this._heapSize;
   this._a = [];
   /** True: largest values will be at the front of the queue.
   * False: smallest values will be at the front of the queue.
@@ -104,9 +103,7 @@ SL.PriorityQueue.prototype.extractMax = function() {
 
   var max = this._a[0];
   this._a[0] = this._a[this._heapSize-1];
-  this._a[this._heapSize-1] = null;
   this._heapSize--;
-  this.length = this._heapSize;
   this._maxHeapify( 0, this._heapSize,  this.invertPriority ? 1 : -1);
   return max;
 };
@@ -122,7 +119,6 @@ SL.PriorityQueue.prototype.insert = function( element ) {
   else
     this._a[i] = element;
   this._heapSize++;
-  this.length = this._heapSize;
 
   this.increaseKey(i);
 };
@@ -159,14 +155,13 @@ SL.PriorityQueue.prototype.getByIndex = function(i) {
   return this._a[i];
 };
 
-/** Retrieve the first element that equals the targetValue.
+/** Retrieve the first element that equals one specified.
 * Use this if you need to update the value/priority of an element in the queue.
-* @param i {SL.IComparable} An targetValue to search for.
-* @param {Function} equalityCheckFn Optional. (targetValue, element) If provided, will be used to compare elements to the target value.
+* @param i {SL.IComparable} An element to search for.
 * @return {Object} The element if found; null otherwise.
 */
-SL.PriorityQueue.prototype.getByEquality = function(targetValue, equalityCheckFn) {
-  var idx = this.indexOf(targetValue, equalityCheckFn);
+SL.PriorityQueue.prototype.getByEquality = function(element) {
+  var idx = this.indexOf(element);
   if (idx === -1) return null;
   return this._a[idx];
 };
@@ -179,58 +174,45 @@ SL.PriorityQueue.prototype.size = function() {
 };
 
 /** Returns whether the item exists in the queue.
-* @param {SL.IComparable} targetValue The targetValue to search for.
-* @param {Function} equalityCheckFn Optional. (targetValue, element) If provided, will be used to compare elements to the target value.
+* @param element {SL.IComparable} The element to search for.
 * @return {boolean} True if the element is in the queue; false otherwise.
 */
-SL.PriorityQueue.prototype.contains = function(targetValue, equalityCheckFn) {
-  if (this.indexOf(targetValue, equalityCheckFn) !== -1) return true;
+SL.PriorityQueue.prototype.contains = function(element) {
+  for (var i = 0; i < this._heapSize; i++) {
+    if (element.equals(this._a[i])) return true;
+  }
   return false;
 };
 
 /** Returns the index of the item if it exists in the queue.
-* @param {SL.IComparable} targetValue The element to search for.
-* @param {Function} equalityCheckFn Optional. (targetValue, element) If provided, will be used to compare elements to the target value.
+* @param element {SL.IComparable} The element to search for.
 * @return {int} The index of the element in the queue; -1 if it does not exist.
 */
-SL.PriorityQueue.prototype.indexOf = function(targetValue, equalityCheckFn) {
+SL.PriorityQueue.prototype.indexOf = function(element) {
   for (var i = 0; i < this._heapSize; i++) {
-    if (equalityCheckFn && SL.isFunction(equalityCheckFn)) {
-      if (equalityCheckFn(targetValue, this._a[i])) return i;
-    } else {
-      if (targetValue.equals(this._a[i])) return i;
-    }
+    if (element.equals(this._a[i])) return i;
   }
   return -1;
 };
 
 /**
-* @param {Object} element The element to be removed from the list.
-* @param {Function} equalityCheckFn Optional. (targetValue, element) If provided, will be used to compare elements to the target value.
+* @param element {Object} The element to be removed from the list.
 */
-SL.PriorityQueue.prototype.remove = function(targetValue, equalityCheckFn) {
+SL.PriorityQueue.prototype.remove = function(element) {
   if ( this._heapSize < 1 ) {
     return;
   }
 
-  var idx = this.indexOf(targetValue, equalityCheckFn);
+  var idx = this.indexOf(element);
   if (idx < 0) return;
 
   this._a[idx] = this._a[this._heapSize-1];
-  this._a[this._heapSize-1] = null;
   this._heapSize--;
-  this.length = this._heapSize;
   this._maxHeapify( idx, this._heapSize,  this.invertPriority ? 1 : -1);
 };
 
 /** Clear the queue. */
-SL.PriorityQueue.prototype.clear = function() {
-  this._heapSize = 0;
-  this.length = this._heapSize;
-  for (var i = 0; i < this._a.length; i++) {
-    this._a[i] = null;
-  }
-};
+SL.PriorityQueue.prototype.clear = function() {this._heapSize = 0;};
 
 /** @private */
 SL.PriorityQueue.prototype._verifyHeap = function(i) {
@@ -278,10 +260,3 @@ SL.PriorityQueue.prototype.push = SL.PriorityQueue.prototype.insert;
 * @return {Object} The element at the front of the queue.
 */
 SL.PriorityQueue.prototype.peek = function() {return this._heapSize < 1 ? null : this._a[0];};
-
-/** Retrieve an iterator for this PriorityQueue.
-* @returns {SL.PriorityQueueIterator}
-*/
-SL.PriorityQueue.prototype.newIterator = function() {
-  return new SL.PriorityQueueIterator(this._a, this._heapSize);
-};

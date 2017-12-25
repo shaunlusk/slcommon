@@ -57,7 +57,7 @@ describe("Queue", function() {
       done();
     });
   });
-  describe("#contains(element)", function() {
+  describe("#contains()", function() {
     it("should return false (empty queue)", function(done) {
       var result = q.contains("item2");
 
@@ -102,31 +102,6 @@ describe("Queue", function() {
       q.push(item);
 
       var result = q.contains(item);
-
-      assert(result === true, "should have returned true");
-      done();
-    });
-  });
-  describe("#contains(element, equalityCheckFn)", function() {
-    var equalityCheckFn = function(a,b) {return a === b;};
-    it("should return false (empty queue)", function(done) {
-      var result = q.contains("item2", equalityCheckFn);
-
-      assert(result === false, "should have returned false");
-      done();
-    });
-    it("should return false (non-empty queue)", function(done) {
-      q.push("item1");
-
-      var result = q.contains("item2", equalityCheckFn);
-
-      assert(result === false, "should have returned false");
-      done();
-    });
-    it("should return true", function(done) {
-      q.push("item1");
-
-      var result = q.contains("item1", equalityCheckFn);
 
       assert(result === true, "should have returned true");
       done();
