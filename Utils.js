@@ -67,6 +67,7 @@ SL.checkCollision = function(x1, y1, width1, height1, x2, y2, width2, height2) {
 */
 SL.mergeProperties = function(properties, object) {
   var keys = Object.keys(properties);
+  if (!keys) return;
   keys.forEach(function(key) {
     object[key] = properties[key];
   });
