@@ -260,3 +260,5 @@ SL.PriorityQueue.prototype.push = SL.PriorityQueue.prototype.insert;
 * @return {Object} The element at the front of the queue.
 */
 SL.PriorityQueue.prototype.peek = function() {return this._heapSize < 1 ? null : this._a[0];};
+
+if (module) module.exports = SL.PriorityQueue;
