@@ -72,5 +72,3 @@ SL.mergeProperties = function(properties, object) {
     object[key] = properties[key];
   });
 };
-
-if (module) module.exports = SL;
