@@ -5,6 +5,10 @@ var SL = SL || {};
 * @see SL.EventNotifierMixin
 * @class
 */
-SL.EventManager = function() {};
+SL.EventManager = function() {
+  this.EventNotifierMixinInitializer({
+    eventListeners:[]
+  });
+};
 
 SL.EventNotifierMixin.call(SL.EventManager.prototype);
