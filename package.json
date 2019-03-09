@@ -1,9 +1,13 @@
 {
   "name": "slcommon",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "description": "Common functionality for Shaun's projects.",
   "main": "index.js",
   "repository": "https://github.com/shaunlusk/slcommon.git",
   "author": "Shaun Lusk <shaun.lusk@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "webpack-cli": "^3.2.3",
+    "webpack": "^4.29.6"
+  }
 }
