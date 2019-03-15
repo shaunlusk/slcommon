@@ -1,14 +1,16 @@
-var SL = SL || {};
+var EventNotifierMixin = require("./EventNotifierMixin");
 
 /**
 * Tracks event handlers and notifies them when events occur.
-* @see SL.EventNotifierMixin
 * @class
+* @see EventNotifierMixin
 */
-SL.EventManager = function() {
+function EventManager() {
   this.EventNotifierMixinInitializer({
     eventListeners:[]
   });
 };
 
-SL.EventNotifierMixin.call(SL.EventManager.prototype);
+EventNotifierMixin.call(EventManager.prototype);
+
+module.exports = EventManager;

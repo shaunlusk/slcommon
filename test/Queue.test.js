@@ -1,8 +1,13 @@
+var assert = require("./testUtil").assert;
+var throwsError = require("./testUtil").throwsError;
+var Utils = require ("../src/Utils");
+var Queue = require("../src/Queue");
+
 describe("Queue", function() {
   var q;
 
   beforeEach(function() {
-    q = new SL.Queue();
+    q = new Queue();
   });
 
   describe("#push()", function() {
@@ -53,7 +58,7 @@ describe("Queue", function() {
     it("should return new iterator", function(done) {
       var result = q.newIterator();
 
-      assert(result instanceof SL.QueueIterator, "should have returned queue iterator");
+      assert(result instanceof Queue.QueueIterator, "should have returned queue iterator");
       done();
     });
   });
@@ -158,7 +163,7 @@ describe("Queue", function() {
     });
   });
 });
-describe("QueueIterator", function() {
+describe("Queue.QueueIterator", function() {
   var item1, item2, qi;
   beforeEach(function() {
     var item1 = {
@@ -169,11 +174,11 @@ describe("QueueIterator", function() {
       elem:"item2",
       next:item1
     };
-    qi = new SL.QueueIterator(item2);
+    qi = new Queue.QueueIterator(item2);
   });
   describe("#getCurrent()", function() {
     it("should return null", function(done) {
-      qi = new SL.QueueIterator(null);
+      qi = new Queue.QueueIterator(null);
       var result = qi.getCurrent();
       assert(result === null, "should have returned null");
       done();

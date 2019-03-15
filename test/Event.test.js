@@ -1,10 +1,13 @@
+var Event = require("../src/SLEvent");
+var assert = require("./testUtil").assert;
+
 describe("Event", function() {
   describe("#constructor", function() {
     it("should create", function(done) {
       var type = "test";
       var data = {stuff:"stuff"};
       var time = 1000;
-      var event = new SL.Event(type, data, time);
+      var event = new Event(type, data, time);
 
       assert(event.type === type, "should have set type");
       assert(event.data.stuff === data.stuff, "should have set data");
@@ -14,7 +17,7 @@ describe("Event", function() {
     it("should use default time", function(done) {
       var type = "test";
       var data = {stuff:"stuff"};
-      var event = new SL.Event(type, data);
+      var event = new Event(type, data);
 
       assert(event.type === type, "should have set type");
       assert(event.data.stuff === data.stuff, "should have set data");

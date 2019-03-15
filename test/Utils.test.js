@@ -1,9 +1,14 @@
+var testUtils = require("./testUtil");
+var assert = testUtils.assert;
+var throwsError = testUtils.throwsError;
+var Utils = require("../src/Utils");
+
 describe("Utils", function() {
   describe("#isFunction", function() {
     it("should return true", function(done) {
       var fn = function() {};
 
-      var result = SL.isFunction(fn);
+      var result = Utils.isFunction(fn);
 
       assert(result === true, "should have returned true;");
       done();
@@ -11,7 +16,7 @@ describe("Utils", function() {
     it("should return false", function(done) {
       var fn = "not a function";
 
-      var result = SL.isFunction(fn);
+      var result = Utils.isFunction(fn);
 
       assert(result === false, "should have returned false;");
       done();
@@ -24,7 +29,7 @@ describe("Utils", function() {
       var target = 4;
       var expected = 3;
 
-      var result = SL.linSearch(a, target, equalityFunction);
+      var result = Utils.linSearch(a, target, equalityFunction);
 
       assert(result === expected, "should have returned index value " + expected);
       done();
@@ -34,7 +39,7 @@ describe("Utils", function() {
       var target = 14;
       var expected = -1;
 
-      var result = SL.linSearch(a, target, equalityFunction);
+      var result = Utils.linSearch(a, target, equalityFunction);
 
       assert(result === expected, "should have returned " + expected);
       done();
@@ -45,7 +50,7 @@ describe("Utils", function() {
       var value = null;
       var expected = true;
 
-      var result = SL.isNullOrUndefined(value);
+      var result = Utils.isNullOrUndefined(value);
 
       assert(result === expected, "should have returned " + expected);
       done();
@@ -53,7 +58,7 @@ describe("Utils", function() {
     it("should return true when value is undefined", function(done) {
       var expected = true;
 
-      var result = SL.isNullOrUndefined();
+      var result = Utils.isNullOrUndefined();
 
       assert(result === expected, "should have returned " + expected);
       done();
@@ -62,7 +67,7 @@ describe("Utils", function() {
       var value = {};
       var expected = false;
 
-      var result = SL.isNullOrUndefined(value);
+      var result = Utils.isNullOrUndefined(value);
 
       assert(result === expected, "should have returned " + expected);
       done();
@@ -73,7 +78,7 @@ describe("Utils", function() {
       var degrees = 125;
       var expected = 2.182;
 
-      var result = SL.degreesToRadians(degrees);
+      var result = Utils.degreesToRadians(degrees);
       result = Math.round(result * 1000, 3);
       result /= 1000;
 
@@ -93,7 +98,7 @@ describe("Utils", function() {
       var height2 = 10;
       var expected = true;
 
-      var result = SL.checkCollision(x1, y1, width1, height1, x2, y2, width2, height2);
+      var result = Utils.checkCollision(x1, y1, width1, height1, x2, y2, width2, height2);
 
       assert(result === expected, "should have returned " + expected);
       done();
@@ -109,7 +114,7 @@ describe("Utils", function() {
       var height2 = 10;
       var expected = false;
 
-      var result = SL.checkCollision(x1, y1, width1, height1, x2, y2, width2, height2);
+      var result = Utils.checkCollision(x1, y1, width1, height1, x2, y2, width2, height2);
 
       assert(result === expected, "should have returned " + expected);
       done();
@@ -125,7 +130,7 @@ describe("Utils", function() {
       var height2 = 10;
       var expected = false;
 
-      var result = SL.checkCollision(x1, y1, width1, height1, x2, y2, width2, height2);
+      var result = Utils.checkCollision(x1, y1, width1, height1, x2, y2, width2, height2);
 
       assert(result === expected, "should have returned " + expected);
       done();

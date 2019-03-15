@@ -12,3 +12,8 @@ function throwsError(callback) {
   }
   return threwit;
 }
+
+module.exports = {
+  assert:assert,
+  throwsError:throwsError
+};

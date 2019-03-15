@@ -1,13 +1,11 @@
-var SL = SL || {};
-
-SL.Utils = {};
+var Utils = {};
 
 /** Check whether the argument is a function.
 * @memberof C64Style
 * @param {Object} callback The object to check.
 * @returns {boolean} true if it is a function, false otherwise.
 */
-SL.isFunction = function(callback) {return typeof callback === "function";};
+Utils.isFunction = function(callback) {return typeof callback === "function";};
 
 /** Search an array for a given value, using an equality function; returns the index
 * of the first occurence in the array, or -1 if not found.
@@ -18,7 +16,7 @@ SL.isFunction = function(callback) {return typeof callback === "function";};
 *   Should retruen true when elements are equal, false otherwise.
 * @returns {integer} The index of the located value, or -1 if not found
 */
-SL.linSearch = function(array, value, equalityFunction) {
+Utils.linSearch = function(array, value, equalityFunction) {
   for (var i = 0; i < array.length; i++) {
     if (equalityFunction(array[i], value)) return i;
   }
@@ -29,7 +27,7 @@ SL.linSearch = function(array, value, equalityFunction) {
 * @param {Any} value The value to test.
 * @returns {Boolean} True if the value is null or undefined; false otherwise.
 */
-SL.isNullOrUndefined = function(value) {
+Utils.isNullOrUndefined = function(value) {
   return value === null || value === undefined;
 };
 
@@ -37,7 +35,7 @@ SL.isNullOrUndefined = function(value) {
 * @param {Number} degrees The value in degrees.
 * @returns {Number} The value in radians.
 */
-SL.degreesToRadians = function(degrees) {
+Utils.degreesToRadians = function(degrees) {
   return (degrees / 180) * Math.PI;
 };
 
@@ -53,7 +51,7 @@ SL.degreesToRadians = function(degrees) {
 * @returns {Boolean} Returns true if boxes overlap,
 * false if they only touch or are disjoint.
 */
-SL.checkCollision = function(x1, y1, width1, height1, x2, y2, width2, height2) {
+Utils.checkCollision = function(x1, y1, width1, height1, x2, y2, width2, height2) {
   return x1 < x2 + width2 &&
     x1 + width1 > x2 &&
     y1 < y2 + height2 &&
@@ -65,10 +63,12 @@ SL.checkCollision = function(x1, y1, width1, height1, x2, y2, width2, height2) {
 * @param {Object} properties The set of properties to merge into the object.
 * @param {Object} object The object to recieve the properties.
 */
-SL.mergeProperties = function(properties, object) {
+Utils.mergeProperties = function(properties, object) {
   var keys = Object.keys(properties);
   if (!keys) return;
   keys.forEach(function(key) {
     object[key] = properties[key];
   });
 };
+
+module.exports = Utils;

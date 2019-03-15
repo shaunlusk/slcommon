@@ -1,5 +1,9 @@
+var assert = require("./testUtil").assert;
+var throwsError = require("./testUtil").throwsError;
+var UniquePriorityQueue = require("../src/UniquePriorityQueue");
+
 describe("UniquePriorityQueue", function() {
-  var q, element1;
+  var q, element1, element2, element3;
   beforeEach(function() {
     element1 = {
       getKey : function() {return "key1";},
@@ -19,7 +23,7 @@ describe("UniquePriorityQueue", function() {
       compareTo : function(other) {return this.value > other.value ? 1 : this.value === other.value ? 0 : -1;},
       equals : function(other) {return this.value === other.value;}
     };
-    q = new SL.UniquePriorityQueue();
+    q = new UniquePriorityQueue();
   });
   describe("#insert()", function() {
     it("should add element to queue", function(done) {

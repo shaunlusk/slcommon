@@ -1,9 +1,9 @@
-var SL = SL || {};
+var Utils = require('./Utils');
 
 /** Simple Queue class
 * @constructor
 */
-SL.Queue = function() {
+var Queue = function() {
   this.head = null;
   this.tail = null;
   this._size = 0;
@@ -12,8 +12,8 @@ SL.Queue = function() {
 /** Adds a new item to the queue.
 * @param {Object} elem The item to be added to the queue.
 */
-SL.Queue.prototype.push = function(elem) {
-  var qelem = new SL.QueueElement(elem,null);
+Queue.prototype.push = function(elem) {
+  var qelem = new QueueElement(elem,null);
   if (this._size === 0) {
     this.head = qelem;
   } else {
@@ -26,7 +26,7 @@ SL.Queue.prototype.push = function(elem) {
 /** Removes and returns the item at the front of the queue
 * @return {Object} The item at the front of the queue. Null if queue is empty.
 */
-SL.Queue.prototype.pop = function() {
+Queue.prototype.pop = function() {
   var temp = this.head;
   if (this.head !== null) {
     this.head = this.head.next;
@@ -37,27 +37,27 @@ SL.Queue.prototype.pop = function() {
 };
 
 /** Clear the queue. */
-SL.Queue.prototype.clear = function() {
+Queue.prototype.clear = function() {
   this.head = null;
   this.tail = null;
   this._size = 0;
 };
 
 /** Retrieve an iterator for this queue.
-* @returns {SL.QueueIterator}
+* @returns {QueueIterator}
 */
-SL.Queue.prototype.newIterator = function() {
-  return new SL.QueueIterator(this.head);
+Queue.prototype.newIterator = function() {
+  return new Queue.QueueIterator(this.head);
 };
 
 /** Returns whether this queue contains the target object.
 * @returns {boolean}
 */
-SL.Queue.prototype.contains = function(target) {
+Queue.prototype.contains = function(target) {
   var it = this.newIterator();
   var element = null;
   while ((element = it.getCurrent()) !== null ) {
-    if (element === target || (SL.isFunction(element.equals) && element.equals(target))) return true;
+    if (element === target || (Utils.isFunction(element.equals) && element.equals(target))) return true;
     it.next();
   }
   return false;
@@ -66,11 +66,11 @@ SL.Queue.prototype.contains = function(target) {
 /** Check if the specified object exists in the queue; if so return the element, else return null.
 * @returns {Object}
 */
-SL.Queue.prototype.getByEquality = function(target) {
+Queue.prototype.getByEquality = function(target) {
   var it = this.newIterator();
   var element = null;
   while ((element = it.getCurrent()) !== null ) {
-    if (element === target || (SL.isFunction(element.equals) && element.equals(target))) return element;
+    if (element === target || (Utils.isFunction(element.equals) && element.equals(target))) return element;
     it.next();
   }
   return null;
@@ -79,7 +79,7 @@ SL.Queue.prototype.getByEquality = function(target) {
 /** Returns the size of the queue
 * @return {int} The size of the queue.
 */
-SL.Queue.prototype.size = function() {
+Queue.prototype.size = function() {
   return this._size;
 };
 
@@ -88,26 +88,28 @@ SL.Queue.prototype.size = function() {
 * @param {Object} elem The object for this node.
 * @param {Object} next The next element in the queue.
 */
-SL.QueueElement = function(elem,next) {
+var QueueElement = function(elem,next) {
   this.elem = elem;
   this.next = next;
 };
 
 /** An iterator for a Queue.
 * @constructor
-* @param {SL.QueueElement} head The head element of the Queue.
+* @param {QueueElement} head The head element of the Queue.
 */
-SL.QueueIterator = function(head) {
+Queue.QueueIterator = function(head) {
   this._ptr = head;
 };
 
 /** Return the object for the current position in the queue.
 */
-SL.QueueIterator.prototype.getCurrent = function() {
+Queue.QueueIterator.prototype.getCurrent = function() {
   return this._ptr === null ? null : this._ptr.elem;
 };
 
 /** Move the iterator to the next position in the queue. */
-SL.QueueIterator.prototype.next = function() {
+Queue.QueueIterator.prototype.next = function() {
   this._ptr = this._ptr === null ? null : this._ptr.next;
 };
+
+module.exports = Queue;

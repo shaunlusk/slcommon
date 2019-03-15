@@ -1,10 +1,10 @@
-var SL = SL || {};
+var Utils = require("./Utils");
 
 /** Add Event Notification functions to a class.
 * Tracks event handlers and notifies them when events occur.
 * Usage:
 * Call:
-*   SL.EventNotifierMixin.call(MyClass.prototype);
+*   EventNotifierMixin.call(MyClass.prototype);
 * And in your constructor, call initializer with the event types you want to listen for:
 *   this.EventNotifierMixinInitializer({
 *     eventListeners:[
@@ -16,12 +16,14 @@ var SL = SL || {};
 *   myClassInstance.on("myEvent1", someHandlerCallback);
 * @class
 */
-SL.EventNotifierMixin = function(props) {
-  this._eventNotifierMixinId = SL.EventNotifierMixin.id++;
+function EventNotifierMixin(props) {
+  props = props || {};
+  this._eventNotifierMixinId = EventNotifierMixin.id++;
   this._eventNotifierMixinHandlerId = 0;
+  this._EventNotifierMixin_debug = props.EventNotifierMixin_debug || false;
 
   /** Add an event handler to the handler list.
-  * @param {SL.EventType} eventType The type of the event.
+  * @param {EventType} eventType The type of the event.
   * @param {Function} callback The handler to call when the specified event type occurs
   * @param {string} id Optional. An Id to reference the handler by.
   */
@@ -48,7 +50,7 @@ SL.EventNotifierMixin = function(props) {
   };
 
   /** Alias for 'add'. Add an event handler to the handler list.
-  * @param {SL.EventType} eventType The type of the event.
+  * @param {EventType} eventType The type of the event.
   * @param {Function} callback The handler to call when the specified event type occurs
   * @param {string} id Optional. An Id to reference the handler by.
   */
@@ -62,7 +64,7 @@ SL.EventNotifierMixin = function(props) {
   };
 
   /** Clear all event handlers for a given event type.
-  * @param {SL.EventType} eventType The type of the event.
+  * @param {EventType} eventType The type of the event.
   */
   this.clearEventHandlers = function(eventType) {
     if (!this._eventListeners[eventType]) {
@@ -72,16 +74,16 @@ SL.EventNotifierMixin = function(props) {
   };
 
   /** Notify event handlers when an event has occured.
-  * @param {SL.Event} event The event that occured
+  * @param {Event} event The event that occured
   */
   this.notify = function(event) {
     if (!this._eventListeners[event.type]) {
-      if (SL.debug) throw new Error("Unknown event type:" + event.type);
+      if (this._EventNotifierMixin_debug) throw new Error("Unknown event type:" + event.type);
       return;
     }
     var keys = Object.keys(this._eventListeners[event.type]);
     for (var i = 0; i < keys.length; i++) {
-      if (SL.isFunction(this._eventListeners[event.type][keys[i]])) this._eventListeners[event.type][keys[i]](event);
+      if (Utils.isFunction(this._eventListeners[event.type][keys[i]])) this._eventListeners[event.type][keys[i]](event);
     }
   };
 
@@ -102,4 +104,6 @@ SL.EventNotifierMixin = function(props) {
 
 };
 
-SL.EventNotifierMixin.id = 0;
+EventNotifierMixin.id = 0;
+
+module.exports = EventNotifierMixin;
