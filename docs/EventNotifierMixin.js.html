@@ -26,13 +26,13 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>var SL = SL || {};
+            <pre class="prettyprint source linenums"><code>var Utils = require("./Utils");
 
 /** Add Event Notification functions to a class.
 * Tracks event handlers and notifies them when events occur.
 * Usage:
 * Call:
-*   SL.EventNotifierMixin.call(MyClass.prototype);
+*   EventNotifierMixin.call(MyClass.prototype);
 * And in your constructor, call initializer with the event types you want to listen for:
 *   this.EventNotifierMixinInitializer({
 *     eventListeners:[
@@ -44,12 +44,14 @@
 *   myClassInstance.on("myEvent1", someHandlerCallback);
 * @class
 */
-SL.EventNotifierMixin = function(props) {
-  this._eventNotifierMixinId = SL.EventNotifierMixin.id++;
+function EventNotifierMixin(props) {
+  props = props || {};
+  this._eventNotifierMixinId = EventNotifierMixin.id++;
   this._eventNotifierMixinHandlerId = 0;
+  this._EventNotifierMixin_debug = props.EventNotifierMixin_debug || false;
 
   /** Add an event handler to the handler list.
-  * @param {SL.EventType} eventType The type of the event.
+  * @param {EventType} eventType The type of the event.
   * @param {Function} callback The handler to call when the specified event type occurs
   * @param {string} id Optional. An Id to reference the handler by.
   */
@@ -57,14 +59,26 @@ SL.EventNotifierMixin = function(props) {
     var handlerId = id || "eventHandler_" + this._eventNotifierMixinId + "." + this._eventNotifierMixinHandlerId;
     this._eventNotifierMixinHandlerId++;
     if (!this._eventListeners[eventType]) {
-      this._eventListeners[eventType] = {};
+      this.registerEventType(eventType);
     }
     this._eventListeners[eventType][handlerId] = callback;
     return handlerId;
   };
 
+  /** Register an event type.
+  * @deprecated
+  * No longer necessary to register types explicitly.
+  * Being notified of untracked events will no longer throw an error,
+  * unless in debug mode.
+  */
+  this.registerEventType = function(eventType) {
+    if (!this._eventListeners[eventType]) {
+      this._eventListeners[eventType] = {};
+    }
+  };
+
   /** Alias for 'add'. Add an event handler to the handler list.
-  * @param {SL.EventType} eventType The type of the event.
+  * @param {EventType} eventType The type of the event.
   * @param {Function} callback The handler to call when the specified event type occurs
   * @param {string} id Optional. An Id to reference the handler by.
   */
@@ -78,7 +92,7 @@ SL.EventNotifierMixin = function(props) {
   };
 
   /** Clear all event handlers for a given event type.
-  * @param {SL.EventType} eventType The type of the event.
+  * @param {EventType} eventType The type of the event.
   */
   this.clearEventHandlers = function(eventType) {
     if (!this._eventListeners[eventType]) {
@@ -88,15 +102,16 @@ SL.EventNotifierMixin = function(props) {
   };
 
   /** Notify event handlers when an event has occured.
-  * @param {SL.Event} event The event that occured
+  * @param {Event} event The event that occured
   */
   this.notify = function(event) {
     if (!this._eventListeners[event.type]) {
-      throw new Error("Unknown event type:" + event.type);
+      if (this._EventNotifierMixin_debug) throw new Error("Unknown event type:" + event.type);
+      return;
     }
     var keys = Object.keys(this._eventListeners[event.type]);
     for (var i = 0; i &lt; keys.length; i++) {
-      if (SL.isFunction(this._eventListeners[event.type][keys[i]])) this._eventListeners[event.type][keys[i]](event);
+      if (Utils.isFunction(this._eventListeners[event.type][keys[i]])) this._eventListeners[event.type][keys[i]](event);
     }
   };
 
@@ -117,7 +132,9 @@ SL.EventNotifierMixin = function(props) {
 
 };
 
-SL.EventNotifierMixin.id = 0;
+EventNotifierMixin.id = 0;
+
+module.exports = EventNotifierMixin;
 </code></pre>
         </article>
     </section>
@@ -128,13 +145,13 @@ SL.EventNotifierMixin.id = 0;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="SL.Event.html">Event</a></li><li><a href="SL.EventNotifierMixin.html">EventNotifierMixin</a></li><li><a href="SL.PriorityQueue.html">PriorityQueue</a></li><li><a href="SL.Queue.html">Queue</a></li><li><a href="SL.QueueElement.html">QueueElement</a></li><li><a href="SL.QueueIterator.html">QueueIterator</a></li><li><a href="SL.UniquePriorityQueue.html">UniquePriorityQueue</a></li></ul><h3>Interfaces</h3><ul><li><a href="SL.IComparable.html">IComparable</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="EventManager.html">EventManager</a></li><li><a href="EventNotifierMixin.html">EventNotifierMixin</a></li><li><a href="PriorityQueue.html">PriorityQueue</a></li><li><a href="Queue.html">Queue</a></li><li><a href="Queue.QueueIterator.html">QueueIterator</a></li><li><a href="QueueElement.html">QueueElement</a></li><li><a href="SLEvent.html">SLEvent</a></li><li><a href="UniquePriorityQueue.html">UniquePriorityQueue</a></li></ul><h3>Interfaces</h3><ul><li><a href="PriorityQueue.IComparable.html">IComparable</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Sep 25 2017 22:10:07 GMT-0500 (Central Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Mar 15 2019 13:02:20 GMT-0500 (Central Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

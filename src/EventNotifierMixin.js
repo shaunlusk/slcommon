@@ -26,6 +26,7 @@ function EventNotifierMixin(props) {
   * @param {EventType} eventType The type of the event.
   * @param {Function} callback The handler to call when the specified event type occurs
   * @param {string} id Optional. An Id to reference the handler by.
+  * @return {string} The id to reference the handler by.  For use in removing the handler.  If not explicitly provided a handler Id will be generated.
   */
   this.addEventHandler = function(eventType, callback, id) {
     var handlerId = id || "eventHandler_" + this._eventNotifierMixinId + "." + this._eventNotifierMixinHandlerId;
@@ -56,6 +57,9 @@ function EventNotifierMixin(props) {
   */
   this.on = this.addEventHandler;
 
+  /** Remove an event handler.
+  * @param {string} eventHandlerId The id of the handler to remove.
+  */
   this.removeEventHandler = function(eventHandlerId) {
     // delete
     Object.keys(this._eventListeners).forEach(function(listenerKey) {
@@ -88,10 +92,8 @@ function EventNotifierMixin(props) {
   };
 
   /** Initialize events to listen for.
-  * @param {Object} props Supported configuration properties.
-  * <ul>
-  *   <li>eventListeners - Array<string> - A list of event types to listen for.</li>
-  * </ul>
+  * @param {Object} props Configuration properties.
+  * @param {Array<strin>} props.eventListeners A list of event types to listen for.
   */
   this.EventNotifierMixinInitializer = function(props) {
     this._eventListeners  =  {};

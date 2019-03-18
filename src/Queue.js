@@ -44,7 +44,7 @@ Queue.prototype.clear = function() {
 };
 
 /** Retrieve an iterator for this queue.
-* @returns {QueueIterator}
+* @returns {Queue.QueueIterator}
 */
 Queue.prototype.newIterator = function() {
   return new Queue.QueueIterator(this.head);

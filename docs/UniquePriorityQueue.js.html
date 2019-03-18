@@ -26,9 +26,10 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>var SL = SL || {};
+            <pre class="prettyprint source linenums"><code>var PriorityQueue = require('./PriorityQueue');
+var Utils = require('./Utils');
 
-/** Extension of SL.PriorityQueue.
+/** Extension of PriorityQueue.
 * Enforces uniqueness of enqueued elements;
 * attempts made to enqueue an element that is
 * already in the queue will be ignored.
@@ -36,36 +37,36 @@
 * Elements must implement getKey() method
 * @constructor
 */
-SL.UniquePriorityQueue = function() {
-  SL.PriorityQueue.call(this);
+function UniquePriorityQueue() {
+  PriorityQueue.call(this);
   this._entryKeys = {};
 };
 
-SL.UniquePriorityQueue.prototype = new SL.PriorityQueue();
-SL.UniquePriorityQueue.prototype.constructor = SL.UniquePriorityQueue;
+UniquePriorityQueue.prototype = new PriorityQueue();
+UniquePriorityQueue.prototype.constructor = UniquePriorityQueue;
 
 /** Adds a new item to the queue.
 * @param element {Object} The item to be added to the queue.  Must implement getKey() method.
 * @override
 */
-SL.UniquePriorityQueue.prototype.insert = function(element) {
+UniquePriorityQueue.prototype.insert = function(element) {
   if (this._entryKeys[element.getKey()]) return;
   this._entryKeys[element.getKey()] = true;
-  SL.PriorityQueue.prototype.insert.call(this, element);
+  PriorityQueue.prototype.insert.call(this, element);
 };
 
 /** Clear the queue. */
-SL.UniquePriorityQueue.prototype.clear = function() {
+UniquePriorityQueue.prototype.clear = function() {
   this._entryKeys = {};
-  SL.PriorityQueue.prototype.clear.call(this);
+  PriorityQueue.prototype.clear.call(this);
 };
 
 /** Removes and returns the item at the front of the queue
 * @return {Object} The item at the front of the queue.
 */
-SL.UniquePriorityQueue.prototype.extractMax = function() {
-  var element = SL.PriorityQueue.prototype.extractMax.call(this);
-  if (element &amp;&amp; SL.isFunction(element.getKey) &amp;&amp; this._entryKeys[element.getKey()]) delete this._entryKeys[element.getKey()];
+UniquePriorityQueue.prototype.extractMax = function() {
+  var element = PriorityQueue.prototype.extractMax.call(this);
+  if (element &amp;&amp; Utils.isFunction(element.getKey) &amp;&amp; this._entryKeys[element.getKey()]) delete this._entryKeys[element.getKey()];
   return element;
 };
 
@@ -73,15 +74,15 @@ SL.UniquePriorityQueue.prototype.extractMax = function() {
 * @param element {IComparable} The element to search for.
 * @return {boolean} True if the element is in the queue; false otherwise.
 */
-SL.UniquePriorityQueue.prototype.contains = function(element) {
+UniquePriorityQueue.prototype.contains = function(element) {
   return this._entryKeys[element.getKey()] === true;
 };
 
 /** Remove the specified element from the queue.
 * @param {Object} element
 */
-SL.UniquePriorityQueue.prototype.remove = function(element) {
-  SL.PriorityQueue.prototype.remove.call(this, element);
+UniquePriorityQueue.prototype.remove = function(element) {
+  PriorityQueue.prototype.remove.call(this, element);
   if (this._entryKeys[element.getKey()]) delete this._entryKeys[element.getKey()];
 };
 
@@ -89,19 +90,21 @@ SL.UniquePriorityQueue.prototype.remove = function(element) {
 * @method
 * @return {Object} The item at the front of the queue.
 */
-SL.UniquePriorityQueue.prototype.pop = SL.UniquePriorityQueue.prototype.extractMax;
+UniquePriorityQueue.prototype.pop = UniquePriorityQueue.prototype.extractMax;
 
 /** Removes and returns the item at the front of the queue
 * @method
 * @return {Object} The item at the front of the queue.
 */
-SL.UniquePriorityQueue.prototype.poll = SL.UniquePriorityQueue.prototype.extractMax;
+UniquePriorityQueue.prototype.poll = UniquePriorityQueue.prototype.extractMax;
 
 /** Adds a new item to the queue.
 * @method
 * @param element {IComparable} The item to be added to the queue.  Must implement Comparable.
 */
-SL.UniquePriorityQueue.prototype.push = SL.UniquePriorityQueue.prototype.insert;
+UniquePriorityQueue.prototype.push = UniquePriorityQueue.prototype.insert;
+
+module.exports = UniquePriorityQueue;
 </code></pre>
         </article>
     </section>
@@ -112,13 +115,13 @@ SL.UniquePriorityQueue.prototype.push = SL.UniquePriorityQueue.prototype.insert;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="SL.Event.html">Event</a></li><li><a href="SL.EventNotifierMixin.html">EventNotifierMixin</a></li><li><a href="SL.PriorityQueue.html">PriorityQueue</a></li><li><a href="SL.Queue.html">Queue</a></li><li><a href="SL.QueueElement.html">QueueElement</a></li><li><a href="SL.QueueIterator.html">QueueIterator</a></li><li><a href="SL.UniquePriorityQueue.html">UniquePriorityQueue</a></li></ul><h3>Interfaces</h3><ul><li><a href="SL.IComparable.html">IComparable</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="EventManager.html">EventManager</a></li><li><a href="EventNotifierMixin.html">EventNotifierMixin</a></li><li><a href="PriorityQueue.html">PriorityQueue</a></li><li><a href="Queue.html">Queue</a></li><li><a href="Queue.QueueIterator.html">QueueIterator</a></li><li><a href="QueueElement.html">QueueElement</a></li><li><a href="SLEvent.html">SLEvent</a></li><li><a href="UniquePriorityQueue.html">UniquePriorityQueue</a></li></ul><h3>Interfaces</h3><ul><li><a href="PriorityQueue.IComparable.html">IComparable</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Sep 25 2017 22:10:07 GMT-0500 (Central Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Mar 15 2019 13:02:20 GMT-0500 (Central Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>
