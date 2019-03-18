@@ -1,6 +1,6 @@
 var assert = require("./testUtil").assert;
 var throwsError = require("./testUtil").throwsError;
-var SLEvent = require("../src/SLEvent");
+var Event = require("../src/Event");
 var EventNotifierMixin = require("../src/EventNotifierMixin");
 var Utils = require("../src/Utils");
 
@@ -125,7 +125,7 @@ describe("EventNotifierMixin", function() {
         });
       });
       it("should notify event handlers", function(done) {
-        testClass.notify(new SLEvent(eventType1, eventData, time));
+        testClass.notify(new Event(eventType1, eventData, time));
 
         assert(notified.eventType === eventType1, "should have notified handler: eventType");
         assert(notified.stuff === eventData.stuff, "should have notified handler: stuff");
@@ -133,7 +133,7 @@ describe("EventNotifierMixin", function() {
         done();
       });
       it("should no longer throw error if unknown event type", function(done) {
-        var result = throwsError(testClass.notify.bind(testClass, new SLEvent("bogus event type", eventData, time)));
+        var result = throwsError(testClass.notify.bind(testClass, new Event("bogus event type", eventData, time)));
 
         assert(result !== true, "should not have thrown error");
         done();
