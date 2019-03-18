@@ -1,4 +1,4 @@
-import SLEvent from './src/Event';
+import SLEvent from './src/SLEvent';
 import EventManager from './src/EventManager';
 import EventNotifierMixin from './src/EventNotifierMixin';
 import PriorityQueue from './src/PriorityQueue';

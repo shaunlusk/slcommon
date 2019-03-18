@@ -16,15 +16,11 @@ function PriorityQueue() {
 PriorityQueue.IComparable = function() {};
 
 /**
-* @function
-* @name IComparable#compareTo
 * @param other {Object} The object to compare to this one.
 * @returns {int} -1: less than the other object; 0 equivalent to the other object; 1 greater than the other object.
 */
 PriorityQueue.IComparable.prototype.compareTo = function(other) { throw new Error('not implemented'); };
 /**
-* @function
-* @name IComparable#equals
 * @param other {Object} The object to compare to this one.
 * @returns {boolean} true if the objects are equivalent, false otherwise.
 */
@@ -107,7 +103,7 @@ PriorityQueue.prototype.extractMax = function() {
 };
 
 /** Adds a new item to the queue.
-* @param element {IComparable} The item to be added to the queue.  Must implement Comparable.
+* @param element {PriorityQueue.IComparable} The item to be added to the queue.  Must implement Comparable.
 */
 PriorityQueue.prototype.insert = function( element ) {
   var i = this._heapSize;
@@ -172,7 +168,7 @@ PriorityQueue.prototype.size = function() {
 };
 
 /** Returns whether the item exists in the queue.
-* @param element {IComparable} The element to search for.
+* @param element {PriorityQueue.IComparable} The element to search for.
 * @return {boolean} True if the element is in the queue; false otherwise.
 */
 PriorityQueue.prototype.contains = function(element) {
@@ -183,7 +179,7 @@ PriorityQueue.prototype.contains = function(element) {
 };
 
 /** Returns the index of the item if it exists in the queue.
-* @param element {IComparable} The element to search for.
+* @param element {PriorityQueue.IComparable} The element to search for.
 * @return {int} The index of the element in the queue; -1 if it does not exist.
 */
 PriorityQueue.prototype.indexOf = function(element) {
@@ -194,7 +190,7 @@ PriorityQueue.prototype.indexOf = function(element) {
 };
 
 /**
-* @param element {Object} The element to be removed from the list.
+* @param element {PriorityQueue.IComparable} The element to be removed from the list.
 */
 PriorityQueue.prototype.remove = function(element) {
   if ( this._heapSize < 1 ) {
@@ -250,7 +246,7 @@ PriorityQueue.prototype.poll = PriorityQueue.prototype.extractMax;
 
 /** Adds a new item to the queue.
 * @method
-* @param element {IComparable} The item to be added to the queue.  Must implement Comparable.
+* @param element {PriorityQueue.IComparable} The item to be added to the queue.  Must implement Comparable.
 */
 PriorityQueue.prototype.push = PriorityQueue.prototype.insert;
 
