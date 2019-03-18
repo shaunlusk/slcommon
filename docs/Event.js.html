@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: Event.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,37 +17,31 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: Event.js</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><h1>SL Common</h1><p>Some common classes and functions used by Shaun's projects.
-Documentation can be found <a href="https://shaunlusk.github.io/slcommon/docs/index.html">here</a>.</p></article>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** Create an Event.
+* @class
+* @param {string} type The type of the event.
+* @param {Object} data Data for the event.  Determined by event emitter
+* @param {time} time Optional.  The time the event occurred. If not specified, uses Date.now()
+*/
+function Event (type, data, time) {
+    this.type = type;
+    this.data = data;
+    this.time = time || Date.now();
+};
+
+module.exports = Event;
+</code></pre>
+        </article>
     </section>
-
-
 
 
 
