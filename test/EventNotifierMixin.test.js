@@ -4,14 +4,7 @@ var Event = require("../src/Event");
 var EventNotifierMixin = require("../src/EventNotifierMixin");
 var Utils = require("../src/Utils");
 
-function TestClass() {
-  this.EventNotifierMixinInitializer({
-    eventListeners:[
-      "testEvent1",
-      "testEvent2",
-    ]
-  });
-}
+function TestClass() {}
 
 describe("EventNotifierMixin", function() {
   EventNotifierMixin.call(TestClass.prototype);
@@ -35,19 +28,6 @@ describe("EventNotifierMixin", function() {
         assert(Utils.isFunction(TestClass.prototype.notify) === true, "should have added notify method to prototype");
         done();
       });
-      it("should add EventNotifierMixinInitializer method to prototype", function(done) {
-        assert(Utils.isFunction(TestClass.prototype.EventNotifierMixinInitializer) === true, "should have added EventNotifierMixinInitializer method to prototype");
-        done();
-      });
-    });
-    describe("#EventNotifierMixinInitializer", function() {
-      it("should initialize event listeners array", function(done) {
-        var testClass = new TestClass();
-
-        assert(Utils.isNullOrUndefined(testClass._eventListeners.testEvent1) === false, "should have initialized event listeners list: testEvent1");
-        assert(Utils.isNullOrUndefined(testClass._eventListeners.testEvent2) === false, "should have initialized event listeners list: testEvent2");
-        done();
-      });
     });
   });
   describe("Main Tests", function() {
@@ -55,12 +35,6 @@ describe("EventNotifierMixin", function() {
     var id = "testId";
     beforeEach(function() {
       testClass = new EventNotifierMixin();
-      testClass.EventNotifierMixinInitializer({
-        eventListeners:[
-          "testEvent1",
-          "testEvent2",
-        ]
-      });
     });
     describe("#addEventHandler", function() {
       it("should add handler", function(done) {
