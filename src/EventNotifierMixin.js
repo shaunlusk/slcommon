@@ -67,8 +67,8 @@ function EventNotifierMixin(props) {
   * @param {EventType} eventType The type of the event.
   */
   this.clearEventHandlers = function(eventType) {
-    if (!this._eventListeners[eventType]) {
-      throw new Error("Unknown event type:" + eventType);
+    if (!this._eventListeners[eventType] && this._EventNotifierMixin_debug) {
+      console.log("Unknown event type:" + eventType);
     }
     this._eventListeners[eventType] = {};
   };

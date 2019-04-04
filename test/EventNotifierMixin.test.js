@@ -76,11 +76,12 @@ describe("EventNotifierMixin", function() {
         assert(testClass._eventListeners[eventType1][id] === undefined, "should have removed handler");
         done();
       });
-      it("should throw error for unknown event type", function(done) {
+      it("should not throw error for unknown event type", function(done) {
         var id = testClass.addEventHandler(eventType1, function (){});
+        var type = "bogus event type";
 
-        var result = throwsError(testClass.clearEventHandlers.bind(testClass, "bogus event type"));
-        assert(result === true, "should have thrown error");
+        testClass.clearEventHandlers(type);
+        assert(testClass._eventListeners[type][id] === undefined);
         done();
       });
     });
