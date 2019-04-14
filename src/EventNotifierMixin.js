@@ -5,13 +5,8 @@ var Utils = require("./Utils");
 * Usage:
 * Call:
 *   EventNotifierMixin.call(MyClass.prototype);
-* And in your constructor, call initializer with the event types you want to listen for:
-*   this.EventNotifierMixinInitializer({
-*     eventListeners:[
-*       "myEvent1",
-*       "myEvent2",
-*     ]
-*   });
+* And in your constructor, call initializer"
+*   this.EventNotifierMixinInitializer();
 * Then you can add handlers:
 *   myClassInstance.on("myEvent1", someHandlerCallback);
 * @class
@@ -21,7 +16,10 @@ function EventNotifierMixin(props) {
   this._eventNotifierMixinId = EventNotifierMixin.id++;
   this._eventNotifierMixinHandlerId = 0;
   this._EventNotifierMixin_debug = props.EventNotifierMixin_debug || false;
-  this._eventListeners  =  {};
+
+  this.EventNotifierMixinInitializer = function(props) {
+    this._eventListeners  =  {};
+  };
 
   /** Add an event handler to the handler list.
   * @param {EventType} eventType The type of the event.
