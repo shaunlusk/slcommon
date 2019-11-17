@@ -17,8 +17,8 @@ function EventNotifierMixin(props) {
   this._eventNotifierMixinHandlerId = 0;
   this._EventNotifierMixin_debug = props.EventNotifierMixin_debug || false;
 
-  this.EventNotifierMixinInitializer = function(props) {
-    this._eventListeners  =  {};
+  this.EventNotifierMixinInitializer = function() {
+    this._eventListeners = {};
   };
 
   /** Add an event handler to the handler list.

@@ -4,10 +4,13 @@ var Event = require("../src/Event");
 var EventNotifierMixin = require("../src/EventNotifierMixin");
 var Utils = require("../src/Utils");
 
-function TestClass() {}
+function TestClass() {
+  this.EventNotifierMixinInitializer();
+}
 
 describe("EventNotifierMixin", function() {
   EventNotifierMixin.call(TestClass.prototype);
+  TestClass.prototype.constructor = TestClass;
   var eventType1 = "testEvent1";
   var eventType2 = "testEvent2";
   describe("Apply Mixin Tests", function() {
@@ -34,7 +37,7 @@ describe("EventNotifierMixin", function() {
     var testClass;
     var id = "testId";
     beforeEach(function() {
-      testClass = new EventNotifierMixin();
+      testClass = new TestClass();
     });
     describe("#addEventHandler", function() {
       it("should add handler", function(done) {
