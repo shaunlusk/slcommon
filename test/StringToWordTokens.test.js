@@ -49,6 +49,14 @@ describe("StringToWordTokens", function() {
         assert(actual.length === 0);
         done();
     });
+    it("escaped quotes", function(done) {
+        var string = "\"der\"";
+        var expected  = ['der'];
+        var actual = StringToWordTokens(string, omitSpecialCharacters);
+
+        validate(actual, expected);
+        done();
+    });
 });
 
 function validate(actual, expected) {

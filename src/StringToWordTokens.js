@@ -1,7 +1,7 @@
 var omitSpecialCharacters = [
-    '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', 
-    '_', '=', '+', ',', '.', '<', '>', '/', '\\',
-    '?', '[', ']', '{', '}', '|', '`', '~', '"',
+    '\\!', '@', '#', '\\$', '%', '\\^', '&', '\\*', '\\(', '\\)', 
+    '_', '=', '\\+', ',', '\\.', '<', '>', '/', '\\\\',
+    '\\?', '\\[', '\\]', '\\{', '\\}', '\\|', '`', '\\~', '"',
     ';', ':'
 ];
 
@@ -10,7 +10,7 @@ function StringToWordTokens(string, omit) {
 
     if (omit) {
         omit.forEach(function(element) {
-            string = string.replace(element, ' ');
+            string = string.replace(new RegExp(element, 'g'), ' ');
         });
     }
     return string.match(/(\S+)/g);
