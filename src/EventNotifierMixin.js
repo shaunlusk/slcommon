@@ -1,4 +1,5 @@
 var Utils = require("./Utils");
+var Event = require("./Event");
 
 /** Add Event Notification functions to a class.
 * Tracks event handlers and notifies them when events occur.
@@ -45,9 +46,7 @@ function EventNotifierMixin(props) {
   * unless in debug mode.
   */
   this.registerEventType = function(eventType) {
-    if (!this._eventListeners[eventType]) {
-      this._eventListeners[eventType] = {};
-    }
+    this._eventListeners[eventType] = this._eventListeners[eventType] || {};
   };
 
   /** Alias for 'add'. Add an event handler to the handler list.
@@ -78,9 +77,23 @@ function EventNotifierMixin(props) {
   };
 
   /** Notify event handlers when an event has occured.
-  * @param {Event} event The event that occured
+   * Overloads:
+   * <ul>
+   * <li>notify(anEvent);</li>
+   * <li>notify(eventType, someDate, eventTime);</li>
+   * </ul>
+  * @param {(Event|string)} event The event that occured, or the type of event.
+  * @param {Object} [data] The data associated with the event, if the first argument is the event type.
+  * @param {time} [time] The time of the event, if the first argument is the event type.
   */
-  this.notify = function(event) {
+  this.notify = function(eventOrEventType, data, time) {
+    var event = null;
+    if (eventOrEventType instanceof Event) {
+      event = eventOrEventType;
+    } else {
+      event = new Event(eventOrEventType, data, time);
+    }
+
     if (!this._eventListeners[event.type]) {
       if (this._EventNotifierMixin_debug) throw new Error("Unknown event type:" + event.type);
       return;

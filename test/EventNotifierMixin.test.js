@@ -124,8 +124,8 @@ describe("EventNotifierMixin", function() {
           notified.time = event.time;
         });
       });
-      it("should notify event handlers", function(done) {
-        testClass.notify(new SLEvent(eventType1, eventData, time));
+      it("should notify event handlers when event is provided", function(done) {
+        testClass.notify(new Event(eventType1, eventData, time));
 
         assert(notified.eventType === eventType1, "should have notified handler: eventType");
         assert(notified.stuff === eventData.stuff, "should have notified handler: stuff");
@@ -136,6 +136,14 @@ describe("EventNotifierMixin", function() {
         var result = throwsError(testClass.notify.bind(testClass, new SLEvent("bogus event type", eventData, time)));
 
         assert(result !== true, "should not have thrown error");
+        done();
+      });
+      it("should notify event handlers", function(done) {
+        testClass.notify(eventType1, eventData, time);
+
+        assert(notified.eventType === eventType1, "should have notified handler: eventType");
+        assert(notified.stuff === eventData.stuff, "should have notified handler: stuff");
+        assert(notified.time === time, "should have notified handler: time");
         done();
       });
     });
