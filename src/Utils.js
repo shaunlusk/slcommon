@@ -1,3 +1,4 @@
+/** @namespace */
 var Utils = {};
 
 /** Check whether the argument is a function.

@@ -27,19 +27,15 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>var Utils = require("./Utils");
+var Event = require("./Event");
 
 /** Add Event Notification functions to a class.
 * Tracks event handlers and notifies them when events occur.
 * Usage:
 * Call:
 *   EventNotifierMixin.call(MyClass.prototype);
-* And in your constructor, call initializer with the event types you want to listen for:
-*   this.EventNotifierMixinInitializer({
-*     eventListeners:[
-*       "myEvent1",
-*       "myEvent2",
-*     ]
-*   });
+* And in your constructor, call initializer"
+*   this.EventNotifierMixinInitializer();
 * Then you can add handlers:
 *   myClassInstance.on("myEvent1", someHandlerCallback);
 * @class
@@ -49,6 +45,10 @@ function EventNotifierMixin(props) {
   this._eventNotifierMixinId = EventNotifierMixin.id++;
   this._eventNotifierMixinHandlerId = 0;
   this._EventNotifierMixin_debug = props.EventNotifierMixin_debug || false;
+
+  this.EventNotifierMixinInitializer = function() {
+    this._eventListeners = {};
+  };
 
   /** Add an event handler to the handler list.
   * @param {EventType} eventType The type of the event.
@@ -67,15 +67,10 @@ function EventNotifierMixin(props) {
   };
 
   /** Register an event type.
-  * @deprecated
-  * No longer necessary to register types explicitly.
-  * Being notified of untracked events will no longer throw an error,
-  * unless in debug mode.
+  * @private
   */
   this.registerEventType = function(eventType) {
-    if (!this._eventListeners[eventType]) {
-      this._eventListeners[eventType] = {};
-    }
+    this._eventListeners[eventType] = this._eventListeners[eventType] || {};
   };
 
   /** Alias for 'add'. Add an event handler to the handler list.
@@ -99,18 +94,32 @@ function EventNotifierMixin(props) {
   * @param {EventType} eventType The type of the event.
   */
   this.clearEventHandlers = function(eventType) {
-    if (!this._eventListeners[eventType]) {
-      throw new Error("Unknown event type:" + eventType);
+    if (!this._eventListeners[eventType] &amp;&amp; this._EventNotifierMixin_debug) {
+      console.log("Unknown event type:" + eventType);
     }
     this._eventListeners[eventType] = {};
   };
 
   /** Notify event handlers when an event has occured.
-  * @param {Event} event The event that occured
+   * Overloads:
+   * &lt;ul>
+   * &lt;li>notify(anEvent);&lt;/li>
+   * &lt;li>notify(eventType, someDate, eventTime);&lt;/li>
+   * &lt;/ul>
+  * @param {(Event|string)} event The event that occured, or the type of event.
+  * @param {Object} [data] The data associated with the event, if the first argument is the event type.
+  * @param {time} [time] The time of the event, if the first argument is the event type.
   */
-  this.notify = function(event) {
+  this.notify = function(eventOrEventType, data, time) {
+    var event = null;
+    if (eventOrEventType instanceof Event) {
+      event = eventOrEventType;
+    } else {
+      event = new Event(eventOrEventType, data, time);
+    }
+
     if (!this._eventListeners[event.type]) {
-      if (this._EventNotifierMixin_debug) throw new Error("Unknown event type:" + event.type);
+      if (this._EventNotifierMixin_debug) console.log("Unknown event type:" + event.type);
       return;
     }
     var keys = Object.keys(this._eventListeners[event.type]);
@@ -118,20 +127,6 @@ function EventNotifierMixin(props) {
       if (Utils.isFunction(this._eventListeners[event.type][keys[i]])) this._eventListeners[event.type][keys[i]](event);
     }
   };
-
-  /** Initialize events to listen for.
-  * @param {Object} props Configuration properties.
-  * @param {Array&lt;strin>} props.eventListeners A list of event types to listen for.
-  */
-  this.EventNotifierMixinInitializer = function(props) {
-    this._eventListeners  =  {};
-    if (props.eventListeners) {
-      props.eventListeners.forEach(function(eventListener) {
-        this._eventListeners[eventListener] = {};
-      }, this);
-    }
-  };
-
 };
 
 EventNotifierMixin.id = 0;
@@ -147,13 +142,13 @@ module.exports = EventNotifierMixin;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Event.html">Event</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="EventNotifierMixin.html">EventNotifierMixin</a></li><li><a href="PriorityQueue.html">PriorityQueue</a></li><li><a href="Queue.html">Queue</a></li><li><a href="Queue.QueueIterator.html">QueueIterator</a></li><li><a href="QueueElement.html">QueueElement</a></li><li><a href="UniquePriorityQueue.html">UniquePriorityQueue</a></li></ul><h3>Interfaces</h3><ul><li><a href="PriorityQueue.IComparable.html">IComparable</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="Utils.html">Utils</a></li></ul><h3>Classes</h3><ul><li><a href="Event.html">Event</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="EventNotifierMixin.html">EventNotifierMixin</a></li><li><a href="PriorityQueue.html">PriorityQueue</a></li><li><a href="Queue.html">Queue</a></li><li><a href="Queue.QueueIterator.html">QueueIterator</a></li><li><a href="QueueElement.html">QueueElement</a></li><li><a href="UniquePriorityQueue.html">UniquePriorityQueue</a></li></ul><h3>Interfaces</h3><ul><li><a href="PriorityQueue.IComparable.html">IComparable</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Mar 18 2019 16:15:32 GMT-0500 (Central Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sat Mar 28 2020 21:34:48 GMT-0500 (CDT)
 </footer>
 
 <script> prettyPrint(); </script>
