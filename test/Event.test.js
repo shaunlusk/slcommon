@@ -1,4 +1,4 @@
-var Event = require("../src/SLEvent");
+var Event = require("../src/Event");
 var assert = require("./testUtil").assert;
 
 describe("Event", function() {

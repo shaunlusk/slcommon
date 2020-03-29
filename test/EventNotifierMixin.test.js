@@ -1,20 +1,16 @@
 var assert = require("./testUtil").assert;
 var throwsError = require("./testUtil").throwsError;
-var SLEvent = require("../src/SLEvent");
+var Event = require("../src/Event");
 var EventNotifierMixin = require("../src/EventNotifierMixin");
 var Utils = require("../src/Utils");
 
 function TestClass() {
-  this.EventNotifierMixinInitializer({
-    eventListeners:[
-      "testEvent1",
-      "testEvent2",
-    ]
-  });
+  this.EventNotifierMixinInitializer();
 }
 
 describe("EventNotifierMixin", function() {
   EventNotifierMixin.call(TestClass.prototype);
+  TestClass.prototype.constructor = TestClass;
   var eventType1 = "testEvent1";
   var eventType2 = "testEvent2";
   describe("Apply Mixin Tests", function() {
@@ -35,32 +31,13 @@ describe("EventNotifierMixin", function() {
         assert(Utils.isFunction(TestClass.prototype.notify) === true, "should have added notify method to prototype");
         done();
       });
-      it("should add EventNotifierMixinInitializer method to prototype", function(done) {
-        assert(Utils.isFunction(TestClass.prototype.EventNotifierMixinInitializer) === true, "should have added EventNotifierMixinInitializer method to prototype");
-        done();
-      });
-    });
-    describe("#EventNotifierMixinInitializer", function() {
-      it("should initialize event listeners array", function(done) {
-        var testClass = new TestClass();
-
-        assert(Utils.isNullOrUndefined(testClass._eventListeners.testEvent1) === false, "should have initialized event listeners list: testEvent1");
-        assert(Utils.isNullOrUndefined(testClass._eventListeners.testEvent2) === false, "should have initialized event listeners list: testEvent2");
-        done();
-      });
     });
   });
   describe("Main Tests", function() {
     var testClass;
     var id = "testId";
     beforeEach(function() {
-      testClass = new EventNotifierMixin();
-      testClass.EventNotifierMixinInitializer({
-        eventListeners:[
-          "testEvent1",
-          "testEvent2",
-        ]
-      });
+      testClass = new TestClass();
     });
     describe("#addEventHandler", function() {
       it("should add handler", function(done) {
@@ -102,11 +79,12 @@ describe("EventNotifierMixin", function() {
         assert(testClass._eventListeners[eventType1][id] === undefined, "should have removed handler");
         done();
       });
-      it("should throw error for unknown event type", function(done) {
+      it("should not throw error for unknown event type", function(done) {
         var id = testClass.addEventHandler(eventType1, function (){});
+        var type = "bogus event type";
 
-        var result = throwsError(testClass.clearEventHandlers.bind(testClass, "bogus event type"));
-        assert(result === true, "should have thrown error");
+        testClass.clearEventHandlers(type);
+        assert(testClass._eventListeners[type][id] === undefined);
         done();
       });
     });
@@ -133,7 +111,7 @@ describe("EventNotifierMixin", function() {
         done();
       });
       it("should no longer throw error if unknown event type", function(done) {
-        var result = throwsError(testClass.notify.bind(testClass, new SLEvent("bogus event type", eventData, time)));
+        var result = throwsError(testClass.notify.bind(testClass, new Event("bogus event type", eventData, time)));
 
         assert(result !== true, "should not have thrown error");
         done();

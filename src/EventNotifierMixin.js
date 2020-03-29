@@ -6,13 +6,8 @@ var Event = require("./Event");
 * Usage:
 * Call:
 *   EventNotifierMixin.call(MyClass.prototype);
-* And in your constructor, call initializer with the event types you want to listen for:
-*   this.EventNotifierMixinInitializer({
-*     eventListeners:[
-*       "myEvent1",
-*       "myEvent2",
-*     ]
-*   });
+* And in your constructor, call initializer"
+*   this.EventNotifierMixinInitializer();
 * Then you can add handlers:
 *   myClassInstance.on("myEvent1", someHandlerCallback);
 * @class
@@ -22,6 +17,10 @@ function EventNotifierMixin(props) {
   this._eventNotifierMixinId = EventNotifierMixin.id++;
   this._eventNotifierMixinHandlerId = 0;
   this._EventNotifierMixin_debug = props.EventNotifierMixin_debug || false;
+
+  this.EventNotifierMixinInitializer = function() {
+    this._eventListeners = {};
+  };
 
   /** Add an event handler to the handler list.
   * @param {EventType} eventType The type of the event.
@@ -40,10 +39,7 @@ function EventNotifierMixin(props) {
   };
 
   /** Register an event type.
-  * @deprecated
-  * No longer necessary to register types explicitly.
-  * Being notified of untracked events will no longer throw an error,
-  * unless in debug mode.
+  * @private
   */
   this.registerEventType = function(eventType) {
     this._eventListeners[eventType] = this._eventListeners[eventType] || {};
@@ -70,8 +66,8 @@ function EventNotifierMixin(props) {
   * @param {EventType} eventType The type of the event.
   */
   this.clearEventHandlers = function(eventType) {
-    if (!this._eventListeners[eventType]) {
-      throw new Error("Unknown event type:" + eventType);
+    if (!this._eventListeners[eventType] && this._EventNotifierMixin_debug) {
+      console.log("Unknown event type:" + eventType);
     }
     this._eventListeners[eventType] = {};
   };
@@ -95,7 +91,7 @@ function EventNotifierMixin(props) {
     }
 
     if (!this._eventListeners[event.type]) {
-      if (this._EventNotifierMixin_debug) throw new Error("Unknown event type:" + event.type);
+      if (this._EventNotifierMixin_debug) console.log("Unknown event type:" + event.type);
       return;
     }
     var keys = Object.keys(this._eventListeners[event.type]);
@@ -103,20 +99,6 @@ function EventNotifierMixin(props) {
       if (Utils.isFunction(this._eventListeners[event.type][keys[i]])) this._eventListeners[event.type][keys[i]](event);
     }
   };
-
-  /** Initialize events to listen for.
-  * @param {Object} props Configuration properties.
-  * @param {Array<strin>} props.eventListeners A list of event types to listen for.
-  */
-  this.EventNotifierMixinInitializer = function(props) {
-    this._eventListeners  =  {};
-    if (props.eventListeners) {
-      props.eventListeners.forEach(function(eventListener) {
-        this._eventListeners[eventListener] = {};
-      }, this);
-    }
-  };
-
 };
 
 EventNotifierMixin.id = 0;
