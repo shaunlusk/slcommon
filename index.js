@@ -6,13 +6,13 @@ import Queue from './src/Queue';
 import UniquePriorityQueue from './src/UniquePriorityQueue';
 import Utils from './src/Utils';
 
-if (typeof window !== 'undefined' && window) {
-  window.SL = window.SL || {};
-  window.SL.Event = Event;
-  window.SL.EventManager = EventManager;
-  window.SL.EventNotifierMixin = EventNotifierMixin;
-  window.SL.PriorityQueue = PriorityQueue;
-  window.SL.Queue = Queue;
-  window.SL.UniquePriorityQueue = UniquePriorityQueue;
-  window.SL.Utils = Utils;
+if (typeof self !== 'undefined' && self) {
+  self.SL = self.SL || {};
+  self.SL.Event = Event;
+  self.SL.EventManager = EventManager;
+  self.SL.EventNotifierMixin = EventNotifierMixin;
+  self.SL.PriorityQueue = PriorityQueue;
+  self.SL.Queue = Queue;
+  self.SL.UniquePriorityQueue = UniquePriorityQueue;
+  self.SL.Utils = Utils;
 }
