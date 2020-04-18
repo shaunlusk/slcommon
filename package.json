@@ -1,16 +1,17 @@
 {
   "name": "slcommon",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "Common functionality for Shaun's projects.",
   "main": "index.js",
   "repository": "https://github.com/shaunlusk/slcommon.git",
   "author": "Shaun Lusk <shaun.lusk@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "npm run test && npm run build:docs && webpack --config webpack.config.js",
+    "build": "npm run test && npm run build:docs && npm run transpile && webpack --config webpack.config.js",
     "build:dev": "webpack --config webpack.dev.config.js",
     "test": "./node_modules/.bin/mocha --require @babel/register",
-    "build:docs": "node ./node_modules/jsdoc/jsdoc.js -R DOCSREADME.md -d docs ./src/"
+    "build:docs": "node ./node_modules/jsdoc/jsdoc.js -R DOCSREADME.md -d docs ./src/",
+    "transpile": "./node_modules/.bin/babel src --out-dir lib"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
