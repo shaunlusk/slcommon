@@ -1,11 +1,13 @@
-var omitSpecialCharacters = [
+export const omitSpecialCharacters = [
     '\\!', '@', '#', '\\$', '%', '\\^', '&', '\\*', '\\(', '\\)', 
     '_', '=', '\\+', ',', '\\.', '<', '>', '/', '\\\\',
     '\\?', '\\[', '\\]', '\\{', '\\}', '\\|', '`', '\\~', '"',
     ';', ':'
 ];
 
-function StringToWordTokens(string, omit) {
+export function StringToWordTokens(string: string, omit?: string[]): RegExpMatchArray ;
+export function StringToWordTokens(string: string, omit?: RegExp[]): RegExpMatchArray ;
+export function StringToWordTokens(string: string, omit?: RegExp[] | string[]): RegExpMatchArray  {
     if (!string || string.length === 0) return [];
 
     if (omit) {
@@ -16,7 +18,3 @@ function StringToWordTokens(string, omit) {
     return string.match(/(\S+)/g);
 }
 
-module.exports = {
-    StringToWordTokens: StringToWordTokens,
-    omitSpecialCharacters: omitSpecialCharacters
-}
