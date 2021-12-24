@@ -1,6 +1,6 @@
 {
   "name": "@shaunlusk/slcommon",
-  "version": "2.0.1",
+  "version": "2.0.6",
   "description": "Common functionality for Shaun's projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,7 +8,7 @@
   "author": "Shaun Lusk <shaun.lusk@gmail.com>",
   "license": "MIT",
   "files": [
-    "./dist"
+    "dist"
   ],
   "scripts": {
     "build": "npm run test && npm run build:docs && tsc",
