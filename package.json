@@ -1,6 +1,6 @@
 {
   "name": "slcommon",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Common functionality for Shaun's projects.",
   "main": "index.js",
   "repository": "https://github.com/shaunlusk/slcommon.git",
@@ -10,9 +10,10 @@
     "build": "npm run test && npm run build:docs && webpack",
     "build:dev": "webpack --config webpack.dev.config.js",
     "test": "jest",
-    "compile": "tsc",
     "build:docs": "typedoc",
-    "clean": "rimraf dist docs"
+    "clean": "rimraf dist docs",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d docs"
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",
@@ -20,6 +21,7 @@
     "@babel/preset-typescript": "^7.16.5",
     "@types/jest": "^27.0.3",
     "babel-jest": "^27.4.5",
+    "gh-pages": "^3.2.3",
     "jest": "^27.4.5",
     "rimraf": "^3.0.2",
     "ts-loader": "^9.2.6",
