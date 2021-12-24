@@ -1,9 +1,6 @@
-import { IComparable, PriorityQueue } from './PriorityQueue';
+import { IKeyedComparable } from './IKeyedComparable';
+import { PriorityQueue } from './PriorityQueue';
 import { Utils } from './Utils';
-
-export interface IKeyedComparable<T> extends IComparable<T> {
-  getKey: () => string;
-}
 
 /** Extension of PriorityQueue.
 * Enforces uniqueness of enqueued elements;
@@ -25,7 +22,7 @@ export class UniquePriorityQueue<T extends IKeyedComparable<T>> extends Priority
   * @param element {Object} The item to be added to the queue.  Must implement getKey() method.
   * @override
   */
-  public override insert(element: T) {
+  public insert(element: T) {
     if (this._entryKeys[element.getKey()]) return;
     this._entryKeys[element.getKey()] = true;
     PriorityQueue.prototype.insert.call(this, element);
@@ -66,18 +63,17 @@ export class UniquePriorityQueue<T extends IKeyedComparable<T>> extends Priority
   * @method
   * @return {Object} The item at the front of the queue.
   */
-  pop = UniquePriorityQueue.prototype.extractMax;
+  public pop() { return this.extractMax(); }
 
   /** Removes and returns the item at the front of the queue
   * @method
   * @return {Object} The item at the front of the queue.
   */
-  poll = UniquePriorityQueue.prototype.extractMax;
+  poll() { return this.extractMax(); }
 
   /** Adds a new item to the queue.
   * @method
   * @param element {IComparable} The item to be added to the queue.  Must implement Comparable.
   */
-  push = UniquePriorityQueue.prototype.insert;
-
+  push(value: T) { this.insert(value); }
 }

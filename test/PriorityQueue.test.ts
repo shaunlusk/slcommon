@@ -1,4 +1,5 @@
-import { IComparable, PriorityQueue } from '../src/PriorityQueue';
+import { IComparable } from '../src/IComparable';
+import { PriorityQueue } from '../src/PriorityQueue';
 
 class NumberComparable implements IComparable<NumberComparable> {
   constructor(private n: number) {}

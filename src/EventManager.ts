@@ -57,18 +57,18 @@ export class EventManager {
     this._eventListeners[eventType] = {};
   };
 
+  public notify(event: Event): void;
+  public notify(eventType: string, data?: any, time?: number): void;
   /** Notify event listeners when an event has occured.
    * Overloads:
    * <ul>
    * <li>notify(anEvent);</li>
    * <li>notify(eventType, someDate, eventTime);</li>
    * </ul>
-  * @param {(Event|string)} event The event that occured, or the type of event.
+  * @param {(Event|string)} eventOrEventType The event that occured, or the type of event.
   * @param {Object} [data] The data associated with the event, if the first argument is the event type.
   * @param {time} [time] The time of the event, if the first argument is the event type.
   */
-  public notify(event: Event): void;
-  public notify(eventType: string, data?: any, time?: number): void;
   public notify(eventOrEventType: Event|string, data?: any, time?: number): void {
     let event = null;
     if (eventOrEventType instanceof Event) {

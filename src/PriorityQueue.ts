@@ -1,16 +1,4 @@
-/** @interface */
-export interface IComparable<T> {
-  /**
-  * @param other {Object} The object to compare to this one.
-  * @returns {int} -1: less than the other object; 0 equivalent to the other object; 1 greater than the other object.
-  */
-  compareTo: (other: T) => number;
-  /**
-  * @param other {Object} The object to compare to this one.
-  * @returns {boolean} true if the objects are equivalent, false otherwise.
-  */
-  equals: (other: T) => boolean;
-}
+import { IComparable } from "./IComparable";
 
 /** @class Heap-based priority queue */
 export class PriorityQueue<T extends IComparable<T>>  {
@@ -18,42 +6,37 @@ export class PriorityQueue<T extends IComparable<T>>  {
   private _heapSize = 0;
   private _a: T[] = [];
 
-  /** True: largest values will be at the front of the queue.
-  * False: smallest values will be at the front of the queue.
-  * False by default.
-  */
   private _invertPriority = false;
 
+    /** Set whether this queue has inverted priority or not.
+  * False: smallest values will be at the front of the queue.
+  * True: largest values will be at the front of the queue.
+  * False by default.
+  * Setting the value will cause the queue to be reordered.
+  * @param {boolean} bool The value to set
+  */
   public setInvertPriority(bool: boolean) {
     this._invertPriority = bool;
     this._sort();
   }
-
   
   /** Get/Set whether this queue has inverted priority or not.
   * False: smallest values will be at the front of the queue.
   * True: largest values will be at the front of the queue.
   * False by default.
   * Setting the value will cause the queue to be reordered.
-  * @param bool {boolean}
+  * @property {boolean}
   */
   public get invertPriority() {
     return this._invertPriority;
   }
   
-  /** Get/Set whether this queue has inverted priority or not.
-  * False: smallest values will be at the front of the queue.
-  * True: largest values will be at the front of the queue.
-  * False by default.
-  * Setting the value will cause the queue to be reordered.
-  * @param bool {boolean}
-  */
   public set invertPriority(val: boolean) {
     this._invertPriority = val;
     this._sort();
   }
 
-  /** Sorts the queue.  */
+  /** @private */
   private _sort() {
     this._buildMaxHeap();
 
@@ -63,7 +46,10 @@ export class PriorityQueue<T extends IComparable<T>>  {
     }
   }
 
-  public toSortedArray() {
+  /** Return all elements in the queue as a sorted array. 
+   * @returns {Array}
+  */
+  public toSortedArray(): T[] {
     this._sort();
     return [...this._a];
   }
@@ -242,19 +228,19 @@ export class PriorityQueue<T extends IComparable<T>>  {
   * @method
   * @return {Object} The item at the front of the queue.
   */
-  public pop = PriorityQueue.prototype.extractMax;
+  public pop() { return this.extractMax() }
 
   /** Removes and returns the item at the front of the queue
   * @method
   * @return {Object} The item at the front of the queue.
   */
-  public poll = PriorityQueue.prototype.extractMax;
+  public poll() { return this.extractMax() }
 
   /** Adds a new item to the queue.
   * @method
   * @param element {PriorityQueue.IComparable} The item to be added to the queue.  Must implement Comparable.
   */
-  public push = PriorityQueue.prototype.insert;
+  public push(element: T) { this.insert(element); }
 
   /** Retrieve the element at the front of the queue.
   * @return {Object} The element at the front of the queue.

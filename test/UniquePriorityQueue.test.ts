@@ -1,4 +1,5 @@
-import { UniquePriorityQueue, IKeyedComparable } from '../src/UniquePriorityQueue';
+import { IKeyedComparable } from '../src/IKeyedComparable';
+import { UniquePriorityQueue } from '../src/UniquePriorityQueue';
 
 class TestKeyedComparable implements IKeyedComparable<TestKeyedComparable> {
   constructor(public key: string, public value: number) {}
