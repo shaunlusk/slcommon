@@ -1,11 +1,12 @@
 {
-  "name": "slcommon",
+  "name": "@shaunlusk/slcommon",
   "version": "2.0.0",
   "description": "Common functionality for Shaun's projects.",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "repository": "https://github.com/shaunlusk/slcommon.git",
   "author": "Shaun Lusk <shaun.lusk@gmail.com>",
   "license": "MIT",
+  "files":  ["dist/**"],
   "scripts": {
     "build": "npm run test && npm run build:docs && webpack",
     "build:dev": "webpack --config webpack.dev.config.js",
