@@ -29,7 +29,7 @@ export class EventManager {
   /** Register an event type.
   * @private
   */
-  public registerEventType(eventType: string): void {
+  private registerEventType(eventType: string): void {
     this._eventListeners[eventType] = this._eventListeners[eventType] || {};
   };
 
@@ -85,4 +85,13 @@ export class EventManager {
       this._eventListeners[event.type][key](event);
     }
   };
-};
+}
+
+export interface IEventManager {
+    addEventListener(eventType: string, callback: (ev: Event) => any, id: string): string;
+    removeEventListener(eventListenerId: string): void;
+    clearEventListeners(eventType: string): void;
+    notify(event: Event): void;
+    notify(eventType: string, data?: any, time?: number): void;
+    notify(eventOrEventType: Event|string, data?: any, time?: number): void;
+}
