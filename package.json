@@ -1,6 +1,6 @@
 {
   "name": "@shaunlusk/slcommon",
-  "version": "2.0.7",
+  "version": "2.0.8-rc",
   "description": "Common functionality for Shaun's projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
