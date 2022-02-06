@@ -1,6 +1,6 @@
 {
   "name": "@shaunlusk/slcommon",
-  "version": "2.0.8-rc",
+  "version": "2.0.8",
   "description": "Common functionality for Shaun's projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run test && npm run build:docs && tsc",
+    "build": "npm run clean && npm run test && npm run build:docs && tsc",
     "build:dev": "tsc",
     "test": "jest",
     "build:docs": "typedoc",
